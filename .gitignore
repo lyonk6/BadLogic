@@ -1,0 +1,20 @@
+*data/
+*~
+# exclude hidden R data files.                                                                                                                                                                          
+*.Rhistory
+*.RData
+# exclude hidden osx data files.                                                                                                                                                                        
+.DS_Store
+temp
+.~lock.*
+# Exclide IDE related files:
+*eclipse*
+.idea/
+*.settings/
+*.iml
+build
+*cert.pem
+*key.pem
+main
+params
+__pycache__
