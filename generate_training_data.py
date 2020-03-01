@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 
 
-# Create training data for a neural network to 
+# Create training data for a neural network to
 A = np.zeros(pow(2,3), dtype=int)
 B = np.zeros(pow(2,3), dtype=int)
 is_AND = np.zeros(pow(2,3), dtype=int) # default is OR.
@@ -20,7 +20,6 @@ for j in range(0, 2):
 
 
 for i in range(0, len(output)):
-    print("i is: ", i)
     if is_AND[i] == 0:
         if A[i] + B[i] >= 1:
             output[i]=1
