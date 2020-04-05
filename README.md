@@ -1,7 +1,14 @@
 # BadLogic.
-Learn AI the unintelligent way solving logic problems with PyTorch. 
+Learn AI the unintelligent way by solving logic problems with PyTorch. 
 
-## a
-### Prerequisites
-`c`
-```d```
+## General Overview
+### Project Goals
+  * Part_A: Simple Regression Model  
+  * Part_B: Bindary Classifier
+  * Part_C: 'AND' gate		     
+  * Part_D: Programmable AND/OR Gate 
+  * Part_E: Fully Programmmable Gate 
+  * Part_F: Recursive Logic Gate     
+### Project Packages
+  * TBC
+  
