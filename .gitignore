@@ -18,3 +18,4 @@ build
 main
 params
 __pycache__
+outfile
