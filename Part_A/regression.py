@@ -88,3 +88,7 @@ plt.plot(x, p500, label = 'p500')
 plt.plot(x, p600, label = 'p600')
 plt.legend()  
 plt.show()    
+
+print("Finally, here are w1 and w2: ")
+print("\tw1: ", w1[0])
+print("\tw2: ", w2[0])
