@@ -16,4 +16,4 @@ Learn AI the unintelligent way by solving logic problems with PyTorch.
   accurate approximations of ϕ. Train a network to produce a regression line
   that approximates ϕ.
   * titanic_mistakes - Simple classifier that examines the likelihood of surviving the titanic's maiden voyage. https://www.kaggle.com/c/titanic/data
-  * last_names - Use a simple RNN to predict the language of origin of a given last name.
+  * who_dat (?) - Use a simple RNN to predict the language of origin of a given last name.
