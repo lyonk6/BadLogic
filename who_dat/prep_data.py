@@ -46,5 +46,8 @@ for filename in findFiles('data/names/*.txt'):
     category_lines[category] = lines
 
 n_categories = len(all_categories)
-
-print("Cool! The data prep worked perfectly.")
+# Test print statements:
+# print(all_categories)
+# print(category_lines)
+# print("Cool! The data prep worked perfectly.")
+# 
