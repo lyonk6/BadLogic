@@ -21,12 +21,24 @@ import numpy as np
 # 
 # Turn a string of characters into a <line_length x 1 x n_letters>,
 # or an array of one-hot letter vectors
-def nameToTensor(name):
-    t = torch.zeros([len(name), 26])
+def nameToTensor(name):    
+    name = name.strip()
+    #TODO validate the characters are cocered to lowercase:
+    t = torch.zeros([len(name), 26], dtype=torch.int32)
+    i=0
     for c in name:
-        #TODO update the torch "t" here.
-        print(c, " ")
+        if c.isalpha():
+            c = c.lower()
+            t[i][ord(c)-97]=1
+
+        print(c, " ", type(i))
+        i=i+1
+    return t
 
 
-print(nameToTensor('J'))
-#print(nameToTensor('Jones').size())
+
+# Print statements for testing :)
+"""
+print(nameToTensor('jones'))
+print(nameToTensor('   Jones'))
+print(nameToTensor(''.join([chr(96), chr(97), chr(98), chr(121), chr(122), chr(123)]))) #"""
