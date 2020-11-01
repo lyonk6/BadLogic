@@ -20,3 +20,9 @@ w2 = torch.zeros(1, 1, requires_grad=True)
 
 print("Here is a tensor:       ", w1)
 print("Here is another tensor: ", w2)
+
+y_pred = ""
+predictions = []
+
+
+#for i in range(1, 2000):

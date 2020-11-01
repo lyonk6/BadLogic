@@ -28,6 +28,8 @@ yA = np.asarray(y, dtype=np.float32).reshape(1, N)
 xT = torch.from_numpy(np.transpose(xA))
 yT = torch.from_numpy(np.transpose(yA))
 
+#print("Here is xT: ", xT) [1
+#print("Here is yT: ", yT) 
 ################################################################################    
 
 """ Now let's define our very simple network of just a single node. Also we will
@@ -51,6 +53,10 @@ for i in range(1, 2000):
     
     if i == 1:
         p001 = y_pred.detach().numpy()
+        print("y_pred is a : ", type(y_pred))
+        print("infact, here is y_pred: ", y_pred)
+        print("Here is w1: ", w1)
+        print("Here is w2: ", w2)
         
     if i == 500:
         p500 = y_pred.detach().numpy()
