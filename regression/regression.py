@@ -53,10 +53,12 @@ for i in range(1, 2000):
     
     if i == 1:
         p001 = y_pred.detach().numpy()
-        print("y_pred is a : ", type(y_pred))
+        #Note that y_pred, xT, w1, w2 are all tensors.       
         print("infact, here is y_pred: ", y_pred)
-        print("Here is w1: ", w1)
-        print("Here is w2: ", w2)
+        print("and, here is xT: ", xT)
+        print("and, here is w1: ", w1)
+        print("and, here is w2: ", w2)
+        
         
     if i == 500:
         p500 = y_pred.detach().numpy()
