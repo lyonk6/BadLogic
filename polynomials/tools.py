@@ -27,12 +27,15 @@ def make_plot(a, b, c, d, e):
     plt.plot(x, y, '-g', label=r'$y = ax^2 + bx + c$')
 
     plt.show()
-make_plot(1, -40, -100, 1, 0)
-## Curvy ones:
-# make_plot(1, 5, -15, -100, 0)
-# make_plot(1, -9, -25, 100, 0)
-# make_plot(1, -90, 0, 0, 0)
-# make_plot(0.5, -40, 0, 0, 0)
-# make_plot(-0.05, 40, 100, 0, 0)
-# make_plot(1, 40, 100, 0, 0)
-# make_plot(1, -40, -100, 1, 0)
+
+
+if __name__ == '__main__':
+    make_plot(1, -40, -100, 1, 0)
+    ## Curvy ones:
+    # make_plot(1, 5, -15, -100, 0)
+    # make_plot(1, -9, -25, 100, 0)
+    # make_plot(1, -90, 0, 0, 0)
+    # make_plot(0.5, -40, 0, 0, 0)
+    # make_plot(-0.05, 40, 100, 0, 0)
+    # make_plot(1, 40, 100, 0, 0)
+    # make_plot(1, -40, -100, 1, 0)
