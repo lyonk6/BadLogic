@@ -86,6 +86,9 @@ v = final_pass.detach().numpy()
 ################################################################################
 """ Note that xT and yT do no change. xT is always the input and yT is the
     expected output.
+
+    Also note that v, our final pass is basically just our trained vector in
+    its trained state.
     """
 """ Next plot the data as a scatterplot and add our regression line too. """
 plt.figure(figsize=(12, 8))
