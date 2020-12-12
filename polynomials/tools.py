@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import torch
 import random
 
 MIN = -6
@@ -8,12 +9,13 @@ MAX =  6
 # Return a random x, y Pair
 def random_poly_sample(a, b, c, d, e):
     x = random.uniform(MIN, MAX)
-    y = (a * (x * x * x * x)) + (b * (x * x * x)) + (c * (x * x)) + (d * x) + e
+    y = get_y_value(a, b, c, d, e, x)
+    return torch.tensor([[x]], dtype=torch.float64), torch.tensor([[y]], dtype=torch.float64)
+    #return x, y
 
-    return x, y
-
-a = random_poly_sample(0, 0, 2, 1, 0)
-print("Here is a random sample: ", a)
+# Return a random x, y Pair
+def get_y_value(a, b, c, d, e, x):
+    return (a * (x * x * x * x)) + (b * (x * x * x)) + (c * (x * x)) + (d * x) + e
 
 def make_plot(a, b, c, d, e):
     # Recall linspace can be used to create a np.array of evenly
@@ -25,12 +27,24 @@ def make_plot(a, b, c, d, e):
 
 
     plt.plot(x, y, '-g', label=r'$y = ax^2 + bx + c$')
+    return plt
+    #plt.show()
 
-    plt.show()
+
+
+def shout(p, yp, v1, v2):
+    print("shout ", p)
+    print("  y_pred is:\n", yp)
+    print("  Here is v1: ", v1)
+    print("  Here is v2: ", v2)
+    #print("  Here is v2: ", v2)
+    print("")
 
 
 if __name__ == '__main__':
-    make_plot(1, -40, -100, 1, 0)
+    a, b = random_poly_sample(0, 0, 2, 1, 0)
+    print("Here is a random sample:\n", a, "\n\n", b)
+    make_plot(1, -40, -100, 1, 0).show()
     ## Curvy ones:
     # make_plot(1, 5, -15, -100, 0)
     # make_plot(1, -9, -25, 100, 0)
