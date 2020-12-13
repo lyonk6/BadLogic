@@ -39,7 +39,7 @@ print("Here is another tensor: ", w2)
 
 y_pred = ""
 
-for i in range(1, 10000):
+for i in range(1, 50000):
     xT, yT = random_poly_sample(f['x^4'],
                                 f['x^3'],
                                 f['x^2'],
