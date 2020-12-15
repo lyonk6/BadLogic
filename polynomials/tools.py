@@ -32,12 +32,12 @@ def make_plot(a, b, c, d, e):
 
 
 
-def shout(p, yp, v1, v2):
+def shout(p, yp, v1, vh, v2):
     print("shout ", p)
     print("  y_pred is:\n", yp)
     print("  Here is v1: ", v1)
+    print("  Here is vh: ", vh)
     print("  Here is v2: ", v2)
-    #print("  Here is v2: ", v2)
     print("")
 
 
