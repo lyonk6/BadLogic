@@ -21,11 +21,10 @@ def wide_poly_sample(a, b, c, d, e):
     return xT, yT
 
 def sample_to_one_hot(x):
-
     xT = torch.zeros((1, IMAGE_WIDTH), dtype=torch.float64)
     adjustment = (IMAGE_WIDTH-1)/(MAX - MIN)
     position = int(np.floor((adjustment * (x + 6)) + 0.5).item())
-    print("Here is our sample x value and it's index: ", x, ", ", position)
+    #print("Here is our sample x value and it's index: ", x, ", ", position)
     xT[0][position]=1
     return xT
 
