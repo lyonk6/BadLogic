@@ -11,20 +11,23 @@ IMAGE_WIDTH = 256
 # Return a random x, y Pair
 def random_poly_sample(a, b, c, d, e):
     x = random.uniform(MIN, MAX)
-    x = 6 - 0.046875 * (5)
     y = get_y_value(a, b, c, d, e, x)
     return torch.tensor([[x]], dtype=torch.float64), torch.tensor([[y]], dtype=torch.float64)
-    #return x, y
 
 def wide_poly_sample(a, b, c, d, e):
     pxT, yT = random_poly_sample(a, b, c, d, e)
-    xT = torch.zeros((1, IMAGE_WIDTH), dtype=torch.float64)
-    x = pxT[0][0]
-    adjustment = (IMAGE_WIDTH)/(MAX - MIN)
-    position = int(torch.floor((adjustment * (x + 6)) + 0.5).item())
-    xT[0][position]=1
+    xT = sample_to_one_hot(pxT[0][0])
 
     return xT, yT
+
+def sample_to_one_hot(x):
+
+    xT = torch.zeros((1, IMAGE_WIDTH), dtype=torch.float64)
+    adjustment = (IMAGE_WIDTH-1)/(MAX - MIN)
+    position = int(np.floor((adjustment * (x + 6)) + 0.5).item())
+    print("Here is our sample x value and it's index: ", x, ", ", position)
+    xT[0][position]=1
+    return xT
 
 # Return a random x, y Pair
 def get_y_value(a, b, c, d, e, x):
@@ -64,6 +67,9 @@ if __name__ == '__main__':
     print("wide_poly_sample y:", bW)
     #make_plot(1, -40, -100, 1, 0).show()
 
+    print("Test sample_to_one_hot:")
+    for i in range(MIN, MAX+1):
+        p=sample_to_one_hot(i)
     ## Curvy ones:
     # make_plot(1, 5, -15, -100, 0)
     # make_plot(1, -9, -25, 100, 0)
