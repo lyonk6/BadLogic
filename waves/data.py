@@ -89,7 +89,7 @@ def sample_to_one_hot(x):
     return xT
 
 if __name__ == '__main__':
-    print("Here in data:")
+    print("Here we have a wave, saddle and paraboloid plots:")
     plot_waves().show()
     plot_saddle().show()
     plot_paraboloid().show()
