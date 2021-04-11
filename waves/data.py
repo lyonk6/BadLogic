@@ -1,5 +1,3 @@
-from mpl_toolkits.mplot3d import Axes3D  # noqa: F401 unused import
-
 import matplotlib.pyplot as plt
 from matplotlib import cm
 from matplotlib.ticker import LinearLocator, FormatStrFormatter
@@ -7,6 +5,7 @@ import numpy as np
 
 MIN = -10
 MAX = 10
+IMAGE_WIDTH = 256
 
 # Let a, b, c be constants > 0 for the function:
 #  Z = (a**2) * (X**2) + (b**2) * (Y**2) - c
@@ -63,7 +62,8 @@ def plot_waves():
 def plot_surface(X, Y, Z):
     # Define the figure:
     fig = plt.figure()
-    ax = fig.gca(projection='3d')
+    ax = fig.add_subplot(projection='3d')
+    #ax = fig.gca(projection='3d')
 
     # Plot the surface.
     surf = ax.plot_surface(X, Y, Z, cmap=cm.coolwarm,
@@ -78,6 +78,15 @@ def plot_surface(X, Y, Z):
     fig.colorbar(surf, shrink=0.5, aspect=5)
 
     return plt
+
+
+def sample_to_one_hot(x):
+    xT = torch.zeros((1, IMAGE_WIDTH), dtype=torch.float64)
+    adjustment = (IMAGE_WIDTH-1)/(MAX - MIN)
+    position = int(np.floor((adjustment * (x + 6)) + 0.5).item())
+    #print("Here is our sample x value and it's index: ", x, ", ", position)
+    xT[0][position]=1
+    return xT
 
 if __name__ == '__main__':
     print("Here in data:")
