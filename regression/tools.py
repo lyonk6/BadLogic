@@ -20,8 +20,9 @@ def shout(p, yp, v1, v2):
 
 
 def yell(v1,v2,v3,v4,v5):
+    print('')
     print("input       {}".format(v1))
-    print("weight      {}".format(v2))
-    print("bias        {}".format(v3))
+    print("weight      {} :grad: {}".format(v2, v2.grad).replace('Parameter containing:\n',' '))
+    print("bias        {} :grad: {}".format(v3, v3.grad).replace('Parameter containing:\n',' '))
     print("output      {}".format(v4))
     print("loss        {}".format(v5))

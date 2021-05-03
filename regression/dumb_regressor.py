@@ -23,6 +23,8 @@ class Regressor(nn.Module):
 
 
 m = Regressor()
+learning_rate = 1e-4
+optimizer = torch.optim.Adam(m.parameters(), lr=learning_rate)
 i = torch.rand(1)
 print("\nHere is our sample input: ", i)
 print(  "Here is the result from our network: ", m(i))
@@ -35,11 +37,12 @@ for i in range(1000):
     input       = torch.rand(1)
     null_tensor = torch.zeros(1)
     output      = m(input)
-    loss        = null_tensor - output
+    loss        = torch.abs(output)
     m.zero_grad()
     loss.backward()
+    optimizer.step()
     if i % 100 == 0:
-        yell(input, m.weight, output, loss)
+        yell(input, m.weight, m.bias, output, loss)
 
 print("\n\nDid we get this far? Here is m again: ")
 for p in m.named_parameters():
