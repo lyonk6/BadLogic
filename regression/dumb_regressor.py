@@ -5,12 +5,11 @@ import tools
 from tools import yell
 from torch import nn
 
-""" In this app, we train a very simple neural network to modify a given input
-    by a factor of phi. Use the ratio of neighbor Fibonacci numbers to create
-    increasing aproximations of phi as training data. Then plot what we find!"""
+""" In this app, we train a very simple neural network to output zero no matter
+the input."""
 
-""" Start by creating our training data. Create corresponding torch vectors for
-    this imput data: """
+""" Start by creating our model. Then create an Optimizer and an training loop.
+"""
 
 class Regressor(nn.Module):
     def __init__(self):
