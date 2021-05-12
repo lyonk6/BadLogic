@@ -3,7 +3,7 @@ import numpy as np
 import tools
 import torch
 from torch import nn
-from tools import wide_poly_sample 
+from tools import wide_poly_sample
 
 ################################################################################
 f = {
@@ -41,7 +41,6 @@ if __name__ == '__main__':
     ## { Create Model, Create Optimizer, Create Loop}
     model = Polynomial()
     optimizer = torch.optim.Adam(model.parameters(), lr= 1e-4)
-
     for i in range(1000):
         if i % 100 == 0:
             print("{} iterations".format(i))
@@ -51,6 +50,10 @@ if __name__ == '__main__':
         ## {forward pass, loss, backward pass}
         xT, yT = wide_poly_sample(f['x^4'], f['x^3'], f['x^2'], f['x'], f['c'])
         output = model(xT)
+        loss   = torch.abs(yT - output)
 
         # part 3:
         ## {zero_grad(), loss.backward(), optimizer.step()}
+        model.zero_grad()
+        loss.backward()
+        optimizer.step()
