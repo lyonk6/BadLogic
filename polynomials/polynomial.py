@@ -3,7 +3,7 @@ import numpy as np
 import tools
 import torch
 from torch import nn
-from tools import wide_poly_sample
+from tools import wide_poly_sample, make_plot
 
 ################################################################################
 f = {
@@ -42,10 +42,6 @@ if __name__ == '__main__':
     model = Polynomial()
     optimizer = torch.optim.Adam(model.parameters(), lr= 1e-4)
     for i in range(1000):
-        if i % 100 == 0:
-            print("{} iterations".format(i))
-
-
         # Part 2:
         ## {forward pass, loss, backward pass}
         xT, yT = wide_poly_sample(f['x^4'], f['x^3'], f['x^2'], f['x'], f['c'])
@@ -57,3 +53,12 @@ if __name__ == '__main__':
         model.zero_grad()
         loss.backward()
         optimizer.step()
+
+        # Print an update
+        if i % 100 == 0:
+            print("{} iterations".format(i))
+
+
+
+    plt = make_plot(f['x^4'], f['x^3'], f['x^2'], f['x'], f['c'])
+    plt.show()
