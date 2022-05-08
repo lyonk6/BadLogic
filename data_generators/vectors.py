@@ -1,35 +1,22 @@
 import numpy as np
 
 class ScatterVectors:
-    def __init__(self, type, dim, samples, centers):
-    try:
-        #Arrays should be constructed using array, zeros or empty
-        #numpy.empty(shape, dtype=float, order='C', *, like=None)
-        self.center = center
+    def __init__(self, center, sigmas, length, type=np.float32):
+        try:
+            self.dim   = len(center)
+            if self.dim != len(sigmas):
+                raise ValueError("Parameter 'sigmas' must be the same size as 'center'.")
+            self.array = np.empty([self.dim, length], type)
 
-        break
-    except ValueError:
-        print("Oops!  That was no valid number.  Try again")
+            for i in range(self.dim):
+                self.array[i] = np.random.normal(center[i], sigmas[i], length)
 
-    def scatterPoints(self, samples,  ):
+        except ValueError as err:
+            print(err)
+        except TypeError as err:
+            print(err)
 
 if __name__ == "__main__":
-    # Creating normally distributed results:
-    mu, sigma, length = 0, 0.2, 1000 # mean, standard deviation, and size
-    s = np.random.normal(mu, sigma, length)
-
-    # Plot a single vector and see if it's normally distributed:
-    import matplotlib.pyplot as plt
-    count, bins, ignored = plt.hist(s, 30, density=True)
-    plt.plot(bins, 1/(sigma * np.sqrt(2 * np.pi)) * np.exp( - (bins - mu)**2 / (2 * sigma**2) ), linewidth=2, color='r')
-    plt.show()
-
-    # Plot a second vector and create a scatter plot:
-    t = np.random.normal(mu + 0.5, sigma*2, length)
-    plt.scatter(s, t, alpha=0.3)
-
-    plt.xlim([-2, 2])
-    plt.ylim([-2, 2])
-    plt.show()
-
-
+    length = 5
+    sv = ScatterVectors([0, 0, 0], [0.1, 0.2, 0.3], length)
+    print(sv.array)
