@@ -16,7 +16,14 @@ class ScatterVectors:
         except TypeError as err:
             print(err)
 
+    def getArray(self):
+        return self.array
+
 if __name__ == "__main__":
-    length = 5
+    import matplotlib.pyplot as plt
+
+    length = 1000
     sv = ScatterVectors([0, 0, 0], [0.1, 0.2, 0.3], length)
-    print(sv.array)
+
+    plt.scatter(sv.getArray()[0],sv.getArray()[2], alpha=0.5)
+    plt.show()
