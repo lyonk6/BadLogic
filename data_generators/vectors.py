@@ -45,4 +45,5 @@ if __name__ == "__main__":
     print(sv.array().shape)
     print(sv2.array().shape)
     print(sv3.array().shape)
+    print(sv3.array().dtype)
     plt.show()
