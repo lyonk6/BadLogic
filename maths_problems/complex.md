@@ -1,9 +1,12 @@
 # Complex Numbers
-Given $z, y, z$ such that $z = x + iy$ the modulus of $z$ is given by:
-$$|z| = \sqrt{x^2 + y^2}$$
 
 
 ## Basics
+
+Given $z, y, z$ such that $z = x + iy$ the modulus (or absolute value) of $z$ is given by:
+$$|z| = \sqrt{x^2 + y^2}$$
+
+## Evaluate
 $$ (-i)^2 $$
 
 $$ (2-3i) + (-6 - 7i) $$
@@ -14,7 +17,6 @@ $$ (2-3i)(-6 - 7i) $$
 
 $$ (x+iy)(x-iy) $$
 
-## Evaluate
 $$ (x + iy)(2 + i) = 3 - i $$
 
 $$ mod(5 + 4i) $$
