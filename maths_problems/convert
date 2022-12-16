@@ -1,0 +1,2 @@
+pandoc .\complex.md -o complex.pdf
+pandoc .\integration.md -o integration.pdf
