@@ -22,6 +22,8 @@ $$ \int 4cos(3x)dx $$
 
 $$ \int \sqrt{7x+9} dx $$
 
+$$\int \frac{sin(ln (x))}{x} dx$$
+
 ## Integration by parts:
 $$ \int udv = uv - \int vdu $$
 
