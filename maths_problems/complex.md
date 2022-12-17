@@ -3,7 +3,7 @@
 
 ## Basics
 
-Given $z, y, z$ such that $z = x + iy$ the modulus (or absolute value) of $z$ is given by:
+Given $x, y, z$ such that $z = x + iy$ the modulus (or absolute value) of $z$ is given by:
 $$|z| = \sqrt{x^2 + y^2}$$
 
 ## Evaluate
