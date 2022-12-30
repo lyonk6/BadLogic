@@ -1,1 +1,4 @@
 #!/bin/bash
+pandoc .\complex.md -o complex.pdf
+pandoc antiderivatives.md -o antiderivatives.pdf
+pandoc derivatives.md -o derivatives.pdf
