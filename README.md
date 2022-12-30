@@ -1,2 +1,2 @@
 # BadLogic
-Learn AI the unintelligent way
+A collection of demos, experiments and bad ideas
