@@ -18,5 +18,4 @@ def number_conversion(n):
         return rna_symbol(n)
     else:
         next = n // 4
-        #return number_conversion(next) + rna_symbol(n % 4)
         return number_conversion(next) + rna_symbol(n - next)
