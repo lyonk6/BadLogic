@@ -1,10 +1,17 @@
+def digits_to_arbitrary_sequence(n, symbol_list):
+    num_symbols = len(symbol_list)
+    if n < num_symbols:
+        return symbol_list[n]
+    else:
+        return digits_to_arbitrary_sequence((n // num_symbols)-1, symbol_list) + symbol_list[n % num_symbols]
+
 def digits_to_rna_sequence(n):
-    n=n-1
+    #n=n-1
     nucleotides = ['A', 'C', 'G', 'U']
     if n < 4:
         return nucleotides[n]
     else:
-        return digits_to_rna_sequence(n // 4) + nucleotides[n % 4]
+        return digits_to_rna_sequence((n // 4)-1) + nucleotides[n % 4]
 
 def digits_to_peptide_sequence(n):
     n=n-1
@@ -18,9 +25,14 @@ def digits_to_peptide_sequence(n):
 
 if __name__ == "__main__":
     print("RNAs:")
-    for x in range(1,10):
+    for x in range(0,10):
         print(digits_to_rna_sequence(x))
-    print("\nAmino acids:")
+
+    print("\nRNAs (again):")
+    for x in range(0,20):
+        print(digits_to_arbitrary_sequence(x, ['A', 'C', 'G', 'U']))
+    #print("\nAmino acids:")
+    """
     print(digits_to_peptide_sequence(20))
     print(digits_to_peptide_sequence(40))
     print(digits_to_peptide_sequence(60))
@@ -31,3 +43,4 @@ if __name__ == "__main__":
     print(digits_to_peptide_sequence(400))
     for x in range(395, 405):
         print(digits_to_peptide_sequence(x))
+    """
