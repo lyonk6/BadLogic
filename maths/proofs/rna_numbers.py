@@ -1,5 +1,3 @@
-import math
-
 def rna_symbol(n):
     if n == 0:
         return 'A'
@@ -17,5 +15,10 @@ def number_conversion(n):
     if n < 4:
         return rna_symbol(n)
     else:
-        next = n // 4
-        return number_conversion(next) + rna_symbol(n - next)
+        return number_conversion(n // 4) + rna_symbol(n % 4)
+
+
+
+if __name__ == "__main__":
+    for x in range(1,10):
+        print(number_conversion(x))
