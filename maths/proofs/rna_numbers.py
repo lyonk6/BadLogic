@@ -10,15 +10,15 @@ def rna_symbol(n):
     if n >=4 :
         return 'X'
 
-def number_conversion(n):
+def digits_to_rna_sequence(n):
     n=n-1
     if n < 4:
         return rna_symbol(n)
     else:
-        return number_conversion(n // 4) + rna_symbol(n % 4)
+        return digits_to_rna_sequence(n // 4) + rna_symbol(n % 4)
 
 
 
 if __name__ == "__main__":
     for x in range(1,10):
-        print(number_conversion(x))
+        print(digits_to_rna_sequence(x))
