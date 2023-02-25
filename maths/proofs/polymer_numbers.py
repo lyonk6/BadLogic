@@ -14,7 +14,7 @@ if __name__ == "__main__":
         print(digits_to_sequence(x, amino_acids))
 
     print("...")
-    for x in range(399, 402):
+    for x in range(419, 422):
         print(digits_to_sequence(x, amino_acids))
 
     print("RNAs:")
