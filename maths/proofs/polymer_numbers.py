@@ -41,4 +41,5 @@ if __name__ == "__main__":
 #    print(digits_to_sequence(43, nucleotides))
 
     print(sequence_to_digits(nucleotides, make_symbol_map(nucleotides)))
-    #print(digits_to_sequence(111, nucleotides))
+    print(digits_to_sequence(111, nucleotides)) #ACGU
+    print(digits_to_sequence(84, nucleotides)) #AAAA
