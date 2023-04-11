@@ -6,14 +6,14 @@ from matplotlib import pyplot as plt
 def convert_and_reshape(pandas_series):
     return pandas_series.to_numpy().reshape((28,28))
 
-def one_hot(V)
+def one_hot(V):
     return np.squeeze(np.eye(10)[V.reshape(-1)]).T
 
 def ReLU(Z):
     return np.maximum(0,Z)
 
 def d_ReLU(Z):
-    return Z > 0
+    return 1*(Z > 0)
 
 def softmax(Z):
     eZn = np.exp(Z)
@@ -40,5 +40,9 @@ def backward_pass(Z1, A1, Z2, A2, w2, X, Y):
     dW2 = (1/m) * dZ2.dot(A1.T)
     dB2 = (1/m) * np.sum(dZ2, 2)
     dZ2 = w2.T.dot(dZ2) * d_ReLU(Z1)
-    dW1 = (1/m) * dZ2.dot(A1.T)
+    dW1 = (1/m) * dZ2.dot(X.T)
     dB1 = (1/m) * np.sum(dZ1, 2)
+    return dw1, db1, dw2, db2
+
+print(softmax(np.random.randn(10, 784)))
+print(one_hot(np.random.randint(1, 10, 8)))
