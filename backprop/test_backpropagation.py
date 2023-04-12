@@ -23,13 +23,17 @@ def test_d_ReLU():
     assert response[4] == 1
 
 def test_forward_pass():
-    w1 = np.zeros((10,10)) + 1
+    # Balance the weights and biases to make this test easy.
+    w1 = np.zeros((10, 10)) + 1/10
     b1 = np.zeros((10, 1))
-    w2 = np.zeros((10, 10)) + 1
+    w2 = np.zeros((10, 10)) + 1/10
     b2 = np.zeros((10, 1))
-    X =  np.zeros((10, 1)) + 0.5
-    response   = bp.forward_pass(w1, b1, w2, b2, X)
-    print(response)
+    X =  np.zeros((10, 1)) + 1
+    Z1, A1, Z2, A2  = bp.forward_pass(w1, b1, w2, b2, X)
+
+    # Easy:
+    assert np.array_equal(Z1, Z2)
+    assert np.array_equal(A1, Z1)
     """
 
     """
@@ -37,8 +41,7 @@ def test_forward_pass():
 """
 def test_backward_pass():
     #Z1, A1, Z2, A2, w2, X, Y
-def test_convert_and_reshape():
-    #pandas_series
+
 def test_one_hot():
     #V
 """
