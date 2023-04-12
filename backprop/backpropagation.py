@@ -22,14 +22,14 @@ def softmax(Z):
 def init_parameters():
     w1 = np.random.randn(10, 784) + 0.5
     b1 = np.random.randn(10, 1) + 0.5
-    w2 = np.random.randn(10, 784) + 0.5
+    w2 = np.random.randn(10, 10) + 0.5
     b2 = np.random.randn(10, 1) + 0.5
     return w1, b1, w2, b2
 
 def forward_pass(w1, b1, w2, b2, X):
     Z1 = w1.dot(X) + b1
     A1 = ReLU(Z1)
-    Z2 = w2.dot(X) + b2
+    Z2 = w2.dot(A1) + b2
     A2 = softmax(Z2)
     return Z1, A1, Z2, A2
 
