@@ -38,11 +38,11 @@ def backward_pass(Z1, A1, Z2, A2, w2, X, Y):
     Y = one_hot(Y)
     dZ2 = A2 - Y
     dW2 = (1/m) * dZ2.dot(A1.T)
-    dB2 = (1/m) * np.sum(dZ2, 2)
+    db2 = (1/m) * np.sum(dZ2, 2)
     dZ1 = w2.T.dot(dZ2) * d_ReLU(Z1)
     dW1 = (1/m) * dZ2.dot(X.T)
-    dB1 = (1/m) * np.sum(dZ1, 2)
-    return dW1, dB1, dW2, dB2
+    db1 = (1/m) * np.sum(dZ1, 2)
+    return dW1, db1, dW2, db2
 
 print(softmax(np.random.randn(10, 784)))
 print(one_hot(np.random.randint(1, 10, 8)))

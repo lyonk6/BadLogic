@@ -22,13 +22,17 @@ def test_d_ReLU():
     assert response[3] == 1
     assert response[4] == 1
 
-def test_forward_pass():
-    # Balance the weights and biases to make this test easy.
+def init_test_parameters():
     w1 = np.zeros((10, 10)) + 1/10
     b1 = np.zeros((10, 1))
     w2 = np.zeros((10, 10)) + 1/10
     b2 = np.zeros((10, 1))
     X =  np.zeros((10, 1)) + 1
+    return w1, b1, w2, b2, X
+
+def test_forward_pass():
+    # Balance the weights and biases to make this test easy.
+    w1, b1, w2, b2, X = init_test_parameters()
     Z1, A1, Z2, A2  = bp.forward_pass(w1, b1, w2, b2, X)
 
     # Easy:
@@ -37,6 +41,10 @@ def test_forward_pass():
     """
 
     """
+
+def test_backward_pass():
+    #Z1, A1, Z2, A2, w2, X, Y
+    assert True
 
 """
 def test_backward_pass():
