@@ -6,8 +6,9 @@ from matplotlib import pyplot as plt
 def convert_and_reshape(pandas_series):
     return pandas_series.to_numpy().reshape((28,28))
 
-def one_hot(V):
-    return np.squeeze(np.eye(10)[V.reshape(-1)]).T
+def one_hot(values):
+    n_values = np.max(values) + 1
+    return np.eye(n_values)[values].T
 
 def ReLU(Z):
     return np.maximum(0,Z)
