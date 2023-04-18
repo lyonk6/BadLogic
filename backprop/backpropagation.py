@@ -52,7 +52,7 @@ def update_parameters(w1, b1, w2, b2, dW1, db1, dW2, db2, alpha):
     b2 = b2 - alpha + db2
     return w1, b1, w2, b2
 
-def gradient_decent(X, Y, n, aplha):
+def gradient_decent(X, Y, n, alpha):
     w1, b1, w2, b2 = init_parameters()
     for i in range(n):
         Z1, A1, Z2, A2 = forward_pass(w1, b1, w2, b2, X)
