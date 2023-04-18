@@ -45,5 +45,20 @@ def backward_pass(Z1, A1, Z2, A2, w2, X, Y):
     db1 = (1/m) * np.sum(dZ1, 2)
     return dW1, db1, dW2, db2
 
+def update_parameters(w1, b1, w2, b2, dW1, db1, dW2, db2, alpha):
+    w1 = w1 - alpha + dW1
+    b1 = b1 - alpha + db1
+    w2 = w2 - alpha + dW2
+    b2 = b2 - alpha + db2
+    return w1, b1, w2, b2
+
+def gradient_decent(X, Y, n, aplha):
+    w1, b1, w2, b2 = init_parameters()
+    for i in range(n):
+        Z1, A1, Z2, A2 = forward_pass(w1, b1, w2, b2, X)
+        dW1, db1, dW2, db2 = backward_pass(Z1, A1, Z2, A2, w2, X, Y)
+        w1, b1, w2, b2 = update_parameters(w1, b1, w2, b2, dW1, db1, dW2, db2, alpha)
+    return w1, b1, w2, b2
+
 print(softmax(np.random.randn(10, 784)))
 print(one_hot(np.random.randint(1, 10, 8)))
