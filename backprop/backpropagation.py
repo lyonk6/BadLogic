@@ -62,3 +62,19 @@ def gradient_decent(X, Y, n, alpha):
 
 print(softmax(np.random.randn(10, 784)))
 print(one_hot(np.random.randint(1, 10, 8)))
+data = pd.read_csv("data/train.csv")
+data = np.array(data)
+m, n = data.shape
+
+data_dev = data[0:1000].T
+Y_dev = data_dev[0]
+X_dev = data_dev[1:n]
+
+data_train = data[1000:m].T
+Y_train = data_train[0]
+X_train = data_train[1:n]
+shape_element = X_train[0].shape # should be (41000, )
+shape_image   = X_train[:, 0].shape # should be (784, )
+print(shape_element)
+print(shape_image)
+#w1, b1, w2, b2 = gradient_decent(X_train, Y_train, 100, 0.1)
