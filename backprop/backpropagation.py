@@ -39,6 +39,7 @@ def backward_pass(Z1, A1, Z2, A2, w2, X, Y):
     Y = one_hot(Y)
     dZ2 = A2 - Y
     dW2 = (1/m) * dZ2.dot(A1.T)
+    print("This is dZ2: ", dZ2)
     db2 = (1/m) * np.sum(dZ2, 2)
     dZ1 = w2.T.dot(dZ2) * d_ReLU(Z1)
     dW1 = (1/m) * dZ2.dot(X.T)
