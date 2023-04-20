@@ -1,10 +1,6 @@
 import numpy as np
-import mnist
 import pandas as pd
 from matplotlib import pyplot as plt
-
-def convert_and_reshape(pandas_series):
-    return pandas_series.to_numpy().reshape((28,28))
 
 def one_hot(values):
     n_values = np.max(values) + 1
@@ -76,6 +72,12 @@ Y_train = data_train[0]
 X_train = data_train[1:n]
 shape_element = X_train[0].shape # should be (41000, )
 shape_image   = X_train[:, 0].shape # should be (784, )
+image   = X_train[:, 0].reshape((28,28)) # should be (784, )
 print(shape_element)
 print(shape_image)
+
+# plot the sample
+fig = plt.figure
+plt.imshow(image, cmap='gray')
+plt.show()
 #w1, b1, w2, b2 = gradient_decent(X_train, Y_train, 100, 0.1)
