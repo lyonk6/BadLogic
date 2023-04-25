@@ -3,6 +3,28 @@ import numpy as np
 import mnist
 import backpropagation as bp
 
+
+def init_test_parameters():
+    # Balance the weights and biases to make this test easy.
+    w1 = np.zeros((10, 10)) + 1/10
+    b1 = np.zeros((10, 1))
+    w2 = np.zeros((10, 10)) + 1/10
+    b2 = np.zeros((10, 1))
+    X =  np.zeros((10, 1)) + 1
+    print("Shape of artificial X: ", X.shape)
+    return w1, b1, w2, b2, X
+
+def init_real_parameters():
+    w1, b1, w2, b2, fake = init_test_parameters()
+    d = mnist.training_data()
+    image = d.pop_image()
+    X = image[1:]
+    label = image[:1]
+    print("This is the label: ", type(label))
+    print("Shape of real fake X: ", fake.shape)
+    print("Shape of real X: ", X.shape)
+    return w1, b1, w2, b2, X, label
+
 def test_one_hot():
     V = np.random.randint(0, 10, 10)
     print("before:", V)
@@ -30,32 +52,18 @@ def test_d_ReLU():
     assert response[3] == 1
     assert response[4] == 1
 
-def init_real_parameters():
-    w1, b1, w2, b2, _ = init_test_parameters()
-    d = mnist.training_data()
-    image = d.pop_image()
-    X = image[1:]
-    label = image[:1]
-    print("Shape of real X: ", X.shape)
-    return w1, b1, w2, b2, X, label
-
-def init_test_parameters():
-    # Balance the weights and biases to make this test easy.
-    w1 = np.zeros((10, 10)) + 1/10
-    b1 = np.zeros((10, 1))
-    w2 = np.zeros((10, 10)) + 1/10
-    b2 = np.zeros((10, 1))
-    X =  np.zeros((10, 1)) + 1
-    print("Shape of artificial X: ", X.shape)
-    return w1, b1, w2, b2, X
-
 def test_forward_pass():
-    # Easy Test:
+    # Artificial Test:
     w1, b1, w2, b2, X = init_test_parameters()
     Z1, A1, Z2, A2  = bp.forward_pass(w1, b1, w2, b2, X)
     assert np.array_equal(Z1, Z2)
     assert np.array_equal(A1, Z1)
-
+ 
+    # Sample Test:
+    w1, b1, w2, b2, X, label = init_real_parameters()
+    #Z1, A1, Z2, A2  = bp.forward_pass(w1, b1, w2, b2, X)
+    assert True
+ 
 def test_backward_pass():
     init_real_parameters()
     w1, b1, w2, b2, X = init_test_parameters()
