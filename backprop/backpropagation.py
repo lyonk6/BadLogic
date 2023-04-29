@@ -58,7 +58,6 @@ def gradient_descent(X, Y, alpha, n):
     return w1, b1, w2, b2
 
 
-
 if __name__ == "__main__":
     print(softmax(np.random.randn(10, 784)))
     print(one_hot(np.random.randint(1, 10, 8)))
