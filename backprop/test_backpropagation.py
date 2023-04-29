@@ -3,7 +3,6 @@ import numpy as np
 import mnist
 import backpropagation as bp
 
-
 def init_test_parameters():
     # Balance the weights and biases to make this test easy.
     w1 = np.zeros((10, 10)) + 1/10
@@ -61,7 +60,7 @@ def test_forward_pass():
  
     # Sample Test:
     w1, b1, w2, b2, X, label = init_real_parameters()
-    #Z1, A1, Z2, A2  = bp.forward_pass(w1, b1, w2, b2, X)
+    Z1, A1, Z2, A2  = bp.forward_pass(w1, b1, w2, b2, X)
     assert True
  
 def test_backward_pass():
