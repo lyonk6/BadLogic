@@ -57,28 +57,31 @@ def gradient_descent(X, Y, alpha, n):
         w1, b1, w2, b2 = update_parameters(w1, b1, w2, b2, dW1, db1, dW2, db2, alpha)
     return w1, b1, w2, b2
 
-print(softmax(np.random.randn(10, 784)))
-print(one_hot(np.random.randint(1, 10, 8)))
-data = pd.read_csv("data/train.csv")
-data = np.array(data)
-m, n = data.shape
 
-data_dev = data[0:1000].T
-Y_dev = data_dev[0]
-X_dev = data_dev[1:n]
 
-data_train = data[1000:m].T
-Y_train = data_train[0]
-X_train = data_train[1:n]
-shape_element = X_train[0].shape # should be (41000, )
-shape_image   = X_train[:, 0].shape # should be (784, )
-image   = X_train[:, 0].reshape((28,28)) # should be (784, )
-print(shape_element)
-print(shape_image)
+if __name__ == "__main__":
+    print(softmax(np.random.randn(10, 784)))
+    print(one_hot(np.random.randint(1, 10, 8)))
+    data = pd.read_csv("data/train.csv")
+    data = np.array(data)
+    m, n = data.shape
 
-# plot the sample
-#fig = plt.figure
-#plt.imshow(image, cmap='gray')
-#plt.show()
-#w1, b1, w2, b2 = gradient_descent(X_train, Y_train, 100, 0.1)
-w1, b1, w2, b2 = gradient_descent(X_train, Y_train, 0.10, 500)
+    data_dev = data[0:1000].T
+    Y_dev = data_dev[0]
+    X_dev = data_dev[1:n]
+
+    data_train = data[1000:m].T
+    Y_train = data_train[0]
+    X_train = data_train[1:n]
+    shape_element = X_train[0].shape # should be (41000, )
+    shape_image   = X_train[:, 0].shape # should be (784, )
+    image   = X_train[:, 0].reshape((28,28)) # should be (784, )
+    print(shape_element)
+    print(shape_image)
+
+    # plot the sample
+    #fig = plt.figure
+    #plt.imshow(image, cmap='gray')
+    #plt.show()
+    #w1, b1, w2, b2 = gradient_descent(X_train, Y_train, 100, 0.1)
+    w1, b1, w2, b2 = gradient_descent(X_train, Y_train, 0.10, 500)
