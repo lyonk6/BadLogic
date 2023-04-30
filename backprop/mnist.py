@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from matplotlib import pyplot as plt
 
 class training_data:
@@ -6,15 +7,11 @@ class training_data:
         self.index = 0
         self.images = pd.read_csv("data/train.csv")
 
-    def pop_image(self):
-        self.index = self.index + 1
-        return self.images.iloc[self.index -1].to_numpy()
-
     def pop_image_and_label(self):
         self.index = self.index + 1
         data = self.images.iloc[self.index -1].to_numpy()
         # X, label
-        return data[1:], data[:1]
+        return np.array([data[1:]]).T, data[:1]
 
     def has_next_image(self):
         # The number of rows in a pandas table is given by: df.shape[0]
@@ -23,12 +20,8 @@ class training_data:
         else:
             return False
 
-
-def convert_and_reshape(numpy_array):
-    return numpy_array[1:].reshape((28,28))
-
-def plot_image(image):
-    image = convert_and_reshape(image)
+def plot_image_v2(image):
+    image = image.reshape((28,28))
 
     # plot the sample
     fig = plt.figure
@@ -38,14 +31,17 @@ def plot_image(image):
     print(type(image))
     print(image)
 
-
 if __name__ == "__main__":
     d = training_data()
-    d.pop_image()
-    plot_image(d.pop_image())
+    d.pop_image_and_label()
+    d.pop_image_and_label()
+
+    image, label = d.pop_image_and_label()
+    plot_image_v2(image)
+    print("This is the label: ", label[0])
 
     #Verify we iterate correctly:
     while d.has_next_image():
         if d.index % 5000 == 1:
             print(d.index)
-        d.pop_image()
+        d.pop_image_and_label()
