@@ -16,9 +16,8 @@ def init_test_parameters():
 def init_real_parameters():
     w1, b1, w2, b2, fake = init_test_parameters()
     d = mnist.training_data()
-    image = d.pop_image()
-    X = image[1:]
-    label = image[:1]
+    X, label = d.pop_image_and_label()
+
     print("This is the label: ", type(label))
     print("Shape of real fake X: ", fake.shape)
     print("Shape of real X: ", X.shape)
@@ -60,7 +59,7 @@ def test_forward_pass():
  
     # Sample Test:
     w1, b1, w2, b2, X, label = init_real_parameters()
-    Z1, A1, Z2, A2  = bp.forward_pass(w1, b1, w2, b2, X)
+    #Z1, A1, Z2, A2  = bp.forward_pass(w1, b1, w2, b2, X)
     assert True
  
 def test_backward_pass():

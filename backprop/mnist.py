@@ -10,6 +10,12 @@ class training_data:
         self.index = self.index + 1
         return self.images.iloc[self.index -1].to_numpy()
 
+    def pop_image_and_label(self):
+        self.index = self.index + 1
+        data = self.images.iloc[self.index -1].to_numpy()
+        # X, label
+        return data[1:], data[:1]
+
     def has_next_image(self):
         # The number of rows in a pandas table is given by: df.shape[0]
         if self.index < self.images.shape[0]:
