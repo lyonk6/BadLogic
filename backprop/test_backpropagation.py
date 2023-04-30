@@ -1,4 +1,5 @@
 import pytest
+import random
 import numpy as np
 import mnist
 import backpropagation as bp
@@ -14,13 +15,10 @@ def init_test_parameters():
     return w1, b1, w2, b2, X
 
 def init_real_parameters():
-    w1, b1, w2, b2, fake = init_test_parameters()
+    w1, b1, w2, b2 = bp.init_parameters()
     d = mnist.training_data()
     X, label = d.pop_image_and_label()
-
-    print("This is the label: ", type(label))
-    print("Shape of real fake X: ", fake.shape)
-    print("Shape of real X: ", X.shape)
+    print("Shape of sample X: ", X.shape)
     return w1, b1, w2, b2, X, label
 
 def test_one_hot():
@@ -59,16 +57,24 @@ def test_forward_pass():
  
     # Sample Test:
     w1, b1, w2, b2, X, label = init_real_parameters()
-    #Z1, A1, Z2, A2  = bp.forward_pass(w1, b1, w2, b2, X)
+    Z1, A1, Z2, A2  = bp.forward_pass(w1, b1, w2, b2, X)
     assert True
  
 def test_backward_pass():
-    init_real_parameters()
+    
     w1, b1, w2, b2, X = init_test_parameters()
     Z1, A1, Z2, A2  = bp.forward_pass(w1, b1, w2, b2, X)
     Y = np.random.randint(0, 10, 10)
     print(Y)
-    """
+
+    w1, b1, w2, b2, X, Y = init_real_parameters()
+    print("w1", w1)
+    print("b1", b1)
+    print("w2", w2)
+    print("b2", b2)
+    #print("X ", X)
+    print("Y ", Y)
+    Z1, A1, Z2, A2  = bp.forward_pass(w1, b1, w2, b2, X)
     dW1, db1, dW2, db2 = bp.backward_pass(Z1, A1, Z2, A2, w2, X, Y)
     print("dW1", dW1)
     print("db1", db1)
