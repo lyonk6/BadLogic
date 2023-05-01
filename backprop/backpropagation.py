@@ -1,13 +1,14 @@
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
+np.seterr(all='raise')
 
 def one_hot(values):
     n_values = 10
     return np.eye(10)[values].T
 
 def ReLU(Z):
-    return np.maximum(0,Z)
+    return np.maximum(Z, 0)
 
 def d_ReLU(Z):
     return 1*(Z > 0)
@@ -34,13 +35,10 @@ def forward_pass(w1, b1, w2, b2, X):
 
 def backward_pass(Z1, A1, Z2, A2, w2, X, Y):
     m = Y.size
-    print("This is Y before one_hot: \n", Y)
     Y = one_hot(Y)
-    print("This is Y after one_hot: \n", Y)
-    print("This is A2: ", A2)
     dZ2 = A2 - Y
     dW2 = (1/m) * dZ2.dot(A1.T)
-    print("This is dZ2: ", dZ2)
+    #print("This is dZ2: ", dZ2)
     db2 = (1/m) * np.sum(dZ2)
     dZ1 = w2.T.dot(dZ2) * d_ReLU(Z1)
     dW1 = (1/m) * dZ2.dot(X.T)
@@ -48,11 +46,18 @@ def backward_pass(Z1, A1, Z2, A2, w2, X, Y):
     return dW1, db1, dW2, db2
 
 def update_parameters(w1, b1, w2, b2, dW1, db1, dW2, db2, alpha):
-    w1 = w1 - alpha + dW1
-    b1 = b1 - alpha + db1
-    w2 = w2 - alpha + dW2
-    b2 = b2 - alpha + db2
+    w1 = w1 - alpha * dW1
+    b1 = b1 - alpha * db1
+    w2 = w2 - alpha * dW2
+    b2 = b2 - alpha * db2
     return w1, b1, w2, b2
+
+def get_predictions(A2):
+    return np.argmax(A2, 0)
+
+def get_accuracy(predictions, Y):
+    print(predictions, Y)
+    return np.sum(predictions == Y) / Y.size
 
 def gradient_descent(X, Y, alpha, n):
     w1, b1, w2, b2 = init_parameters()
@@ -60,6 +65,10 @@ def gradient_descent(X, Y, alpha, n):
         Z1, A1, Z2, A2 = forward_pass(w1, b1, w2, b2, X)
         dW1, db1, dW2, db2 = backward_pass(Z1, A1, Z2, A2, w2, X, Y)
         w1, b1, w2, b2 = update_parameters(w1, b1, w2, b2, dW1, db1, dW2, db2, alpha)
+        if i % 10 == 0:
+            print("Iteration: ", i)
+            predictions = get_predictions(A2)
+            print(get_accuracy(predictions, Y))
     return w1, b1, w2, b2
 
 
@@ -88,4 +97,4 @@ if __name__ == "__main__":
     #plt.imshow(image, cmap='gray')
     #plt.show()
     #w1, b1, w2, b2 = gradient_descent(X_train, Y_train, 100, 0.1)
-    w1, b1, w2, b2 = gradient_descent(X_train, Y_train, 0.10, 5)
+    w1, b1, w2, b2 = gradient_descent(X_train, Y_train, 0.05, 5)
