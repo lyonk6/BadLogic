@@ -17,13 +17,15 @@ def softmax(Z):
     eZn = np.exp(Z)
     print("Inside softmax: ", eZn)
     print("Inside softmax: ", eZn / np.sum(eZn))
-    return eZn / np.sum(eZn)
+    return np.exp(Z) / sum(np.exp(Z))
 
 def init_parameters():
-    w1 = np.random.randn(10, 784) + 0.5
-    b1 = np.random.randn(10, 1) + 0.5
-    w2 = np.random.randn(10, 10) + 0.5
-    b2 = np.random.randn(10, 1) + 0.5
+    # We desire a network that is uniformally random and 
+    # has a strong bias against activation. 
+    w1 = np.random.rand(10, 784) - 0.5
+    b1 = np.random.rand(10, 1) - 0.5
+    w2 = np.random.rand(10, 10) - 0.5
+    b2 = np.random.rand(10, 1) - 0.5
     return w1, b1, w2, b2
 
 def forward_pass(w1, b1, w2, b2, X):
