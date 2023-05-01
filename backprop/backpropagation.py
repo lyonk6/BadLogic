@@ -13,11 +13,8 @@ def d_ReLU(Z):
     return 1*(Z > 0)
 
 def softmax(Z):
-    print("Inside softmax: ", Z)
     eZn = np.exp(Z)
-    print("Inside softmax: ", eZn)
-    print("Inside softmax: ", eZn / np.sum(eZn))
-    return np.exp(Z) / sum(np.exp(Z))
+    return eZn / np.sum(eZn)
 
 def init_parameters():
     # We desire a network that is uniformally random and 
