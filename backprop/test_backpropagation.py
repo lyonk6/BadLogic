@@ -11,14 +11,14 @@ def init_test_parameters():
     w2 = np.zeros((10, 10)) + 1/10
     b2 = np.zeros((10, 1))
     X =  np.zeros((10, 1)) + 1
-    print("Shape of artificial X: ", X.shape)
+    #print("Shape of artificial X: ", X.shape)
     return w1, b1, w2, b2, X
 
 def init_real_parameters():
     w1, b1, w2, b2 = bp.init_parameters()
     d = mnist.training_data()
     X, label = d.pop_image_and_label()
-    print("Shape of sample X: ", X.shape)
+    #print("Shape of sample X: ", X.shape)
     return w1, b1, w2, b2, X, label
 
 def test_one_hot():
@@ -68,12 +68,14 @@ def test_backward_pass():
     print(Y)
 
     w1, b1, w2, b2, X, Y = init_real_parameters()
+    """
     print("w1", w1)
     print("b1", b1)
     print("w2", w2)
     print("b2", b2)
     #print("X ", X)
     print("Y ", Y)
+    """
     Z1, A1, Z2, A2  = bp.forward_pass(w1, b1, w2, b2, X)
     dW1, db1, dW2, db2 = bp.backward_pass(Z1, A1, Z2, A2, w2, X, Y)
     print("dW1", dW1)

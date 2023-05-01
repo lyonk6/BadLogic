@@ -3,8 +3,8 @@ import pandas as pd
 from matplotlib import pyplot as plt
 
 def one_hot(values):
-    n_values = np.max(values) + 1
-    return np.eye(n_values)[values].T
+    n_values = 10
+    return np.eye(10)[values].T
 
 def ReLU(Z):
     return np.maximum(0,Z)
@@ -34,7 +34,10 @@ def forward_pass(w1, b1, w2, b2, X):
 
 def backward_pass(Z1, A1, Z2, A2, w2, X, Y):
     m = Y.size
+    print("This is Y before one_hot: \n", Y)
     Y = one_hot(Y)
+    print("This is Y after one_hot: \n", Y)
+    print("This is A2: ", A2)
     dZ2 = A2 - Y
     dW2 = (1/m) * dZ2.dot(A1.T)
     print("This is dZ2: ", dZ2)
@@ -85,4 +88,4 @@ if __name__ == "__main__":
     #plt.imshow(image, cmap='gray')
     #plt.show()
     #w1, b1, w2, b2 = gradient_descent(X_train, Y_train, 100, 0.1)
-    w1, b1, w2, b2 = gradient_descent(X_train, Y_train, 0.10, 500)
+    w1, b1, w2, b2 = gradient_descent(X_train, Y_train, 0.10, 5)
