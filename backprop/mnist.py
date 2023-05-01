@@ -27,9 +27,7 @@ def plot_image_v2(image):
     fig = plt.figure
     plt.imshow(image, cmap='gray')
     plt.show()
-    
-    print(type(image))
-    print(image)
+
 
 if __name__ == "__main__":
     d = training_data()
