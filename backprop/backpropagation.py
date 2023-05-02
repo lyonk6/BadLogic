@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
-#np.seterr(all='raise')
+np.seterr(all='raise')
 
 def one_hot(values):
     n_values = 10
@@ -14,10 +14,8 @@ def d_ReLU(Z):
     return 1*(Z > 0)
 
 def softmax(Z):
-    print("Here is the sum of all Z values:", np.sum(Z))
-    print("This is the mean Z value: ", np.sum(Z)/len(Z))
     eZn = np.exp(Z)
-    return eZn / np.sum(eZn)
+    return eZn / np.sum(eZn, axis=0)
 
 def init_parameters():
     # We desire a network that is uniformally random and 
@@ -71,7 +69,7 @@ def gradient_descent(X, Y, alpha, n):
         if i % 10 == 0:
             print("Iteration: ", i)
             predictions = get_predictions(A2)
-            print(get_accuracy(predictions, Y))
+            print("Accuracy:", get_accuracy(predictions, Y))
     return w1, b1, w2, b2
 
 
@@ -101,5 +99,4 @@ if __name__ == "__main__":
     #fig = plt.figure
     #plt.imshow(image, cmap='gray')
     #plt.show()
-    #w1, b1, w2, b2 = gradient_descent(X_train, Y_train, 100, 0.1)
-    w1, b1, w2, b2 = gradient_descent(X_train, Y_train, 0.1, 5)
+    w1, b1, w2, b2 = gradient_descent(X_train, Y_train, 0.1, 500)
