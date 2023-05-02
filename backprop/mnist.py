@@ -11,7 +11,7 @@ class training_data:
         self.index = self.index + 1
         data = self.images.iloc[self.index -1].to_numpy()
         # X, label
-        return np.array([data[1:]]).T, data[:1]
+        return np.array([data[1:]]).T / 255., data[:1]
 
     def has_next_image(self):
         # The number of rows in a pandas table is given by: df.shape[0]

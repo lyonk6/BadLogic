@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
-np.seterr(all='raise')
+#np.seterr(all='raise')
 
 def one_hot(values):
     n_values = 10
@@ -14,6 +14,8 @@ def d_ReLU(Z):
     return 1*(Z > 0)
 
 def softmax(Z):
+    print("Here is the sum of all Z values:", np.sum(Z))
+    print("This is the mean Z value: ", np.sum(Z)/len(Z))
     eZn = np.exp(Z)
     return eZn / np.sum(eZn)
 
@@ -31,6 +33,7 @@ def forward_pass(w1, b1, w2, b2, X):
     A1 = ReLU(Z1)
     Z2 = w2.dot(A1) + b2
     A2 = softmax(Z2)
+    # The size of Z1, A1, Z2, A2 should be: (10, 41000)
     return Z1, A1, Z2, A2
 
 def backward_pass(Z1, A1, Z2, A2, w2, X, Y):
@@ -82,10 +85,12 @@ if __name__ == "__main__":
     data_dev = data[0:1000].T
     Y_dev = data_dev[0]
     X_dev = data_dev[1:n]
+    X_dev = X_dev / 255.
 
     data_train = data[1000:m].T
     Y_train = data_train[0]
     X_train = data_train[1:n]
+    X_train = X_train / 255.
     shape_element = X_train[0].shape # should be (41000, )
     shape_image   = X_train[:, 0].shape # should be (784, )
     image   = X_train[:, 0].reshape((28,28)) # should be (784, )
@@ -97,4 +102,4 @@ if __name__ == "__main__":
     #plt.imshow(image, cmap='gray')
     #plt.show()
     #w1, b1, w2, b2 = gradient_descent(X_train, Y_train, 100, 0.1)
-    w1, b1, w2, b2 = gradient_descent(X_train, Y_train, 0.05, 5)
+    w1, b1, w2, b2 = gradient_descent(X_train, Y_train, 0.1, 5)
