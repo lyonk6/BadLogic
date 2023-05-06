@@ -11,5 +11,5 @@ QUALITY, PERFORMANCE, SAFETY OR FUNCTION.
 
 The above copyright notice and this permission 
 notice shall be included in all copies or any
-portions of the Software.
+portions of this project.
 
