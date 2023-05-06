@@ -6,8 +6,8 @@ any non-educational purposes.
 
 Futher the author assumes no responsibilty for any
 consequences of the use or misuse of this project.
-This code comes AS IS and without guarantee of 
-quality, performance, safety or function. 
+THIS CODE COMES AS IS AND WITHOUT GUARANTEE OF 
+QUALITY, PERFORMANCE, SAFETY OR FUNCTION.  
 
 The above copyright notice and this permission 
 notice shall be included in all copies or any
