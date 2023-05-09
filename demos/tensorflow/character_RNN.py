@@ -53,3 +53,26 @@ dataset = dataset.map(
     lambda X_batch, Y_batch: (tf.one_hot(X_batch, depth=max_id), Y_batch)
 )
 dataset = dataset.prefetch(1)
+
+
+model = keras.models.Sequential([
+    keras.layers.GRU(128, return_sequences=True, input_shape=[None, max_id], dropout=0.2, recurrent_dropout=0.2),
+    keras.layers.GRU(128, return_sequences=True, dropout=0.2, recurrent_dropout=0.2),
+    keras.layers.TimeDistributed(keras.layers.Dense(max_id, activation="softmax"))
+])
+print("There appears to be something wrong with the prefetched dataset:")
+print(type(dataset))
+print(dataset.shape)
+
+model.compile(loss="sparse_categorical_crossentropy", optimizer="adam", run_eagerly=True)
+history = model.fit(dataset, epochs=20)
+
+def preprocess(texts):
+    X=np.array(tokenizer.texts_to_sequences(texts)) - 1
+    return tf.one_hot(X, max_id)
+
+def predict_next_character(message):
+    x_new = preprocess([message])
+    y_pred = model.predict_classes(x_new)
+
+    return tokenizer.sequences_to_texts(y_pred + 1)[0][-1] # first sentence, last character
