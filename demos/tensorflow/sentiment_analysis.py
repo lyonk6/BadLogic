@@ -6,13 +6,13 @@ print(keras.__version__)
 
 
 (x_train, y_train), (x_test, y_test) = keras.datasets.imdb.load_data()
-print("Shape of x_train",  x_train.shape)
-print("Shape of y_train",  y_train.shape)
-print("Shape of x_test",  x_test.shape)
-print("Shape of y_test",  y_test.shape)
+#print("Shape of x_train",  x_train.shape)
+#print("Shape of y_train",  y_train.shape)
+#print("Shape of x_test",  x_test.shape)
+#print("Shape of y_test",  y_test.shape)
 
-print(x_train)
-print(x_train[0][:10])
+#print(x_train)
+#print(x_train[0][:10])
 
 word_index = keras.datasets.imdb.get_word_index()
 id_to_word = {id_ + 3: word for word, id_ in word_index.items()}
@@ -23,6 +23,7 @@ for id_, token in enumerate(("<pad>", "<sos>", "<unk>")):
 
 
 import tensorflow_datasets as tfds
+print("just imported fine.")
 
 datasets, info = tfds.load("imdb_reviews", as_supervised=True, with_info=True)
 train_size = info.splits["train"].num_examples
@@ -53,7 +54,7 @@ vocab_init = tf.lookup.KeyValueTensorInitializer(words, words_ids)
 num_oov_buckets = 1000
 table = tf.lookup.StaticVocabularyTable(vocab_init, num_oov_buckets)
 
-print(table.lookup(tf.constant([b"This movie was faaaaaantastic".split()])))
+#print(table.lookup(tf.constant([b"This movie was faaaaaantastic".split()])))
 
 def encode_words(x_batch, y_batch):
     return table.lookup(x_batch), y_batch
@@ -66,7 +67,7 @@ embed_size = 128
 model = keras.models.Sequential([
             keras.layers.Embedding(vocab_size + num_oov_buckets, embed_size,
                 input_shape=[None]),
-            keras.layers.GRU(128, return_sequneces=True),
+            keras.layers.GRU(128, return_sequences=True),
             keras.layers.GRU(128),
             keras.layers.Dense(1, activation="sigmoid")
         ])
