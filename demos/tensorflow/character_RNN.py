@@ -24,7 +24,10 @@ max_id = len(tokenizer.word_index) # count distinct chars
 dataset_size = tokenizer.document_count # total chars
 
 # list: [a], ndarray: a
-[encoded] = np.array(tokenizer.texts_to_sequences([shakespeare_text])) - 1 
+#encoded = np.array(tokenizer.texts_to_sequences([shakespeare_text])) - 1
+encoded = np.array(tokenizer.texts_to_sequences([list(shakespeare_text)])) - 1
+print("This is the time of the encoded input:", type(encoded))
+print("This is shape of the encoded input:", encoded.shape)
 # Demonstrate how to convert text to and from with the Tokenizer:
 print(
     tokenizer.texts_to_sequences(["First"]))
@@ -34,45 +37,24 @@ print(
     type(tokenizer.texts_to_sequences(["First"])))
 
 for c in tokenizer.word_index:
-    print("The character '", c, "' has a value of: ", tokenizer.texts_to_sequences([c]))
+    print("The character '", c, "' has a value of: ", tokenizer.texts_to_sequences([c])[0][0])
+
+
 
 # Splitting Sequential Data:
 train_size = dataset_size * 90 // 100
+print("This is how big our training size is: ", train_size)
 dataset = tf.data.Dataset.from_tensor_slices(encoded[:train_size])
-
+print("Dataset type: ", type(dataset))
 #Creating multiple windows.
 n_steps = 100
 window_length = n_steps + 1 
-dataset = dataset.window(window_length, shift=1, drop_remainder=True)
+dataset = tf.data.Dataset.from_tensor_slices(encoded[:train_size])
+dataset = dataset.window(window_length, shift=n_steps, drop_remainder=True)
 dataset = dataset.flat_map(lambda window: window.batch(window_length))
-
-batch_size = 32
-dataset = dataset.shuffle(10000).batch(batch_size)
+dataset = dataset.batch(1)
 dataset = dataset.map(lambda windows: (windows[:, :-1], windows[:, 1:]))
-dataset = dataset.map(
-    lambda X_batch, Y_batch: (tf.one_hot(X_batch, depth=max_id), Y_batch)
-)
+dataset = dataset.map(lambda x_batch, y_batch: (tf.one_hot(x_batch, depth=max_id), y_batch))
 dataset = dataset.prefetch(1)
 
 
-model = keras.models.Sequential([
-    keras.layers.GRU(128, return_sequences=True, input_shape=[None, max_id], dropout=0.2, recurrent_dropout=0.2),
-    keras.layers.GRU(128, return_sequences=True, dropout=0.2, recurrent_dropout=0.2),
-    keras.layers.TimeDistributed(keras.layers.Dense(max_id, activation="softmax"))
-])
-print("There appears to be something wrong with the prefetched dataset:")
-print(type(dataset))
-print(dataset.shape)
-
-model.compile(loss="sparse_categorical_crossentropy", optimizer="adam", run_eagerly=True)
-history = model.fit(dataset, epochs=20)
-
-def preprocess(texts):
-    X=np.array(tokenizer.texts_to_sequences(texts)) - 1
-    return tf.one_hot(X, max_id)
-
-def predict_next_character(message):
-    x_new = preprocess([message])
-    y_pred = model.predict_classes(x_new)
-
-    return tokenizer.sequences_to_texts(y_pred + 1)[0][-1] # first sentence, last character
