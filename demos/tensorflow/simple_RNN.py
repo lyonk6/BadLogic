@@ -46,4 +46,8 @@ RNN_model     = keras.models.Sequential([
     keras.layers.SimpleRNN(20),
     keras.layers.Dense(1)
 ])
+
+RNN_model.compile(loss="mse", optimizer="adam")
+history = RNN_model.fit(x_training, y_training, epochs=20,
+                    validation_data=(x_validation, y_validation))
 ###################################################################################
