@@ -51,14 +51,24 @@ n_steps = 100
 window_length = n_steps + 1 
 batch_size = 32
 dataset = tf.data.Dataset.from_tensor_slices(encoded[:train_size])
-dataset = dataset.window(window_length, shift=n_steps, drop_remainder=True)
+dataset = dataset.window(window_length, shift=1, drop_remainder=True)
 dataset = dataset.flat_map(lambda window: window.batch(window_length))
 dataset = dataset.batch(1)
+np.random.seed(42)
+tf.random.set_seed(42)
+dataset = dataset.shuffle(10000).batch(batch_size)
 dataset = dataset.map(lambda windows: (windows[:, :-1], windows[:, 1:]))
 dataset = dataset.map(lambda x_batch, y_batch: (tf.one_hot(x_batch, depth=max_id), y_batch))
-dataset = dataset.prefetch(1)
+dataset = dataset.batch(3).prefetch(1)
 
 
+print("Here is the dataset:", dataset)
+
+for x_batch, y_batch in dataset.take(1):
+    print(x_batch.shape, y_batch.shape)
+
+
+"""
 model = keras.models.Sequential([
     keras.layers.GRU(128, return_sequences=True, stateful=True, dropout=0.2, recurrent_dropout=0.2, batch_input_shape=[batch_size, None, max_id]),
     keras.layers.GRU(128, return_sequences=True, stateful=True, dropout=0.2, recurrent_dropout=0.2),
@@ -71,3 +81,4 @@ class ResetStatesCallback(keras.callbacks.Callback):
 
 model.compile(loss="sparse_categorical_crossentropy", optimizer="adam")
 model.fit(dataset, epochs=50, callbacks=[ResetStatesCallback()])
+"""
