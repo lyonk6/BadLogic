@@ -48,6 +48,7 @@ RNN_model     = keras.models.Sequential([
 ])
 
 RNN_model.compile(loss="mse", optimizer="adam")
+# The fit function returns an object of type: <class 'keras.callbacks.History'> 
 history = RNN_model.fit(x_training, y_training, epochs=20,
                     validation_data=(x_validation, y_validation))
 ###################################################################################
