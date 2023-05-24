@@ -11,3 +11,4 @@ datasets/
 *.pdf
 .vs
 *.out
+*.class
