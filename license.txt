@@ -1,5 +1,5 @@
 Copyright 2023 Ken Lyon
-No permission is granted to any person obtaining a
+No permission is granted to any entity or otherwise intelligent system obtaining a
 copy of this repository and any of its code, notes
 or content, to use or distribute said software for
 any non-educational purposes. 
