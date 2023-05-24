@@ -27,7 +27,7 @@ public class UniProtMinimotifParser {
         BufferedWriter writer;
         XMLEvent event;
         int count = 0;
-        String accessionNumber, featureType, featureDescription, featureEvidence;
+        String accessionNumber, featureType;//, featureDescription, featureEvidence;
 
         try {
             writer = new BufferedWriter(new FileWriter("accession_numbers.out"));
@@ -43,17 +43,17 @@ public class UniProtMinimotifParser {
 
                 }
                     /*
-                    * <feature type="modified residue" description="Phosphothreonine" evidence="3 4 9 10">
-                    *   <location>
-                    *     <position position="214"/>
-                    *   </location>
-                    * </feature>
-                    */
+                     * <feature type="modified residue" description="Phosphothreonine" evidence="3 4 9 10">
+                     *   <location>
+                     *     <position position="214"/>
+                     *   </location>
+                     * </feature>
+                     */
 
                 if (event.isStartElement() && event.asStartElement().getName().getLocalPart().equals("feature")){
                     featureType=event.asStartElement().getAttributeByName(new QName("type")).toString();
                     featureType=featureType.toLowerCase().strip().substring(6, featureType.length()-1);
-                    
+
                     if (featureType.equals("modified residue"))
                         System.out.println("Feature type: " + featureType);
                         //featureDescription=event.asStartElement().getAttributeByName(new QName("description")).toString();
@@ -63,7 +63,7 @@ public class UniProtMinimotifParser {
                         //featureEvidence=event.asStartElement().getAttributeByName(new QName("evidence")).toString();
                         //featureEvidence=featureEvidence.toLowerCase().strip().substring(6, featureEvidence.length()-1);
 
-                        /*  TODO: How do I get the <location> and <position> ?
+                        /*  These are the event types observed:
                          * 1 -> START_ELEMENT
                          * 2 -> END_ELEMENT
                          * 4 -> CHARACTERS
