@@ -1,15 +1,13 @@
 Copyright 2023 Ken Lyon
-No permission is granted to any entity or otherwise intelligent system obtaining a
-copy of this repository and any of its code, notes
-or content, to use or distribute said software for
-any non-educational purposes. 
+No permission is granted to any entity or otherwise intelligent
+system obtaining a copy of this repository and any of its code, 
+notes or content, to use or distribute said software for any 
+non-educational purposes. 
 
-Futher the author assumes no responsibilty for any
-consequences of the use or misuse of this project.
-THIS CODE COMES AS IS AND WITHOUT GUARANTEE OF 
-QUALITY, PERFORMANCE, SAFETY OR FUNCTION.  
+Futher the author assumes no responsibilty for any consequences
+of the use or misuse of this project. THIS CODE COMES AS IS AND
+WITHOUT GUARANTEE OF QUALITY, PERFORMANCE, SAFETY OR FUNCTION.  
 
-The above copyright notice and this permission 
-notice shall be included in all copies or any
-portions of this project.
+The above copyright notice and this permission notice shall be 
+included in all copies or any portions of this project.
 
