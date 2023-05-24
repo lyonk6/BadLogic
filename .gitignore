@@ -10,3 +10,4 @@ temp*
 datasets/
 *.pdf
 .vs
+*.out
