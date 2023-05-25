@@ -74,12 +74,12 @@ public class UniProtMinimotifParser {
 
     private static int getModifiedPosition(XMLEventReader reader) throws XMLStreamException {
         //System.out.println("Getting modified position.");
-        String event_1, event_2;
+        String event_2; //, event_1;
         int position = -1;
         reader.nextEvent(); // linefeed
         XMLEvent e = reader.nextEvent();
         try{
-            event_1 = e.asStartElement().getName().getLocalPart(); // start element
+            //event_1 = e.asStartElement().getName().getLocalPart(); // start element
             event_2 = e.asStartElement().getAttributeByName(new QName("position")).toString();
             event_2 = event_2.substring(10, event_2.length()-1);   // Position
             //System.out.println(event_1 + ": " + event_2);
