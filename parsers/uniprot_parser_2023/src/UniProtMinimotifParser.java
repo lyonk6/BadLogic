@@ -33,8 +33,8 @@ public class UniProtMinimotifParser {
             writer = new BufferedWriter(new FileWriter("accession_numbers.out"));
             while (reader.hasNext()) {
                 event = reader.nextEvent();
-                if (count >= 100000)
-                    break;
+                if (count >= 10000000)
+                    break;// */
                 count++;
 
                 if (event.isStartElement() && event.asStartElement().getName().getLocalPart().equals("accession")){
@@ -54,8 +54,8 @@ public class UniProtMinimotifParser {
                     featureType=event.asStartElement().getAttributeByName(new QName("type")).toString();
                     featureType=featureType.toLowerCase().strip().substring(6, featureType.length()-1);
 
-                    if (featureType.equals("modified residue"))
-                        System.out.println("Feature type: " + featureType);
+                    if (featureType.equals("modified residue")){
+                        //System.out.println("Feature type: " + featureType);
                         //featureDescription=event.asStartElement().getAttributeByName(new QName("description")).toString();
                         //featureDescription=featureDescription.toLowerCase().strip().substring(6, featureDescription.length()-1);
     
@@ -69,30 +69,34 @@ public class UniProtMinimotifParser {
                          * 4 -> CHARACTERS
                          */
 
-                        String event_1, event_2, event_3, event_4, event_5;
-                        event_1 = reader.nextEvent().asCharacters().getData(); // linefeed
+                        String event_1, event_2, event_3, event_4;
+                        event_1 = reader.nextEvent().asCharacters().getData().trim(); // linefeed
                         System.out.println("Event 1: " + event_1);
                         event_2 = reader.nextEvent().asStartElement().getName().getLocalPart(); // "location" or "original"
-                        if(event_2.equals("location")){
-                            System.out.println("Oh boy! This is a Post-translational modification: " + event_2);
-                            event_3 = reader.nextEvent().asCharacters().getData(); // linefeed
-                            XMLEvent e = reader.nextEvent();
-                            event_4 = e.asStartElement().getName().getLocalPart(); // start element
-                            event_5 = e.asStartElement().getAttributeByName(new QName("position")).toString();// Position?
-                            System.out.println(event_4 + ": " + event_5);
-                        }
-                        if(event_2.equals("original")){
-                            System.out.println("Hey?! What the fuck is this? : " + event_2);
-                            event_3 = reader.nextEvent().asCharacters().getData(); // linefeed
-                            event_4 = reader.nextEvent().asEndElement().getName().getLocalPart(); // start element or end element
-                            System.out.println(event_2 + " : " + event_3 + " : " + event_4);
+                        if(event_1.equals("") && event_2.equals("location")){
+                            printPTM(reader);
                         }
                     }
+                }
             }
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
         return count;
+    }
+
+    static void printPTM(XMLEventReader reader) throws XMLStreamException {
+        String event_1, event_2;
+        System.out.println("Oh boy! This is a Post-translational modification!");
+        reader.nextEvent(); // linefeed
+        XMLEvent e = reader.nextEvent();
+        try{
+            event_1 = e.asStartElement().getName().getLocalPart(); // start element
+            event_2 = e.asStartElement().getAttributeByName(new QName("position")).toString();// Position?
+            System.out.println(event_1 + ": " + event_2);
+        } catch (NullPointerException npe) {
+           System.out.println("This Post-translational modification is poorly formed.");
+        }
     }
 }
