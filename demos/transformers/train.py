@@ -35,7 +35,16 @@ n = int(0.9*len(data))
 train_data = data[:n]
 val_data   = data[n:]
 """ Pick up at 16 minutes """
+
 ## Building/Understanding the Data Loader
+# select a block size of 8 characters:
+block_size=8
+x = train_data[:block_size]
+y = train_data[1:block_size+1]
+for t in range(block_size):
+    context = x[:t+1]
+    target  = y[t]
+    
 
 # The Bigram Language Model
 

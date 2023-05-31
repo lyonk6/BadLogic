@@ -1,0 +1,14 @@
+# Masking
+ Masking is a technique commonly implemented in NLP systems especially in
+ prediction models which are fed a sequence of tokens and trained to guess
+ the next word.  When masking, tokens in the input sequence are randomly 
+ "masked" and the model is trained to guess what those masked words are.
+ 
+ A mask tensor is a tensor that is the same size as the input tensor and 
+ is masks randomly chosen tokens. The mask tensor may be passed to each
+ layer of a network so each part knows which tokens to ignore.  
+
+# Bigram Language Model
+
+
+
