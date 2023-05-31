@@ -9,6 +9,12 @@
  layer of a network so each part knows which tokens to ignore.  
 
 # Bigram Language Model
+ A Bigram language model is a NLP model that predicts the probability of a
+ token using a sequence of preceding tokens. Such a model requires a large 
+ corpus of data and may only try to predict words based on only a single 
+ preceding word.
 
-
-
+ An example bigram for a sentence like: "My dog is sleeping" would be:
+ (My dog)
+ (dog is)
+ (is sleeping)
