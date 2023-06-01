@@ -8,7 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class UniProtMinimotifParser {
+public class UniProtModifiedResidueParser {
     public static void main(String[] args) {
         try {
             XMLInputFactory factory = XMLInputFactory.newInstance();
