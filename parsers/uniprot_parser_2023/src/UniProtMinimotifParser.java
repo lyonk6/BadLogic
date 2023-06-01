@@ -27,12 +27,12 @@ public class UniProtMinimotifParser {
         BufferedWriter writer;
         XMLEvent event;
         int count = 0;
-        String accessionNumber, uniprotFeatureType, motifType, motifTarget = "";
+        String accessionNumber, uniprotFeatureType, motifDescription, motifType, motifTarget = "";
         accessionNumber = "";
         try {
             writer = new BufferedWriter(new FileWriter("accession_numbers.out"));
             while (reader.hasNext()) {
-                event = reader.nextEvent();/*
+                event = reader.nextEvent();
                 if (count >= 500000)
                     break;// */
                 count++;
@@ -53,14 +53,21 @@ public class UniProtMinimotifParser {
                     uniprotFeatureType=uniprotFeatureType.toLowerCase().strip().substring(6, uniprotFeatureType.length()-1);
 
                     if (uniprotFeatureType.equals("modified residue")){
-                        motifType=event.asStartElement().getAttributeByName(new QName("description")).toString();
-                        motifType=motifType.toLowerCase().trim().substring(13, motifType.length()-1);
+                        motifDescription=event.asStartElement().getAttributeByName(new QName("description")).toString();
+                        motifDescription=motifDescription.trim().substring(13, motifDescription.length()-1);
+                        String[] motifDescriptionArray =  motifDescription.split(";");
+                        motifType = motifDescriptionArray[0].toLowerCase().trim();
+                        if (motifDescriptionArray.length >= 2 && motifDescriptionArray[1].trim().startsWith("by ")){
+                            motifTarget = motifDescriptionArray[1].trim().substring(3, motifDescriptionArray[1].trim().length());
+                        }else{
+                            motifTarget = "unknown";
+                        }
 
                         String event_1, event_2;
                         event_1 = reader.nextEvent().asCharacters().getData().trim();            // linefeed
                         event_2 = reader.nextEvent().asStartElement().getName().getLocalPart(); // "location"
                         if(event_1.equals("") && event_2.equals("location")){
-                            writer.write(accessionNumber + '`' + motifType + '`' + getModifiedPosition(reader) + "\n");
+                            writer.write(accessionNumber + '`' + motifType + '`' + motifTarget + '`' + getModifiedPosition(reader) + "\n");
                         }
                     }
                 }
