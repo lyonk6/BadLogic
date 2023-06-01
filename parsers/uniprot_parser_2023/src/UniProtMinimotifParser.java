@@ -27,7 +27,7 @@ public class UniProtMinimotifParser {
         BufferedWriter writer;
         XMLEvent event;
         int count = 0;
-        String accessionNumber, featureType, featureDescription;
+        String accessionNumber, uniprotFeatureType, motifType, motifTarget = "";
         accessionNumber = "";
         try {
             writer = new BufferedWriter(new FileWriter("accession_numbers.out"));
@@ -49,18 +49,18 @@ public class UniProtMinimotifParser {
                      */
 
                 if (event.isStartElement() && event.asStartElement().getName().getLocalPart().equals("feature")){
-                    featureType=event.asStartElement().getAttributeByName(new QName("type")).toString();
-                    featureType=featureType.toLowerCase().strip().substring(6, featureType.length()-1);
+                    uniprotFeatureType=event.asStartElement().getAttributeByName(new QName("type")).toString();
+                    uniprotFeatureType=uniprotFeatureType.toLowerCase().strip().substring(6, uniprotFeatureType.length()-1);
 
-                    if (featureType.equals("modified residue")){
-                        featureDescription=event.asStartElement().getAttributeByName(new QName("description")).toString();
-                        featureDescription=featureDescription.toLowerCase().trim().substring(13, featureDescription.length()-1);
+                    if (uniprotFeatureType.equals("modified residue")){
+                        motifType=event.asStartElement().getAttributeByName(new QName("description")).toString();
+                        motifType=motifType.toLowerCase().trim().substring(13, motifType.length()-1);
 
                         String event_1, event_2;
                         event_1 = reader.nextEvent().asCharacters().getData().trim();            // linefeed
                         event_2 = reader.nextEvent().asStartElement().getName().getLocalPart(); // "location"
                         if(event_1.equals("") && event_2.equals("location")){
-                            writer.write(accessionNumber + '`' + featureDescription + '`' + getModifiedPosition(reader) + "\n");
+                            writer.write(accessionNumber + '`' + motifType + '`' + getModifiedPosition(reader) + "\n");
                         }
                     }
                 }
