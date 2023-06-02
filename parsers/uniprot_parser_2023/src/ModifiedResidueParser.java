@@ -56,6 +56,12 @@ public class ModifiedResidueParser {
                         motif.description=event.asStartElement().getAttributeByName(new QName("description")).toString();
                         parseModifiedResidueEntries(reader, writer, motif);
                     }
+                    
+                    if (uniprotFeatureType.equals("glycosylation site")){
+                        motif.description=event.asStartElement().getAttributeByName(new QName("description")).toString();
+                        parseGlycosylationEntries(reader, writer, motif);
+                    }//*/
+
                 }
             }
             writer.close();
@@ -82,6 +88,26 @@ public class ModifiedResidueParser {
             if(event_1.equals("") && event_2.equals("location")){
                 writer.write(motif.accessionNumber + '`' + motif.motifType + '`' + motif.motifTarget + '`' + getModifiedPosition(reader) + "\n");
             }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void parseGlycosylationEntries(XMLEventReader reader, BufferedWriter writer, Minimotif motif) throws XMLStreamException {
+        motif.description=motif.description.trim().substring(13, motif.description.length()-1);
+        String[] motifDescriptionArray =  motif.description.split(";");
+        motif.motifType = motifDescriptionArray[0].toLowerCase().trim();
+        for(String s: motifDescriptionArray){
+            if (s.trim().startsWith("by ")){
+                motif.motifTarget = motifDescriptionArray[1].trim().substring(3, motifDescriptionArray[1].trim().length());
+                break;
+            }
+        }
+        try{
+            reader.nextEvent();  // linefeed
+            reader.nextEvent();  // Start "location"
+            motif.position = getModifiedPosition(reader);
+            writer.write(motif.accessionNumber + '`' + motif.motifType + '`' + motif.motifTarget + '`' + motif.position + "\n");
         } catch (IOException e) {
             e.printStackTrace();
         }

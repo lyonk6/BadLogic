@@ -78,15 +78,7 @@ public class GlycosylationParser {
             writer.write(motif.accessionNumber + '`' + motif.motifType + '`' + motif.motifTarget + '`' + motif.position + "\n");
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (NullPointerException npe) {
-            System.err.println("This Post-translational modification is poorly formed.");
-            npe.printStackTrace();
-            System.exit(1);
-         } catch (NumberFormatException nfe) {
-             System.err.println("This position is not a number!");
-             nfe.printStackTrace();
-             System.exit(1);
-         }
+        }
     }
 
     private static int getModifiedPosition(XMLEventReader reader) throws XMLStreamException {
