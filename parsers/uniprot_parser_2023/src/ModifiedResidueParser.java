@@ -54,21 +54,7 @@ public class ModifiedResidueParser {
 
                     if (uniprotFeatureType.equals("modified residue")){
                         motif.description=event.asStartElement().getAttributeByName(new QName("description")).toString();
-                        motif.description=motif.description.trim().substring(13, motif.description.length()-1);
-                        String[] motifDescriptionArray =  motif.description.split(";");
-                        motif.motifType = motifDescriptionArray[0].toLowerCase().trim();
-                        for(String s: motifDescriptionArray){
-                            if (s.trim().startsWith("by ")){
-                                motif.motifTarget = motifDescriptionArray[1].trim().substring(3, motifDescriptionArray[1].trim().length());
-                                break;
-                            }
-                        }
-                        String event_1, event_2;
-                        event_1 = reader.nextEvent().asCharacters().getData().trim();            // linefeed
-                        event_2 = reader.nextEvent().asStartElement().getName().getLocalPart(); // "location"
-                        if(event_1.equals("") && event_2.equals("location")){
-                            writer.write(motif.accessionNumber + '`' + motif.motifType + '`' + motif.motifTarget + '`' + getModifiedPosition(reader) + "\n");
-                        }
+                        parseModifiedResidueEntries(reader, writer, motif);
                     }
                 }
             }
@@ -77,6 +63,28 @@ public class ModifiedResidueParser {
             e.printStackTrace();
         }
         return count;
+    }
+
+    private static void parseModifiedResidueEntries(XMLEventReader reader, BufferedWriter writer, Minimotif motif) throws XMLStreamException {
+        try {
+            motif.description=motif.description.trim().substring(13, motif.description.length()-1);
+            String[] motifDescriptionArray =  motif.description.split(";");
+            motif.motifType = motifDescriptionArray[0].toLowerCase().trim();
+            for(String s: motifDescriptionArray){
+                if (s.trim().startsWith("by ")){
+                    motif.motifTarget = motifDescriptionArray[1].trim().substring(3, motifDescriptionArray[1].trim().length());
+                    break;
+                }
+            }
+            String event_1, event_2;
+            event_1 = reader.nextEvent().asCharacters().getData().trim();            // linefeed
+            event_2 = reader.nextEvent().asStartElement().getName().getLocalPart(); // "location"
+            if(event_1.equals("") && event_2.equals("location")){
+                writer.write(motif.accessionNumber + '`' + motif.motifType + '`' + motif.motifTarget + '`' + getModifiedPosition(reader) + "\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private static int getModifiedPosition(XMLEventReader reader) throws XMLStreamException {

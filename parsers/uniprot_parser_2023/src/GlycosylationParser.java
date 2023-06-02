@@ -29,8 +29,8 @@ public class GlycosylationParser {
         BufferedWriter writer;
         XMLEvent event;
         int count = 0;
-        String accessionNumber, uniprotFeatureType;
-        accessionNumber = "";
+        String uniprotFeatureType;
+        Minimotif motif = new Minimotif();
         try {
             writer = new BufferedWriter(new FileWriter("glycosylation_motifs.out"));
             while (reader.hasNext()) {
@@ -40,7 +40,7 @@ public class GlycosylationParser {
                 count++;
 
                 if (event.isStartElement() && event.asStartElement().getName().getLocalPart().equals("accession")){
-                    accessionNumber = reader.nextEvent().asCharacters().getData();
+                    motif.accessionNumber = reader.nextEvent().asCharacters().getData();
                 }
 
 
@@ -49,7 +49,7 @@ public class GlycosylationParser {
                     uniprotFeatureType=uniprotFeatureType.toLowerCase().strip().substring(6, uniprotFeatureType.length()-1);
 
                     if (uniprotFeatureType.equals("glycosylation site")){
-                        parseGlycosylationEntries(reader, writer, accessionNumber);
+                        parseGlycosylationEntries(reader, writer, motif);
                     }
                 }
             }
@@ -60,7 +60,7 @@ public class GlycosylationParser {
         return count;
     }
 
-    private static void parseGlycosylationEntries(XMLEventReader reader, BufferedWriter writer, String accessionNumber) throws XMLStreamException {
+    private static void parseGlycosylationEntries(XMLEventReader reader, BufferedWriter writer, Minimotif motif) throws XMLStreamException {
         XMLEvent event_1, event_2, event_3, event_4, event_5, event_6, event_7;
         String motifType, motifTarget, sPosition;
         try{
@@ -69,7 +69,7 @@ public class GlycosylationParser {
             event_3 = reader.nextEvent();  // linefeed
             event_4 = reader.nextEvent();  // Start "position"
             sPosition = event_4.asStartElement().getAttributeByName(new QName("position")).toString();
-            writer.write(accessionNumber + '`' + motifType + '`' + motifTarget + '`' + sPosition + "\n");writer.write("");
+            writer.write(motif.accessionNumber + '`' + motif.motifType + '`' + motif.motifTarget + '`' + sPosition + "\n");writer.write("");
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NullPointerException npe) {
