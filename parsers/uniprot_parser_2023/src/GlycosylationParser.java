@@ -71,14 +71,9 @@ public class GlycosylationParser {
                 break;
             }
         }
-        XMLEvent event_1, event_2, event_3, event_4, event_5, event_6, event_7;
-        String motifType, motifTarget, sPosition;
         try{
-            event_1 = reader.nextEvent();  // linefeed
-            event_2 = reader.nextEvent();  // Start "location"
-            //event_3 = reader.nextEvent();  // linefeed
-            //event_4 = reader.nextEvent();  // Start "position"
-            //sPosition = event_4.asStartElement().getAttributeByName(new QName("position")).toString();
+            reader.nextEvent();  // linefeed
+            reader.nextEvent();  // Start "location"
             motif.position = getModifiedPosition(reader);
             writer.write(motif.accessionNumber + '`' + motif.motifType + '`' + motif.motifTarget + '`' + motif.position + "\n");
         } catch (IOException e) {
