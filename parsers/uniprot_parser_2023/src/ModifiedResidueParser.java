@@ -27,9 +27,8 @@ public class ModifiedResidueParser {
         BufferedWriter writer;
         XMLEvent event;
         int count = 0;
-        String accessionNumber, uniprotFeatureType, motifDescription, motifType, motifTarget;
-        accessionNumber = "";
-        motifTarget = "unknown";
+        String uniprotFeatureType;
+        Minimotif motif = new Minimotif();
         try {
             writer = new BufferedWriter(new FileWriter("accession_numbers.out"));
             while (reader.hasNext()) {
@@ -39,7 +38,7 @@ public class ModifiedResidueParser {
                 count++;
 
                 if (event.isStartElement() && event.asStartElement().getName().getLocalPart().equals("accession")){
-                    accessionNumber = reader.nextEvent().asCharacters().getData();
+                    motif.accessionNumber = reader.nextEvent().asCharacters().getData();
                 }
                     /*
                      * <feature type="modified residue" description="Phosphothreonine" evidence="3 4 9 10">
@@ -54,13 +53,13 @@ public class ModifiedResidueParser {
                     uniprotFeatureType=uniprotFeatureType.toLowerCase().strip().substring(6, uniprotFeatureType.length()-1);
 
                     if (uniprotFeatureType.equals("modified residue")){
-                        motifDescription=event.asStartElement().getAttributeByName(new QName("description")).toString();
-                        motifDescription=motifDescription.trim().substring(13, motifDescription.length()-1);
-                        String[] motifDescriptionArray =  motifDescription.split(";");
-                        motifType = motifDescriptionArray[0].toLowerCase().trim();
+                        motif.description=event.asStartElement().getAttributeByName(new QName("description")).toString();
+                        motif.description=motif.description.trim().substring(13, motif.description.length()-1);
+                        String[] motifDescriptionArray =  motif.description.split(";");
+                        motif.motifType = motifDescriptionArray[0].toLowerCase().trim();
                         for(String s: motifDescriptionArray){
                             if (s.trim().startsWith("by ")){
-                                motifTarget = motifDescriptionArray[1].trim().substring(3, motifDescriptionArray[1].trim().length());
+                                motif.motifTarget = motifDescriptionArray[1].trim().substring(3, motifDescriptionArray[1].trim().length());
                                 break;
                             }
                         }
@@ -68,7 +67,7 @@ public class ModifiedResidueParser {
                         event_1 = reader.nextEvent().asCharacters().getData().trim();            // linefeed
                         event_2 = reader.nextEvent().asStartElement().getName().getLocalPart(); // "location"
                         if(event_1.equals("") && event_2.equals("location")){
-                            writer.write(accessionNumber + '`' + motifType + '`' + motifTarget + '`' + getModifiedPosition(reader) + "\n");
+                            writer.write(motif.accessionNumber + '`' + motif.motifType + '`' + motif.motifTarget + '`' + getModifiedPosition(reader) + "\n");
                         }
                     }
                 }
