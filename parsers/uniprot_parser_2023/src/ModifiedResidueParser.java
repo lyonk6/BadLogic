@@ -8,7 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class UniProtModifiedResidueParser {
+public class ModifiedResidueParser {
     public static void main(String[] args) {
         try {
             XMLInputFactory factory = XMLInputFactory.newInstance();
@@ -27,8 +27,9 @@ public class UniProtModifiedResidueParser {
         BufferedWriter writer;
         XMLEvent event;
         int count = 0;
-        String accessionNumber, uniprotFeatureType, motifDescription, motifType, motifTarget = "";
+        String accessionNumber, uniprotFeatureType, motifDescription, motifType, motifTarget;
         accessionNumber = "";
+        motifTarget = "unknown";
         try {
             writer = new BufferedWriter(new FileWriter("accession_numbers.out"));
             while (reader.hasNext()) {
@@ -57,12 +58,12 @@ public class UniProtModifiedResidueParser {
                         motifDescription=motifDescription.trim().substring(13, motifDescription.length()-1);
                         String[] motifDescriptionArray =  motifDescription.split(";");
                         motifType = motifDescriptionArray[0].toLowerCase().trim();
-                        if (motifDescriptionArray.length >= 2 && motifDescriptionArray[1].trim().startsWith("by ")){
-                            motifTarget = motifDescriptionArray[1].trim().substring(3, motifDescriptionArray[1].trim().length());
-                        }else{
-                            motifTarget = "unknown";
+                        for(String s: motifDescriptionArray){
+                            if (s.trim().startsWith("by ")){
+                                motifTarget = motifDescriptionArray[1].trim().substring(3, motifDescriptionArray[1].trim().length());
+                                break;
+                            }
                         }
-
                         String event_1, event_2;
                         event_1 = reader.nextEvent().asCharacters().getData().trim();            // linefeed
                         event_2 = reader.nextEvent().asStartElement().getName().getLocalPart(); // "location"
