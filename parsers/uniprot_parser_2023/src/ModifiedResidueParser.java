@@ -113,7 +113,7 @@ public class ModifiedResidueParser {
         }
     }
 
-    private static int getModifiedPosition(XMLEventReader reader) throws XMLStreamException {
+    public static int getModifiedPosition(XMLEventReader reader) throws XMLStreamException {
         //System.out.println("Getting modified position.");
         String event_2; //, event_1;
         int position = -1;
