@@ -85,8 +85,9 @@ public class ModifiedResidueParser {
             String event_1, event_2;
             event_1 = reader.nextEvent().asCharacters().getData().trim();            // linefeed
             event_2 = reader.nextEvent().asStartElement().getName().getLocalPart(); // "location"
+            motif.modifiedPosition = getModifiedPosition(reader);
             if(event_1.equals("") && event_2.equals("location")){
-                writer.write(motif.accessionNumber + '`' + motif.motifType + '`' + motif.motifTarget + '`' + getModifiedPosition(reader) + "\n");
+                writer.write(motif.toString() + "\n");
             }
         } catch (IOException e) {
             e.printStackTrace();

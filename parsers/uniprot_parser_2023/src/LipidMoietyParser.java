@@ -30,7 +30,7 @@ public class BindingSiteParser {
             reader.nextEvent();  // linefeed
             reader.nextEvent();  // Start "location"
             motif.position = ModifiedResidueParser.getModifiedPosition(reader);
-            writer.write(motif.toString() + "\n");
+            writer.write(motif.accessionNumber + '`' + motif.motifType + '`' + motif.motifTarget + '`' + motif.position + "\n");
         } catch (IOException e) {
             e.printStackTrace();
         }

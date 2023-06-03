@@ -2,17 +2,17 @@ package src;
 
 public class Minimotif {
     String accessionNumber, description, motifType, motifTarget;
-    int position;
+    int modifiedPosition;
     
     public Minimotif(){
         this.accessionNumber = "";
         this.description = "";
         this.motifTarget = "unknown";
         this.motifType   = "";
-        this.position    = -1;
+        this.modifiedPosition    = -1;
     }
 
     public String toString(){
-        return accessionNumber + '`' + motifType + '`' + motifTarget + '`' + position;
+        return accessionNumber + '`' + motifType + '`' + motifTarget + '`' + modifiedPosition;
     }
 }
