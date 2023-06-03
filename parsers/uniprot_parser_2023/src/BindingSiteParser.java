@@ -56,40 +56,22 @@ public class BindingSiteParser {
      * 
      */
     private static void parseTargetLigand(XMLEventReader reader, Minimotif motif) throws XMLStreamException {
-        reader.nextEvent(); // linefeed
-        XMLEvent e1, e2, e3, e4, e5, e6, e7;
+        XMLEvent e1, e2, e3, e4, e5;
         
         e1 = reader.nextEvent(); // Start
         e2 = reader.nextEvent(); // Char
         e3 = reader.nextEvent(); // Start
         e4 = reader.nextEvent(); // Char
         e5 = reader.nextEvent(); // End
-        e6 = reader.nextEvent(); // Char
-        e7 = reader.nextEvent(); // Start or End
         
-        // TODO validate e1 == ligand and e3 == name 
         String event_1, event_3;
         event_1 = e1.asStartElement().asStartElement().getName().getLocalPart();
         event_3 = e3.asStartElement().getName().getLocalPart();
         if(event_1.equals("ligand") && event_3.equals("name")){
-            motif.motifTarget = "";
+            motif.motifTarget = e4.asCharacters().toString();
         }else{
             throw new XMLStreamException("Unexpected token while parsing target ligand.");
         }
-
-        System.out.print("   e1.type: " + e1.getEventType());
-        System.out.print("   e2.type: " + e2.getEventType());
-        System.out.print("   e3.type: " + e3.getEventType());
-        System.out.print("   e4.type: " + e4.getEventType());
-        System.out.print("   e5.type: " + e5.getEventType());
-        System.out.print("   e6.type: " + e6.getEventType());
-        System.out.println("   e7.type: " + e7.getEventType());
-
-        System.out.println("e1: " + e1.asStartElement().getName().getLocalPart());
-        System.out.println("e2: " + e2.asCharacters());
-        System.out.println("e3: " + e3.asStartElement().getName().getLocalPart());
-        System.out.println("e4: " + e4.asCharacters());
-        System.out.println("e5: " + e5.asEndElement().getName().getLocalPart());   //*/
     }
 
     /*
@@ -147,6 +129,8 @@ public class BindingSiteParser {
                 default:
                     throw new XMLStreamException("Unexpected token while parsing motif location: " + position_type);
             }
+            
+        reader.nextEvent(); // linefeed
         } catch (NullPointerException npe) {
            System.err.println("This Post-translational modification is poorly formed.");
            npe.printStackTrace();
