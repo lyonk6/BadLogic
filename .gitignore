@@ -12,3 +12,4 @@ datasets/
 .vs
 *.out
 *.class
+bin/*
