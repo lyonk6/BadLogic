@@ -56,13 +56,13 @@ public class BindingSiteParser {
      * 
      */
     private static void parseTargetLigand(XMLEventReader reader, Minimotif motif) throws XMLStreamException {
-        XMLEvent e1, e2, e3, e4, e5;
+        XMLEvent e1, e3, e4;
         
         e1 = reader.nextEvent(); // Start
-        e2 = reader.nextEvent(); // Char
+        reader.nextEvent();      // Char
         e3 = reader.nextEvent(); // Start
         e4 = reader.nextEvent(); // Char
-        e5 = reader.nextEvent(); // End
+        reader.nextEvent();      // End
         
         String event_1, event_3;
         event_1 = e1.asStartElement().asStartElement().getName().getLocalPart();
@@ -89,12 +89,12 @@ public class BindingSiteParser {
         //System.out.println("Getting modified position.");
         reader.nextEvent();  // Start "location"
         reader.nextEvent(); // linefeed
-        XMLEvent e1, e2, e3, e4;
+        XMLEvent e1, e4;
         
 
         e1 = reader.nextEvent(); // Start: 'begin' or 'position'
-        e2 = reader.nextEvent(); // End:   'begin' or 'position'
-        e3 = reader.nextEvent(); // linefeed
+        reader.nextEvent();      // End:   'begin' or 'position'
+        reader.nextEvent();      // linefeed
         e4 = reader.nextEvent(); // Start or End element
 
         String position_type = e1.asStartElement().getName().getLocalPart();
