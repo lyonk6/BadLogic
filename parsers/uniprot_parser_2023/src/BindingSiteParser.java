@@ -18,41 +18,105 @@ public class BindingSiteParser {
      *      <dbReference type="ChEBI" id="CHEBI:57524"/>
      *    </ligand>
      *  </feature>
+     * 
+     *  <feature type="binding site" evidence="7">
+     *    <location>
+     *      <position position="147"/>
+     *    </location>
+     *    <ligand>
+     *      <name>Cu(2+)</name>
+     *      <dbReference type="ChEBI" id="CHEBI:29036"/>
+     *      <label>1</label>
+     *    </ligand>
+     *  </feature>
+     * 
      */
     protected static void parseBindingSiteEntries(XMLEventReader reader, BufferedWriter writer, Minimotif motif) throws XMLStreamException {
-        motif.description=motif.description.trim().substring(13, motif.description.length()-1);
-        String[] motifDescriptionArray =  motif.description.split(";");
-        motif.motifType = motifDescriptionArray[0].toLowerCase().trim();
-        for(String s: motifDescriptionArray){
-            if (s.trim().startsWith("by ")){
-                motif.motifTarget = motifDescriptionArray[1].trim().substring(3, motifDescriptionArray[1].trim().length());
-                break;
-            }
-        }
         try{
             reader.nextEvent();  // linefeed
-            reader.nextEvent();  // Start "location"
-            getModifiedPosition(reader, motif);
+            parseLocation(reader, motif);
+            //parseTargetLigand(reader, motif);
             writer.write(motif.toString() + "\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    protected static void getModifiedPosition(XMLEventReader reader, Minimotif motif) throws XMLStreamException {
-        //System.out.println("Getting modified position.");
+    /*
+     *  <ligand>
+     *    <name>O-phospho-L-serine</name>
+     *    <dbReference type="ChEBI" id="CHEBI:57524"/>
+     *  </ligand>
+     * 
+     *  <ligand>
+     *    <name>Cu(2+)</name>
+     *    <dbReference type="ChEBI" id="CHEBI:29036"/>
+     *    <label>1</label>
+     *  </ligand>
+     * 
+     */
+    private static void parseTargetLigand(XMLEventReader reader, Minimotif motif) throws XMLStreamException {
         String event_1, event_2;
-        int position = -1;
         reader.nextEvent(); // linefeed
         XMLEvent e = reader.nextEvent();
-        try{
-            event_1 = e.asStartElement().getAttributeByName(new QName("begin position")).toString();
-            event_1 = event_1.substring(16, event_1.length()-1);   // begin position
 
-            reader.nextEvent(); // linefeed
-            event_2 = e.asStartElement().getAttributeByName(new QName("end position")).toString();
-            event_2 = event_2.substring(14, event_2.length()-1);   // begin position
-            position = Integer.parseInt(event_1);
+    }
+
+    /*
+     *  <location>
+     *    <begin position="135"/>
+     *    <end position="136"/>
+     *  </location>
+     * 
+     *  <location>
+     *    <position position="147"/>
+     *  </location>
+     * 
+     */
+    private static void parseLocation(XMLEventReader reader, Minimotif motif) throws XMLStreamException {
+        //System.out.println("Getting modified position.");
+        reader.nextEvent();  // Start "location"
+        reader.nextEvent(); // linefeed
+        XMLEvent e1, e2, e3, e4, e5, e6;
+        
+
+        e1 = reader.nextEvent(); // Start: 'begin' or 'position'
+        e2 = reader.nextEvent(); // End:   'begin' or 'position'
+        e3 = reader.nextEvent(); // linefeed
+        e4 = reader.nextEvent(); // Start or End element
+
+        String position_type = e1.asStartElement().getName().getLocalPart();
+        if (position_type == null)
+            throw new XMLStreamException("Error. Motif position is null");
+        try{
+            switch(position_type) {
+                case "begin":
+                    // first parse the begin position, then parse the end position
+                    String sPos, ePos;
+                    sPos = e1.asStartElement().getAttributeByName(new QName("position")).toString();
+                    sPos = sPos.substring(10, sPos.length()-1);   // begin position
+    
+                    ePos = e4.asStartElement().getAttributeByName(new QName("position")).toString();
+                    ePos = ePos.substring(10, ePos.length()-1);   // begin position
+    
+    
+                    motif.startPosition = Integer.parseInt(sPos);
+                    motif.endPosition   = Integer.parseInt(ePos);
+    
+                    //e5 = reader.nextEvent(); // End element
+                    //e6 = reader.nextEvent(); // Linefeed?
+                    break;
+                case "position":
+                    // e4 is the end location. 
+                    String mPos;
+                    mPos = e1.asStartElement().getAttributeByName(new QName("position")).toString();
+                    mPos = mPos.substring(10, mPos.length()-1);   // position
+                    motif.modifiedPosition = Integer.parseInt(mPos);
+                    // parse the location as a singleton.
+                    break;
+                default:
+                    throw new XMLStreamException("Unexpected token while parsing motif location: " + position_type);
+            }
         } catch (NullPointerException npe) {
            System.err.println("This Post-translational modification is poorly formed.");
            npe.printStackTrace();

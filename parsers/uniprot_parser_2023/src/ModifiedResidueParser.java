@@ -28,6 +28,7 @@ public class ModifiedResidueParser {
         XMLEvent event;
         int count = 0;
         String uniprotFeatureType;
+        String accessionNumber = "";
         Minimotif motif = new Minimotif();
         try {
             writer = new BufferedWriter(new FileWriter("accession_numbers.out"));
@@ -37,18 +38,16 @@ public class ModifiedResidueParser {
                     break;// */
                 count++;
 
-                if (event.isStartElement() && event.asStartElement().getName().getLocalPart().equals("accession")){
-                    motif.accessionNumber = reader.nextEvent().asCharacters().getData();
-                }
-                    /*
-                     * <feature type="modified residue" description="Phosphothreonine" evidence="3 4 9 10">
-                     *   <location>
-                     *     <position position="214"/>
-                     *   </location>
-                     * </feature>
-                     */
 
+                if (event.isStartElement() && event.asStartElement().getName().getLocalPart().equals("accession")){
+                    accessionNumber = reader.nextEvent().asCharacters().getData();
+                }
+                
                 if (event.isStartElement() && event.asStartElement().getName().getLocalPart().equals("feature")){
+                    motif=null;  // This is a new minimotif!!
+                    motif = new Minimotif();
+                    motif.accessionNumber = accessionNumber;
+
                     uniprotFeatureType=event.asStartElement().getAttributeByName(new QName("type")).toString();
                     uniprotFeatureType=uniprotFeatureType.toLowerCase().strip().substring(6, uniprotFeatureType.length()-1);
 
@@ -62,16 +61,28 @@ public class ModifiedResidueParser {
                         GlycosylationParser.parseGlycosylationEntries(reader, writer, motif);
                     }//*/
 
+                    if (uniprotFeatureType.equals("binding site")){
+                        motif.motifType="binding site";
+                        BindingSiteParser.parseBindingSiteEntries(reader, writer, motif);
+                    }//*/
                 }
             }
             writer.close();
         } catch (IOException e) {
+            System.err.println("Error encountered on input line: " + (count+1));
             e.printStackTrace();
         }
         return count;
     }
 
     private static void parseModifiedResidueEntries(XMLEventReader reader, BufferedWriter writer, Minimotif motif) throws XMLStreamException {
+    /*
+        * <feature type="modified residue" description="Phosphothreonine" evidence="3 4 9 10">
+        *   <location>
+        *     <position position="214"/>
+        *   </location>
+        * </feature>
+        */
         try {
             motif.description=motif.description.trim().substring(13, motif.description.length()-1);
             String[] motifDescriptionArray =  motif.description.split(";");
