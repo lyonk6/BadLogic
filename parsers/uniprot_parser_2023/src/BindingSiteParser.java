@@ -90,7 +90,7 @@ public class BindingSiteParser {
         reader.nextEvent();  // Start "location"
         reader.nextEvent(); // linefeed
         XMLEvent e1, e4;
-        
+
 
         e1 = reader.nextEvent(); // Start: 'begin' or 'position'
         reader.nextEvent();      // End:   'begin' or 'position'
@@ -105,12 +105,14 @@ public class BindingSiteParser {
                 case "begin":
                     // first parse the begin position, then parse the end position
                     String sPos, ePos;
+
+                    // Parse both entries before running query:
                     sPos = e1.asStartElement().getAttributeByName(new QName("position")).toString();
-                    sPos = sPos.substring(10, sPos.length()-1);   // begin position
-    
                     ePos = e4.asStartElement().getAttributeByName(new QName("position")).toString();
+
+
+                    sPos = sPos.substring(10, sPos.length()-1);   // begin position
                     ePos = ePos.substring(10, ePos.length()-1);   // begin position
-    
     
                     motif.startPosition = Integer.parseInt(sPos);
                     motif.endPosition   = Integer.parseInt(ePos);
@@ -132,11 +134,12 @@ public class BindingSiteParser {
             
         reader.nextEvent(); // linefeed
         } catch (NullPointerException npe) {
-           System.err.println("This Post-translational modification is poorly formed.");
+           System.err.println("This motif location is poorly formed. Motif: " + motif.toString());
            npe.printStackTrace();
-           System.exit(1);
+           //Do not exit, leave the minimotif incomplete.
         } catch (NumberFormatException nfe) {
             System.err.println("This position is not a number!");
+            System.err.println("Motif: " + motif.toString());
             nfe.printStackTrace();
             System.exit(1);
         }

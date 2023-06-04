@@ -33,11 +33,13 @@ public class ModifiedResidueParser {
         try {
             writer = new BufferedWriter(new FileWriter("accession_numbers.out"));
             while (reader.hasNext()) {
-                event = reader.nextEvent();
+                event = reader.nextEvent(); /*
                 if (count >= 500000)
                     break;// */
                 count++;
 
+                if (count % 10000000 == 0)
+                    System.out.println(count);
 
                 if (event.isStartElement() && event.asStartElement().getName().getLocalPart().equals("accession")){
                     accessionNumber = reader.nextEvent().asCharacters().getData();
