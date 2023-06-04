@@ -63,8 +63,17 @@ public class BindingSiteParser {
         e3 = reader.nextEvent(); // Start
         e4 = reader.nextEvent(); // Char
         reader.nextEvent();      // End
-        
+     
         String event_1, event_3;
+        if (!e1.isStartElement()){
+            System.err.println("This motif target is poorly formed. Start \"ligand\" element expected. Motif: " + motif.toString());
+            return;
+        }
+
+        if (!e3.isStartElement()){
+            System.err.println("This motif target is poorly formed. Start ligand \"name\" element expected. Motif: " + motif.toString());
+            return;
+        }
         event_1 = e1.asStartElement().asStartElement().getName().getLocalPart();
         event_3 = e3.asStartElement().getName().getLocalPart();
         if(event_1.equals("ligand") && event_3.equals("name")){
@@ -135,7 +144,6 @@ public class BindingSiteParser {
         reader.nextEvent(); // linefeed
         } catch (NullPointerException npe) {
            System.err.println("This motif location is poorly formed. Motif: " + motif.toString());
-           npe.printStackTrace();
            //Do not exit, leave the minimotif incomplete.
         } catch (NumberFormatException nfe) {
             System.err.println("This position is not a number!");
