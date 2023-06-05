@@ -79,6 +79,11 @@ public class ModifiedResidueParser {
                     if (uniprotFeatureType.equals("binding site")){
                         motif.motifType="binding site";
                         BindingSiteParser.parseBindingSiteEntries(reader, writer, motif);
+                    }/*
+
+                    if (uniprotFeatureType.equals("lipid moiety-binding region")){
+                        motif.motifType="lipid moiety-binding region";
+                        LipidMoietyParser.parseLipidMoietyEntries(reader, writer, motif);
                     }//*/
                 }
             }

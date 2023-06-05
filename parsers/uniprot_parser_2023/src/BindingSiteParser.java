@@ -74,6 +74,7 @@ public class BindingSiteParser {
             System.err.println("This motif target is poorly formed. Start ligand \"name\" element expected. Motif: " + motif.toString());
             return;
         }
+
         event_1 = e1.asStartElement().asStartElement().getName().getLocalPart();
         event_3 = e3.asStartElement().getName().getLocalPart();
         if(event_1.equals("ligand") && event_3.equals("name")){
