@@ -33,7 +33,7 @@ public class ModifiedResidueParser {
         try {
             writer = new BufferedWriter(new FileWriter("accession_numbers.out"));
             while (reader.hasNext()) {
-                event = reader.nextEvent(); /*
+                event = reader.nextEvent();
                 if (count >= 500000)
                     break;// */
                 count++;
@@ -41,10 +41,23 @@ public class ModifiedResidueParser {
                 if (count % 10000000 == 0)
                     System.out.println(count);
 
+                /* Grab the accession number. Note they sometimes appear in series and we want 
+                 * the first one only:
+                 * uniprot_sprot.xml:150759382:  <accession>Q9P7C5</accession>
+                 * uniprot_sprot.xml:150759383:  <accession>Q9UT15</accession>
+                 */
                 if (event.isStartElement() && event.asStartElement().getName().getLocalPart().equals("accession")){
                     accessionNumber = reader.nextEvent().asCharacters().getData();
+                    while(reader.hasNext()) {
+                        event = reader.nextEvent();
+                        if (event.isStartElement() && !event.asStartElement().getName().getLocalPart().equals("accession")){
+                            break;
+                        }
+                    }
                 }
                 
+                /* Look for the "feature" tags and check if it is a minimotif. 
+                 */
                 if (event.isStartElement() && event.asStartElement().getName().getLocalPart().equals("feature")){
                     motif=null;  // This is a new minimotif!!
                     motif = new Minimotif();
