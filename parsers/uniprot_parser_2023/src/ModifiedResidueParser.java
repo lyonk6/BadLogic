@@ -34,7 +34,7 @@ public class ModifiedResidueParser {
             writer = new BufferedWriter(new FileWriter("accession_numbers.out"));
             while (reader.hasNext()) {
                 event = reader.nextEvent();
-                if (count >= 500000)
+                if (count >= 5000000)
                     break;// */
                 count++;
 
@@ -79,9 +79,10 @@ public class ModifiedResidueParser {
                     if (uniprotFeatureType.equals("binding site")){
                         motif.motifType="binding site";
                         BindingSiteParser.parseBindingSiteEntries(reader, writer, motif);
-                    }/*
+                    }
 
                     if (uniprotFeatureType.equals("lipid moiety-binding region")){
+                        motif.description=event.asStartElement().getAttributeByName(new QName("description")).toString();
                         motif.motifType="lipid moiety-binding region";
                         LipidMoietyParser.parseLipidMoietyEntries(reader, writer, motif);
                     }//*/
