@@ -24,7 +24,7 @@ public class LipidMoietyParser {
         try{
             reader.nextEvent();  // linefeed
             reader.nextEvent();  // Start "location"
-            motif.modifiedPosition = ModifiedResidueParser.getModifiedPosition(reader);
+            motif.modifiedPosition = UniProtMain.getModifiedPosition(reader);
             writer.write(motif.toString() + "\n");
         } catch (IOException e) {
             e.printStackTrace();
