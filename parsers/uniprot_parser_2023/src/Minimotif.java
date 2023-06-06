@@ -1,7 +1,7 @@
 package src;
 
 public class Minimotif {
-    String accessionNumber, description, motifType, motifTarget;
+    String accessionNumber, description, uniprotType, motifTarget;
     int modifiedPosition;
     int startPosition;
     int endPosition;
@@ -10,7 +10,7 @@ public class Minimotif {
         this.accessionNumber = "";
         this.description = "";
         this.motifTarget = "unknown";
-        this.motifType   = "";
+        this.uniprotType   = "";
         this.modifiedPosition = -1;
         this.startPosition    = -1;
         this.endPosition      = -1;
@@ -18,7 +18,8 @@ public class Minimotif {
 
     public String toString(){
         return accessionNumber + '`' + 
-               motifType + '`' + 
+               uniprotType + '`' + 
+               description + '`' + 
                motifTarget + '`' + 
                modifiedPosition + '`' + 
                startPosition + '`' + 

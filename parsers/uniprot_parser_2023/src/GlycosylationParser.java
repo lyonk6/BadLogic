@@ -15,7 +15,7 @@ public class GlycosylationParser {
     protected static void parseGlycosylationEntries(XMLEventReader reader, BufferedWriter writer, Minimotif motif) throws XMLStreamException {
         motif.description=motif.description.trim().substring(13, motif.description.length()-1);
         String[] motifDescriptionArray =  motif.description.split(";");
-        motif.motifType = motifDescriptionArray[0].toLowerCase().trim();
+        motif.description = motifDescriptionArray[0].toLowerCase().trim();
         for(String s: motifDescriptionArray){
             if (s.trim().startsWith("by ")){
                 motif.motifTarget = motifDescriptionArray[1].trim().substring(3, motifDescriptionArray[1].trim().length());

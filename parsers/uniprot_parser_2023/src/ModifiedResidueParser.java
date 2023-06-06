@@ -67,23 +67,26 @@ public class ModifiedResidueParser {
                     uniprotFeatureType=uniprotFeatureType.toLowerCase().strip().substring(6, uniprotFeatureType.length()-1);
 
                     if (uniprotFeatureType.equals("modified residue")){
+                        motif.uniprotType = "modified residue";
                         motif.description=event.asStartElement().getAttributeByName(new QName("description")).toString();
                         parseModifiedResidueEntries(reader, writer, motif);
                     }
                     
                     if (uniprotFeatureType.equals("glycosylation site")){
+                        motif.uniprotType = "glycosylation site";
                         motif.description=event.asStartElement().getAttributeByName(new QName("description")).toString();
                         GlycosylationParser.parseGlycosylationEntries(reader, writer, motif);
                     }//*/
 
                     if (uniprotFeatureType.equals("binding site")){
-                        motif.motifType="binding site";
+                        motif.uniprotType="binding site";
+                        motif.description="general";
                         BindingSiteParser.parseBindingSiteEntries(reader, writer, motif);
                     }
 
                     if (uniprotFeatureType.equals("lipid moiety-binding region")){
+                        motif.uniprotType="lipid moiety-binding region";
                         motif.description=event.asStartElement().getAttributeByName(new QName("description")).toString();
-                        motif.motifType="lipid moiety-binding region";
                         LipidMoietyParser.parseLipidMoietyEntries(reader, writer, motif);
                     }//*/
                 }
@@ -107,7 +110,7 @@ public class ModifiedResidueParser {
         try {
             motif.description=motif.description.trim().substring(13, motif.description.length()-1);
             String[] motifDescriptionArray =  motif.description.split(";");
-            motif.motifType = motifDescriptionArray[0].toLowerCase().trim();
+            motif.description = motifDescriptionArray[0].toLowerCase().trim();
             for(String s: motifDescriptionArray){
                 if (s.trim().startsWith("by ")){
                     motif.motifTarget = motifDescriptionArray[1].trim().substring(3, motifDescriptionArray[1].trim().length());
