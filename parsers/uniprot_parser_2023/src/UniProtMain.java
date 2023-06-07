@@ -103,12 +103,16 @@ public class UniProtMain {
                         PeptideParser.parsePeptidesEntries(reader, writer, motif);
                     }//*/
 
-
+                    if (uniprotFeatureType.equals("propeptide")){
+                        motif.uniprotType="propeptide";
+                        motif.description=event.asStartElement().getAttributeByName(new QName("description")).toString();
+                        PropeptideParser.parsePropeptidesEntries(reader, writer, motif);
+                    }//*/
                 }
             }
             writer.close();
         } catch (IOException e) {
-            System.err.println("Error encountered on input line: " + (count+1));
+            System.out.println("Error encountered on input line: " + (count+1));
             e.printStackTrace();
         }
         return count;
@@ -128,11 +132,11 @@ public class UniProtMain {
 
             position = Integer.parseInt(event_2);
         } catch (NullPointerException npe) {
-           System.err.println("This Post-translational modification is poorly formed.");
+           System.out.println("This Post-translational modification is poorly formed.");
            npe.printStackTrace();
            System.exit(1);
         } catch (NumberFormatException nfe) {
-            System.err.println("This position is not a number!");
+            System.out.println("This position is not a number!");
             nfe.printStackTrace();
             System.exit(1);
         }
@@ -198,12 +202,12 @@ public class UniProtMain {
 
         reader.nextEvent(); // linefeed
         } catch (NullPointerException npe) {
-           System.err.println("Could not parse motif location. Motif: " + motif.toString());
+           System.out.println("Could not parse motif location. Motif: " + motif.toString());
            success=false;
            //Do not exit, leave the minimotif incomplete.
         } catch (NumberFormatException nfe) {
-            System.err.println("This position is not a number!");
-            System.err.println("Motif: " + motif.toString());
+            System.out.println("This position is not a number!");
+            System.out.println("Motif: " + motif.toString());
             nfe.printStackTrace();
             System.exit(1);
         }
