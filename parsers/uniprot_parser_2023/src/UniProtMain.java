@@ -34,7 +34,7 @@ public class UniProtMain {
         try {
             writer = new BufferedWriter(new FileWriter("accession_numbers.out"));
             while (reader.hasNext()) {
-                event = reader.nextEvent();
+                event = reader.nextEvent();/*
                 if (count >= 5000000)
                     break;// */
                 count++;
@@ -94,8 +94,16 @@ public class UniProtMain {
                     if (uniprotFeatureType.equals("transit peptide")){
                         motif.uniprotType="transit peptide";
                         motif.description=event.asStartElement().getAttributeByName(new QName("description")).toString();
-                        LipidMoietyParser.parseLipidMoietyEntries(reader, writer, motif);
+                        TransitPeptideParser.parseTransitPeptideEntries(reader, writer, motif);
                     }//*/
+
+                    if (uniprotFeatureType.equals("peptide")){
+                        motif.uniprotType="peptide";
+                        motif.description=event.asStartElement().getAttributeByName(new QName("description")).toString();
+                        PeptideParser.parsePeptidesEntries(reader, writer, motif);
+                    }//*/
+
+
                 }
             }
             writer.close();
@@ -143,8 +151,9 @@ public class UniProtMain {
      *  </location>
      * 
      */
-    protected static void parseLocation(XMLEventReader reader, Minimotif motif) throws XMLStreamException {
+    protected static boolean parseLocation(XMLEventReader reader, Minimotif motif) throws XMLStreamException {
         //System.out.println("Getting modified position.");
+        boolean success = true;
         XMLEvent e1, e4;
 
 
@@ -189,7 +198,8 @@ public class UniProtMain {
 
         reader.nextEvent(); // linefeed
         } catch (NullPointerException npe) {
-           System.err.println("This motif location is poorly formed. Motif: " + motif.toString());
+           System.err.println("Could not parse motif location. Motif: " + motif.toString());
+           success=false;
            //Do not exit, leave the minimotif incomplete.
         } catch (NumberFormatException nfe) {
             System.err.println("This position is not a number!");
@@ -197,5 +207,6 @@ public class UniProtMain {
             nfe.printStackTrace();
             System.exit(1);
         }
+        return success;
     }
 }

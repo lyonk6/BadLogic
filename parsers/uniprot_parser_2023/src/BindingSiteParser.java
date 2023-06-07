@@ -36,9 +36,9 @@ public class BindingSiteParser {
             XMLEvent check_tag = reader.nextEvent();  // Start "location"
             if(check_tag.isStartElement() && check_tag.asStartElement().getName().getLocalPart().equals("location")){
                 reader.nextEvent(); // linefeed
-                UniProtMain.parseLocation(reader, motif);
-                parseTargetLigand(reader, motif);
-                writer.write(motif.toString() + "\n");
+                if(UniProtMain.parseLocation(reader, motif) && parseTargetLigand(reader, motif)){
+                    writer.write(motif.toString() + "\n");
+                }
             } else {
                 System.out.println("No location found. Skipping motif: " + motif.toString());
             }
@@ -60,7 +60,7 @@ public class BindingSiteParser {
      *  </ligand>
      * 
      */
-    private static void parseTargetLigand(XMLEventReader reader, Minimotif motif) throws XMLStreamException {
+    private static boolean parseTargetLigand(XMLEventReader reader, Minimotif motif) throws XMLStreamException {
         XMLEvent e1, e3, e4;
         
         e1 = reader.nextEvent(); // Start
@@ -72,12 +72,12 @@ public class BindingSiteParser {
         String event_1, event_3;
         if (!e1.isStartElement()){
             System.err.println("This motif target is poorly formed. Start \"ligand\" element expected. Motif: " + motif.toString());
-            return;
+            return false;
         }
 
         if (!e3.isStartElement()){
             System.err.println("This motif target is poorly formed. Start ligand \"name\" element expected. Motif: " + motif.toString());
-            return;
+            return false;
         }
 
         event_1 = e1.asStartElement().asStartElement().getName().getLocalPart();
@@ -87,5 +87,6 @@ public class BindingSiteParser {
         }else{
             throw new XMLStreamException("Unexpected token while parsing target ligand.");
         }
+        return true;
     }
 }
