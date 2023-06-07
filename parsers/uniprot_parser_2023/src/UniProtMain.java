@@ -90,6 +90,12 @@ public class UniProtMain {
                         motif.description=event.asStartElement().getAttributeByName(new QName("description")).toString();
                         LipidMoietyParser.parseLipidMoietyEntries(reader, writer, motif);
                     }//*/
+
+                    if (uniprotFeatureType.equals("transit peptide")){
+                        motif.uniprotType="transit peptide";
+                        motif.description=event.asStartElement().getAttributeByName(new QName("description")).toString();
+                        LipidMoietyParser.parseLipidMoietyEntries(reader, writer, motif);
+                    }//*/
                 }
             }
             writer.close();

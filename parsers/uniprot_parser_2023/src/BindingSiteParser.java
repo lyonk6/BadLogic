@@ -40,7 +40,7 @@ public class BindingSiteParser {
                 parseTargetLigand(reader, motif);
                 writer.write(motif.toString() + "\n");
             } else {
-                System.out.println("No location found. Skipping this Binding motif: " + motif.toString());
+                System.out.println("No location found. Skipping motif: " + motif.toString());
             }
         } catch (IOException e) {
             e.printStackTrace();
