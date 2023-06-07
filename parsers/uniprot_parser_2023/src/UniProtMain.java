@@ -102,7 +102,7 @@ public class UniProtMain {
                         motif.description=event.asStartElement().getAttributeByName(new QName("description")).toString();
                         PeptideParser.parsePeptidesEntries(reader, writer, motif);
                     }//*/
-
+                    /*
                     if (uniprotFeatureType.equals("propeptide")){
                         motif.uniprotType="propeptide";
                         motif.description=event.asStartElement().getAttributeByName(new QName("description")).toString();
