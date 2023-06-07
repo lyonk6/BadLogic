@@ -1,5 +1,4 @@
 package src;
-import javax.xml.namespace.QName;
 import javax.xml.stream.*;
 import javax.xml.stream.events.XMLEvent;
 
@@ -34,9 +33,15 @@ public class BindingSiteParser {
     protected static void parseBindingSiteEntries(XMLEventReader reader, BufferedWriter writer, Minimotif motif) throws XMLStreamException {
         try{
             reader.nextEvent();  // linefeed
-            parseLocation(reader, motif);
-            parseTargetLigand(reader, motif);
-            writer.write(motif.toString() + "\n");
+            XMLEvent check_tag = reader.nextEvent();  // Start "location"
+            if(check_tag.isStartElement() && check_tag.asStartElement().getName().getLocalPart().equals("location")){
+                reader.nextEvent(); // linefeed
+                UniProtMain.parseLocation(reader, motif);
+                parseTargetLigand(reader, motif);
+                writer.write(motif.toString() + "\n");
+            } else {
+                System.out.println("No location found. Skipping this Binding motif: " + motif.toString());
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -81,76 +86,6 @@ public class BindingSiteParser {
             motif.motifTarget = e4.asCharacters().toString();
         }else{
             throw new XMLStreamException("Unexpected token while parsing target ligand.");
-        }
-    }
-
-    /*
-     *  <location>
-     *    <begin position="135"/>
-     *    <end position="136"/>
-     *  </location>
-     * 
-     *  <location>
-     *    <position position="147"/>
-     *  </location>
-     * 
-     */
-    private static void parseLocation(XMLEventReader reader, Minimotif motif) throws XMLStreamException {
-        //System.out.println("Getting modified position.");
-        reader.nextEvent();  // Start "location"
-        reader.nextEvent(); // linefeed
-        XMLEvent e1, e4;
-
-
-        e1 = reader.nextEvent(); // Start: 'begin' or 'position'
-        reader.nextEvent();      // End:   'begin' or 'position'
-        reader.nextEvent();      // linefeed
-        e4 = reader.nextEvent(); // Start or End element
-
-        String position_type = e1.asStartElement().getName().getLocalPart();
-        if (position_type == null)
-            throw new XMLStreamException("Error. Motif position is null");
-        try{
-            switch(position_type) {
-                case "begin":
-                    // first parse the begin position, then parse the end position
-                    String sPos, ePos;
-
-                    // Parse both entries before running query:
-                    sPos = e1.asStartElement().getAttributeByName(new QName("position")).toString();
-                    ePos = e4.asStartElement().getAttributeByName(new QName("position")).toString();
-
-
-                    sPos = sPos.substring(10, sPos.length()-1);   // begin position
-                    ePos = ePos.substring(10, ePos.length()-1);   // begin position
-    
-                    motif.startPosition = Integer.parseInt(sPos);
-                    motif.endPosition   = Integer.parseInt(ePos);
-                    reader.nextEvent(); // End 
-                    reader.nextEvent(); // linefeed
-                    reader.nextEvent(); // End
-                    break;
-                case "position":
-                    // e4 is the end location. 
-                    String mPos;
-                    mPos = e1.asStartElement().getAttributeByName(new QName("position")).toString();
-                    mPos = mPos.substring(10, mPos.length()-1);   // position
-                    motif.modifiedPosition = Integer.parseInt(mPos);
-                    // parse the location as a singleton.
-                    break;
-                default:
-                    throw new XMLStreamException("Unexpected token while parsing motif location: " + position_type);
-            }
-            
-        reader.nextEvent(); // linefeed
-        } catch (NullPointerException npe) {
-           System.err.println("This motif location is poorly formed. Motif: " + motif.toString());
-           //Do not exit, leave the minimotif incomplete.
-        } catch (NumberFormatException nfe) {
-            System.err.println("This position is not a number!");
-            System.err.println("Motif: " + motif.toString());
-            nfe.printStackTrace();
-            System.exit(1);
         }
     }
 }
