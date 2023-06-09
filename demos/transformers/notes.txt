@@ -22,7 +22,7 @@
  # Encoders and Decoders
  Deep learning Encoders and Decoders are not terribly un-like transcoding.
  A signal is given to an encoder which translates an expected format into
- some internal data structure which can then be decoded with a second model
- known as a decoder.
+ some internal data which can then be decoded with a second model known 
+ as a decoder.
 
  
