@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 from matplotlib import cm
 from matplotlib.ticker import LinearLocator, FormatStrFormatter
 import numpy as np
+import random
 
 MIN = -10
 MAX = 10
@@ -31,31 +32,46 @@ def sample_waves():
     return x, y, z
 
 # Define X, Y and Z vectors suitable for a paraboloid.
-def plot_paraboloid(a = 0.25, b = 0.25, c = 5):
+def paraboloid(a = 0.25, b = 0.25, c = 5):
     # Define X, Y, and Z:
     X = np.arange(MIN, MAX, 0.25)
     Y = np.arange(MIN, MAX, 0.25)
     X, Y = np.meshgrid(X, Y)
     Z = (a**2) * (X**2) + (b**2) * (Y**2) - c
+    return X, Y, Z
+
+# Define X, Y and Z vectors suitable for a paraboloid.
+def plot_paraboloid():
+    X, Y, Z =  paraboloid()
     return plot_surface(X, Y, Z)
 
 # Define X, Y and Z vectors suitable for a saddle paraboloid.
-def plot_saddle(a = 0.25, b = 0.25, c = 3):
+def saddle(a = 0.25, b = 0.25, c = 3):
     # Define X, Y, and Z:
     X = np.arange(MIN, MAX, 0.25)
     Y = np.arange(MIN, MAX, 0.25)
     X, Y = np.meshgrid(X, Y)
     Z = (a**2) * (X**2) - (b**2) * (Y**2) - c
+    return X, Y, Z
+
+# Define X, Y and Z vectors suitable for a saddle paraboloid.
+def plot_saddle():
+    X, Y, Z =  saddle()
     return plot_surface(X, Y, Z)
 
 # Define X, Y and Z vectors that map an expanding sine wave.
-def plot_waves():
+def waves():
     # Make data.
     X = np.arange(MIN, MAX, 0.25)
     Y = np.arange(MIN, MAX, 0.25)
     X, Y = np.meshgrid(X, Y)
     R = np.sqrt(X**2 + Y**2)
     Z = np.sin(R)
+    return X, Y, Z
+
+# Define X, Y and Z vectors that map an expanding sine wave.
+def plot_waves():
+    X, Y, Z = waves()
     return plot_surface(X, Y, Z)
 
 def plot_surface(X, Y, Z):
