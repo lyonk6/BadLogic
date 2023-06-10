@@ -1,5 +1,7 @@
 import numpy as np
 
+# This class returns a numpy array of type "float32" and size "(3, length)"
+# where 'length' is a parameter given to the constructor.
 class ScatterVectors:
     def __init__(self, center, sigmas, length, type=np.float32):
         try:
@@ -37,12 +39,19 @@ class ScatterVectors:
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
-    length = 10
-    sv = ScatterVectors([0, 0, 0], [0.1, 0.2, 0.3], length)
-    sv2= ScatterVectors([2, 2, 2], [0.3, 0.6, 0.1], length)
-    sv3= sv2.append(sv)
-    plt.scatter(sv3.array()[0],sv3.array()[2], alpha=0.5)
-    print(sv.array().shape)
+    length = 200
+    label1 = np.zeros(length) + 1
+    label2 = np.zeros(length) + 2
+
+    sv1 = ScatterVectors([1, 1, 1], [0.4, 0.4, 0.3], length)
+    sv2 = ScatterVectors([2, 2, 2], [0.4, 0.6, 0.3], length)
+
+    sv3= sv2.append(sv1)
+    #plt.scatter(sv3.array()[0], sv3.array()[2], alpha=0.5)
+    plt.scatter(sv2.array()[0], sv2.array()[1], alpha=0.5)
+    plt.scatter(sv1.array()[0], sv1.array()[1], alpha=0.5)
+
+    print(sv1.array().shape)
     print(sv2.array().shape)
     print(sv3.array().shape)
     print(sv3.array().dtype)
