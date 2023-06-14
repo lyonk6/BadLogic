@@ -46,8 +46,8 @@ query_length = 4
 key_length = 5
 d_model = 3
 
-query = torch.randn(query_length, d_model)
-keys = torch.randn(key_length, d_model)
+query  = torch.randn(query_length, d_model)
+keys   = torch.randn(key_length, d_model)
 values = torch.randn(key_length, d_model)
 print("query: ", query)
 print("keys:  ", keys)
