@@ -83,6 +83,8 @@ import bigram
 m = bigram.BigramLanguageModel(vocab_size)
 logits, loss = m(xb, yb)
 print(logits.shape)
+print(loss)
+print(decode(m.generate(torch.zeros((1,1), dtype=torch.long), max_new_tokens=100)[0].tolist()))
 # Attention
 
 # Transformation
