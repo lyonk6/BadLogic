@@ -14,9 +14,10 @@ class BigramLanguageModel(nn.Module):
         Return a batch, time, channel tensor (B, T, C).  Where our batch
         size is 4, our time window is 8 and our channel is 'vocab_size'.
         """
-        logits = self.token_embedding_table = nn.Embedding(idx, 8)
+        logits = self.token_embedding_table(idx)
         B, T, C = logits.shape
-        
+        logits  = logits.view(B*T, C)
+        targets = targets.view(B*T)
 
         # Note: "Negative Log Likelihood" is also called "Cross Entropy"
         # https://towardsdatascience.com/cross-entropy-negative-log-likelihood-and-all-that-jazz-47a95bd2e81
