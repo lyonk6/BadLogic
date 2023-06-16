@@ -90,7 +90,7 @@ print(decode(m.generate(idx, max_new_tokens=100)[0].tolist()))
 # Instantiate an optimizer:
 optimizer = torch.optim.AdamW(m.parameters(), lr=1e-3)
 batch_size = 32
-for steps in range(5000):
+for steps in range(10000):
     # sample a batch of data
     xb, yb = get_batch('train')
 
@@ -100,8 +100,9 @@ for steps in range(5000):
     loss.backward()
     optimizer.step()
 print(loss.item())
-
 print(decode(m.generate(idx, max_new_tokens=100)[0].tolist()))
+
+
 ### Attention
 # 
 
