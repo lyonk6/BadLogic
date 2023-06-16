@@ -3,14 +3,7 @@ import torch.nn as nn
 from torch.nn import functional as F
 torch.manual_seed(1337)
 
-# Hyperparameters (parameters not changed by the model):
-batch_size = 32
-block_size = 8
-max_iters = 3000
-eval_iterval=300
-
-
-class BigramLanguageModel(nn.Module):
+class SimpleJack(nn.Module):
 
     def __init__(self, vocab_size):
         super().__init__()

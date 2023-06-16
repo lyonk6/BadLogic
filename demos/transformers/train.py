@@ -79,8 +79,8 @@ for b in range(batch_size):
         print(f"When the input is {context.tolist()} the target: {target}")
 
 ### The Bigram Language Model
-import bigram
-m = bigram.BigramLanguageModel(vocab_size)
+import simpleJack
+m = simpleJack.SimpleJack(vocab_size)
 logits, loss = m(xb, yb)
 print(logits.shape)
 print(loss)
