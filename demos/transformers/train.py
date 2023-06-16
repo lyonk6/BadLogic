@@ -84,7 +84,26 @@ m = bigram.BigramLanguageModel(vocab_size)
 logits, loss = m(xb, yb)
 print(logits.shape)
 print(loss)
-print(decode(m.generate(torch.zeros((1,1), dtype=torch.long), max_new_tokens=100)[0].tolist()))
-# Attention
+idx = torch.zeros((1,1), dtype=torch.long)
+print(decode(m.generate(idx, max_new_tokens=100)[0].tolist()))
 
-# Transformation
+# Instantiate an optimizer:
+optimizer = torch.optim.AdamW(m.parameters(), lr=1e-3)
+batch_size = 32
+for steps in range(5000):
+    # sample a batch of data
+    xb, yb = get_batch('train')
+
+    # evaluate the loss:
+    logits, loss = m(xb, yb)
+    optimizer.zero_grad(set_to_none=True)
+    loss.backward()
+    optimizer.step()
+print(loss.item())
+
+print(decode(m.generate(idx, max_new_tokens=100)[0].tolist()))
+### Attention
+# 
+
+### Transformation
+# 
