@@ -3,11 +3,44 @@ import torch.nn as nn
 from torch.nn import functional as F
 torch.manual_seed(1337)
 
-# Hyperparameters (parameters not changed by the model):
+### Hyperparameters (parameters not changed by the model):
 batch_size = 32
 block_size = 8
 max_iters = 3000
 eval_iterval=300
+learning_rate = 1e-2
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
+eval_iters = 200
+
+### Import the Tiny Shakespeare data
+with open ('tiny_shakespeare.txt', 'r', encoding='utf-8') as f:
+    text = f.read()
+
+### Tokenize using python's "set" and "list" constructors:
+chars = sorted(list(set(text)))
+vocab_size=len(chars)
+
+### define string-to-integer and integer-to-string functions:
+stoi = {ch:i for i,ch in enumerate(chars)}
+itos = {i:ch for i,ch in enumerate(chars)}
+
+encode = lambda s: [stoi[c] for c in s]
+decode = lambda l: ''.join([itos[i] for i in l])
+
+### Create training and validation tensors:
+data = torch.tensor(encode(text), dtype=torch.long)
+n = int(0.9*len(data))
+train_data = data[:n]
+val_data   = data[n:]
+
+# This function grabs a random chunk from either a training
+# set or a validation set.
+def get_batch(split):
+    data = train_data if split == 'train' else val_data
+    ix = torch.randint(len(data)-block_size, (batch_size,))
+    x = torch.stack([data[i:i+block_size] for i in ix])
+    y = torch.stack([data[1+i:1+i+block_size] for i in ix])
+    return x, y
 
 
 class BigramLanguageModel(nn.Module):
