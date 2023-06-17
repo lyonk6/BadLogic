@@ -4,7 +4,10 @@ from torch.nn import functional as F
 torch.manual_seed(1337)
 
 class SimpleJack(nn.Module):
-
+    """
+    SimpleJack is a bigram language model that predicts a character only from the 
+    preceeding character. This model is fairly dumb, hence the name SimpleJack.
+    """
     def __init__(self, vocab_size):
         super().__init__()
         self.token_embedding_table = nn.Embedding(vocab_size, vocab_size)
