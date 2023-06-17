@@ -94,4 +94,24 @@ class BigramLanguageModel(nn.Module):
             idx = torch.cat((idx, idx_next), dim=1)
         return idx
 
+
+# TODO What is the difference between "model" and "m"?
 model = BigramLanguageModel(vocab_size)
+m = model.to(device)
+
+# Pass model parameters to the optimizer so it knows what to update:
+optimizer = torch.optim.AdamW(model.parameters(), lr=learning_rate)
+
+for iter in range(max_iters):
+    if iter % eval_iterval == 0:
+        losses = estimate_loss()
+        print(f"step {iter}: train loss {losses['train']:.4f}, val los {losses['val']:.4f}")
+
+    # sample a batch of data
+    xb, yb = get_batch("train")
+
+    # evaluate the loss:
+    logits, loss = m(xb, yb)
+    optimizer.zero_grad(set_to_none=True)
+    loss.backward()
+    optimizer.step()

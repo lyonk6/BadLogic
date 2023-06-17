@@ -80,15 +80,15 @@ for b in range(batch_size):
 
 ### The Bigram Language Model
 import simpleJack
-m = simpleJack.SimpleJack(vocab_size)
+model = simpleJack.SimpleJack(vocab_size)
 logits, loss = m(xb, yb)
 print(logits.shape)
 print(loss)
 idx = torch.zeros((1,1), dtype=torch.long)
-print(decode(m.generate(idx, max_new_tokens=100)[0].tolist()))
+print(decode(model.generate(idx, max_new_tokens=100)[0].tolist()))
 
 # Instantiate an optimizer:
-optimizer = torch.optim.AdamW(m.parameters(), lr=1e-3)
+optimizer = torch.optim.AdamW(model.parameters(), lr=1e-3)
 batch_size = 32
 for steps in range(10000):
     # sample a batch of data
