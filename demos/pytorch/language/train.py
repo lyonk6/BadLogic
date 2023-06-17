@@ -81,7 +81,7 @@ for b in range(batch_size):
 ### The Bigram Language Model
 import simpleJack
 model = simpleJack.SimpleJack(vocab_size)
-logits, loss = m(xb, yb)
+logits, loss = model(xb, yb)
 print(logits.shape)
 print(loss)
 idx = torch.zeros((1,1), dtype=torch.long)
@@ -95,12 +95,12 @@ for steps in range(10000):
     xb, yb = get_batch('train')
 
     # evaluate the loss:
-    logits, loss = m(xb, yb)
+    logits, loss = model(xb, yb)
     optimizer.zero_grad(set_to_none=True)
     loss.backward()
     optimizer.step()
 print(loss.item())
-print(decode(m.generate(idx, max_new_tokens=100)[0].tolist()))
+print(decode(model.generate(idx, max_new_tokens=100)[0].tolist()))
 
 
 ### Attention
