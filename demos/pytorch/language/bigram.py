@@ -10,6 +10,7 @@ max_iters = 3000
 eval_iterval=300
 learning_rate = 1e-2
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
+print("cuda?", device)
 eval_iters = 200
 
 ### Import the Tiny Shakespeare data
@@ -42,6 +43,7 @@ def get_batch(split):
     y = torch.stack([data[1+i:1+i+block_size] for i in ix])
     return x, y
 
+# TODO what is the difference between model.eval() and model.train()?
 @torch.no_grad()
 def estimate_loss():
     out = {}
@@ -118,3 +120,6 @@ for iter in range(max_iters):
 
 context = torch.zeros((1,1), dtype=torch.long, device=device)
 print(decode(m.generate(context, max_new_tokens=500)[0].tolist()))
+
+
+# TODO pick up at 42 minutes.
