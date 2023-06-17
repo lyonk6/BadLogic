@@ -41,7 +41,7 @@ def get_batch(split):
     x = torch.stack([data[i:i+block_size] for i in ix])
     y = torch.stack([data[1+i:1+i+block_size] for i in ix])
     return x, y
-
+### Pick up at 38 minutes!!! 
 
 class BigramLanguageModel(nn.Module):
 
