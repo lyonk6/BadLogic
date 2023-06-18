@@ -10,7 +10,7 @@ public class ProteinMetaData {
     
 
     public ProteinMetaData(String s){
-        String[] s_array = s.split("|");
+        String[] s_array = s.split("\\|");
         this.id = s_array[1].trim();
 
         //Match the common name:  FPG_DESHD
@@ -30,5 +30,23 @@ public class ProteinMetaData {
             return m.group(0);
         else
             return "unknown";
+    }
+
+    public static void main(String[]args){
+        String[] test_headers = {
+            "sp|Q7TQM5|KPRP_RAT Keratinocyte proline-rich protein OS=Rattus norvegicus OX=10116 GN=Kprp PE=2 SV=1",
+            "sp|B7MYJ7|ERA_ECO81 GTPase Era OS=Escherichia coli O81 (strain ED1a) OX=585397 GN=era PE=3 SV=1",
+            "sp|O94130|CREA_BOTFU DNA-binding protein creA OS=Botryotinia fuckeliana OX=40559 GN=creA PE=3 SV=1",
+            "sp|P05621|H2B2_WHEAT Histone H2B.2 OS=Triticum aestivum OX=4565 PE=1 SV=2"
+        };
+        ProteinMetaData pmd = null;
+
+        for(String h: test_headers){
+            pmd = new ProteinMetaData(h);
+            System.out.println("ID:          " + pmd.id);
+            System.out.println("Common Name: " + pmd.common_name);
+            System.out.println("Species:     " + pmd.species);
+            System.out.println("Species ID:  " + pmd.species_id);
+        }
     }
 }

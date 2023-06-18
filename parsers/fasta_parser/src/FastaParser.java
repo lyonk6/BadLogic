@@ -8,24 +8,26 @@ public class FastaParser {
     public static void main(String[] args) {
         String fastaFilePath = "data/uniprot_sprot.fasta";
 
-        HashMap<String, String> proteinMap = parseFastaFile(fastaFilePath);
+        HashMap<String, String> fastaMap = parseFastaFile(fastaFilePath);
 
         // Printing the HashMap entries
-        for (String header : proteinMap.keySet()) {
-            String sequence = proteinMap.get(header);
-            System.out.println(header);
-            System.out.println(sequence);
-            //System.out.println();
+        System.out.println("This is how many proteins we have " + fastaMap.size());
+        for (String header : fastaMap.keySet()) {
+            String sequence = fastaMap.get(header);
+            System.out.println("Header: " + header);
+            System.out.println("Sequence: " + sequence);
+            System.out.println();
+            break;
         }
     }
 
     public static HashMap<String, String> parseFastaFile(String filePath) {
-        String line;
-        StringBuilder sequence = new StringBuilder();
-        HashMap<String, String> proteinMap = new HashMap<>();
-        ProteinMetaData proteinMetaData = null;
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+        HashMap<String, String> fastaMap = new HashMap<>();
 
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            String header = null;
+            StringBuilder sequence = new StringBuilder();
 
             while ((line = reader.readLine()) != null) {
                 line = line.trim();
@@ -35,10 +37,10 @@ public class FastaParser {
 
                 if (line.startsWith(">")) {
                     // Save the previous sequence (if any) and start a new one
-                    proteinMetaData = new ProteinMetaData(line);
-
-                    proteinMap.put(proteinMetaData.id, sequence.toString());
-                    sequence = new StringBuilder();
+                    if (header != null && sequence.length() > 0) {
+                        fastaMap.put(header, sequence.toString());
+                        sequence = new StringBuilder();
+                    }
 
                     // Extract the header (without the leading ">")
                     header = line.substring(1);
@@ -47,12 +49,15 @@ public class FastaParser {
                     sequence.append(line);
                 }
             }
+
             // Save the last sequence in the file
-            proteinMap.put(proteinMetaData.id, sequence.toString());
+            if (header != null && sequence.length() > 0) {
+                fastaMap.put(header, sequence.toString());
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return proteinMap;
+        return fastaMap;
     }
 }
