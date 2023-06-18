@@ -16,20 +16,21 @@ public class ProteinMetaData {
         //Match the common name:  FPG_DESHD
         this.common_name = parseWithPattern("\\w+", s_array[2]);
 
-        //Match the species:  OS=Desulfitobacterium hafniense 
-        this.species    = parseWithPattern("OS=\\w+ \\w+", s_array[2]);
-
-        //Match the species:  OX=272564
+        //Match the species: OS=Rattus norvegicus 
+        this.species = parseWithPattern("OS=[^\\s]+", s_array[2]);
+        
+        //Match the species id: OX=10116
         this.species_id = parseWithPattern("OX=\\d+", s_array[2]);
     }
 
-    private static String parseWithPattern(String pattern, String header){
+    private static String parseWithPattern(String pattern, String header) {
         Pattern p = Pattern.compile(pattern);
         Matcher m = p.matcher(header);
-        if (m.groupCount() > 0)
+        if (m.find()) { // Use m.find() to find a match
             return m.group(0);
-        else
+        } else {
             return "unknown";
+        }
     }
 
     public static void main(String[]args){
