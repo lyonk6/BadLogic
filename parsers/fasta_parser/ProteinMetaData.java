@@ -2,10 +2,10 @@ import java.util.regex.Pattern;
 import java.util.regex.Matcher;  
 
 public class ProteinMetaData {
-    String id;
-    String common_name;
-    String species;
-    String species_id;
+    public String id;
+    public String common_name;
+    public String species;
+    public String species_id;
     
 
     public ProteinMetaData(String s){
