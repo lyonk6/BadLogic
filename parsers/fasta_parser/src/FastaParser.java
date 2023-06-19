@@ -12,10 +12,10 @@ public class FastaParser {
 
         // Printing the HashMap entries
         System.out.println("This is how many proteins we have " + fastaMap.size());
-        for (String header : fastaMap.keySet()) {
-            String sequence = fastaMap.get(header);
-            System.out.println("Header: " + header);
-            System.out.println("Sequence: " + sequence);
+        for (String protein_id : fastaMap.keySet()) {
+            String sequence = fastaMap.get(protein_id);
+            System.out.println("Protein ID: " + protein_id);
+            System.out.println("Sequence:   " + sequence);
             System.out.println();
             break;
         }
@@ -26,7 +26,7 @@ public class FastaParser {
         try{        
             BufferedReader reader = new BufferedReader(new FileReader(filePath));
             String line;
-            String header = null;
+            ProteinMetaData pmd = null;
             StringBuilder sequence = new StringBuilder();
             while ((line = reader.readLine()) != null) {
                 line = line.trim();
@@ -36,13 +36,12 @@ public class FastaParser {
 
                 if (line.startsWith(">")) {
                     // Save the previous sequence (if any) and start a new one
-                    if (header != null && sequence.length() > 0) {
-                        fastaMap.put(header, sequence.toString());
+                    if (pmd != null && sequence.length() > 0) {
+                        fastaMap.put(pmd.id, sequence.toString());
                         sequence = new StringBuilder();
                     }
 
-                    // Extract the header (without the leading ">")
-                    header = line.substring(1);
+                    pmd = new ProteinMetaData(line);
                 } else {
                     // Append the sequence line
                     sequence.append(line);
@@ -50,8 +49,8 @@ public class FastaParser {
             }
 
             // Save the last sequence in the file
-            if (header != null && sequence.length() > 0) {
-                fastaMap.put(header, sequence.toString());
+            if (pmd != null && sequence.length() > 0) {
+                fastaMap.put(pmd.id, sequence.toString());
             }
         } catch (IOException e) {
             e.printStackTrace();
