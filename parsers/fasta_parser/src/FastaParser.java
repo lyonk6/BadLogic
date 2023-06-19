@@ -23,12 +23,11 @@ public class FastaParser {
 
     public static HashMap<String, String> parseFastaFile(String filePath) {
         HashMap<String, String> fastaMap = new HashMap<>();
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+        try{        
+            BufferedReader reader = new BufferedReader(new FileReader(filePath));
             String line;
             String header = null;
             StringBuilder sequence = new StringBuilder();
-
             while ((line = reader.readLine()) != null) {
                 line = line.trim();
                 if (line.isEmpty()) {
