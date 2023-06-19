@@ -97,7 +97,7 @@ class BigramLanguageModel(nn.Module):
         return idx
 
 
-# TODO What is the difference between "model" and "m"?
+# Create our "model" and assign it it the correct hardware:
 model = BigramLanguageModel(vocab_size)
 m = model.to(device)
 
