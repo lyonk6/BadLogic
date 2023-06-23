@@ -6,6 +6,16 @@ def natural_entropy(y):
 def cross_entropy(y_hat, y):
     return -np.sum(y*np.log(y_hat))
 
+def conditional_entropy(x, y_given_x):
+    """
+    One applications of conditional entropy in cryptography is evaluating
+    the strength of encryption keys.  The conditional entropy can be used
+    to quantify the amount of uncertainty that remains about the 
+    encryption key, given knowledge of the corresponding ciphertext.
+    """
+    return -np.sum(y_given_x * (np.log(y_given_x) / np.log(x)))
+    
+
 def strange_function():
     """
     What happens when we plot p log q when p = 1-q 
