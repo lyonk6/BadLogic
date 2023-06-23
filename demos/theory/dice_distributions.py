@@ -33,6 +33,13 @@ def plot_hist(rolls):
     plt.show()
     plt.cla()
 
+def theoretical_distribution():
+    a = np.zeros((6,6,6))
+    for i in range(0,6):
+        for j in range(0,6):
+            for k in range(0,6):
+                a[i][j][k]=3+i+j+k
+    return np.reshape(a, (1,-1))
 
 
 if __name__ == '__main__':
@@ -40,10 +47,12 @@ if __name__ == '__main__':
     plot_hist(roll_distribution(1, 6))
     plot_hist(roll_distribution(2, 6))
     plot_hist(roll_distribution(3, 6))
-    plot_hist(roll_distribution(4, 6))
     plot_hist(roll_distribution(5, 6))
-    plot_hist(roll_distribution(6, 6))
-    plot_hist(roll_distribution(7, 6))
     plot_hist(roll_distribution(8, 6))
+    plot_hist(roll_distribution(13, 6))
+    plot_hist(roll_distribution(21, 6))
 
 
+    a  = theoretical_distribution()
+    print(plot_hist(a[0]))
+    print(a)
