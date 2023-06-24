@@ -43,7 +43,7 @@ def theoretical_distribution():
 
 
 if __name__ == '__main__':
-    random.seed(42)       
+    random.seed(42)
     plot_hist(roll_distribution(1, 6))
     plot_hist(roll_distribution(2, 6))
     plot_hist(roll_distribution(3, 6))
@@ -53,6 +53,12 @@ if __name__ == '__main__':
     plot_hist(roll_distribution(21, 6))
 
 
+    plot_hist(roll_distribution(1, 2))
+    plot_hist(roll_distribution(10, 2))
+    plot_hist(roll_distribution(20, 2))
+    plot_hist(roll_distribution(30, 2))
+    plot_hist(roll_distribution(40, 2))
+    plot_hist(roll_distribution(50, 2))
     a  = theoretical_distribution()
     print(plot_hist(a[0]))
     print(a)
