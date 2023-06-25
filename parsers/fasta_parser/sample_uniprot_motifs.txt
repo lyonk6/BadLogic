@@ -1,0 +1,16 @@
+Q4U9M9`lipid moiety-binding region`gpi-anchor amidated aspartate`unknown`873`-1`-1
+P15711`lipid moiety-binding region`gpi-anchor amidated aspartate`unknown`904`-1`-1
+P0C9H3`glycosylation site`n-linked (glcnac...) asparagine`host`64`-1`-1
+A9JLI5`glycosylation site`n-linked (glcnac...) asparagine`host`64`-1`-1
+P0C9H0`glycosylation site`n-linked (glcnac...) asparagine`host`65`-1`-1
+C4LHU9`binding site`general`alpha-D-glucose 1-phosphate`-1`179`180
+C4LHU9`binding site`general`alpha-D-glucose 1-phosphate`197`-1`-1
+Q9EUT6`binding site`general`alpha-D-glucose 1-phosphate`107`-1`-1
+Q9EUT6`binding site`general`alpha-D-glucose 1-phosphate`172`-1`-1
+Q9EUT6`binding site`general`alpha-D-glucose 1-phosphate`-1`187`188
+D2WL32`transit peptide`description='Chloroplast'`unknown`-1`1`49
+Q6T308`binding site`general`substrate`-1`59`60
+Q6T308`binding site`general`substrate`-1`88`90
+Q6T308`binding site`general`substrate`-1`115`118
+Q6T308`binding site`general`substrate`-1`330`333
+Q6T308`modified residue`phosphotyrosine`unknown`170`-1`-1
