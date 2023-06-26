@@ -7,14 +7,15 @@ x = torch.rand(B, T, C)
 print(x)
 print(x[1,:3])
 
-# TODO What are we doing here?
+# NB: 'bow' stands for "bag-of-words" which is a common term
+# to describe a greedy amalgamation of words.
 xbow = torch.zeros(B, T, C)
 for b in range(B):
     for t in range(T):
         xprev = x[b,:t+1]
         xbow[b,t] = torch.mean(xprev, 0)
 
-#print(xbow)
+print(xbow)
 
 a = torch.tril(torch.ones(3,3))
 # TODO What does keepdim do?
