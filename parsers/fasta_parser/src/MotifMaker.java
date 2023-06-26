@@ -8,6 +8,7 @@ public class MotifMaker {
     public static void main(String[] args) {
         String fastaFilePath = "data/uniprot_sprot.fasta";
         String motifTestPath = "sample_uniprot_motifs.txt";
+
         HashMap<String, String> fastaMap = FastaParser.parseFastaFile(fastaFilePath);
 
 
@@ -45,32 +46,40 @@ public class MotifMaker {
         }
     }
 
-    public static void findSequence(Minimotif m, String protein){
+    public static Minimotif findSequence(Minimotif m, String protein){
         /*
            int modifiedPosition;
            int startPosition;
            int endPosition;
         */
        if(protein.length() <=15){
-            m.sequence = protein;
+            m.sequence = "<" + protein + ">";
        }
 
        if(m.modifiedPosition != -1){
-            if(m.modifiedPosition < 7){
+            if(m.modifiedPosition <= 8){
                 m.sequence = "<" + protein.substring(0, m.modifiedPosition + 7);
             } else 
-            if(m.modifiedPosition > protein.length()-7){
-                m.sequence = protein.substring(0, m.modifiedPosition + 7) + ">";
+            if(m.modifiedPosition > protein.length()-8){
+                m.sequence = protein.substring(m.modifiedPosition-8, protein.length()) + ">";
             } else {
                 m.sequence = protein.substring(m.modifiedPosition -8 , m.modifiedPosition + 7);
             }
        } else {
             try{
                 m.sequence = protein.substring(m.startPosition-1, m.endPosition);
+                if(m.startPosition == 1){
+                    m.sequence = "<" + m.sequence;
+                }
+                
+                if(m.endPosition == protein.length()){
+                    m.sequence = m.sequence + ">";
+                }
             } catch (IndexOutOfBoundsException iobe){
                 System.out.println("Error fetching motif. IndexOutOfBoundsException: " + m.toString());
             }
        }
+       return m;
     }
 
     public static Minimotif fromString(String s){
