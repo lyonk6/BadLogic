@@ -5,22 +5,6 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public class FastaParser {
-    public static void main(String[] args) {
-        String fastaFilePath = "data/uniprot_sprot.fasta";
-
-        HashMap<String, String> fastaMap = parseFastaFile(fastaFilePath);
-
-        // Printing the HashMap entries
-        System.out.println("This is how many proteins we have " + fastaMap.size());
-        for (String protein_id : fastaMap.keySet()) {
-            String sequence = fastaMap.get(protein_id);
-            System.out.println("Protein ID: " + protein_id);
-            System.out.println("Sequence:   " + sequence);
-            System.out.println();
-            break;
-        }
-    }
-
     public static HashMap<String, String> parseFastaFile(String filePath) {
         HashMap<String, String> fastaMap = new HashMap<>();
         try{        
