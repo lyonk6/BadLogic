@@ -21,9 +21,6 @@ public class TransitPeptideParser {
             if(check_tag.isStartElement() && check_tag.asStartElement().getName().getLocalPart().equals("location")){
                 reader.nextEvent(); // linefeed
                 if(UniProtMain.parseLocation(reader, motif)){
-                    if(motif.description.startsWith("description")){
-                        motif.description = motif.description.substring(13, motif.description.length() -1);
-                    }
                     writer.write(motif.toString() + "\n");
                 }
             } else {

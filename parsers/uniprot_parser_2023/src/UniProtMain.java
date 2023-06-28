@@ -94,12 +94,14 @@ public class UniProtMain {
                     if (uniprotFeatureType.equals("transit peptide")){
                         motif.uniprotType="transit peptide";
                         motif.description=event.asStartElement().getAttributeByName(new QName("description")).toString();
+                        motif.cleanDescription();
                         TransitPeptideParser.parseTransitPeptideEntries(reader, writer, motif);
                     }//*/
 
                     if (uniprotFeatureType.equals("peptide")){
                         motif.uniprotType="peptide";
                         motif.description=event.asStartElement().getAttributeByName(new QName("description")).toString();
+                        motif.cleanDescription();
                         PeptideParser.parsePeptidesEntries(reader, writer, motif);
                     }//*/
 

@@ -25,4 +25,10 @@ public class Minimotif {
                startPosition + '`' + 
                endPosition;
     }
+
+    public void cleanDescription(){
+        if(this.description.startsWith("description")){
+            this.description = this.description.substring(13, this.description.length() -1);
+        }
+    }
 }
