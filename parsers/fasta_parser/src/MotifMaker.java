@@ -7,7 +7,8 @@ import java.util.HashMap;
 public class MotifMaker {
     public static void main(String[] args) {
         String fastaFilePath = "data/uniprot_sprot.fasta";
-        String motifTestPath = "sample_uniprot_motifs.txt";
+        String testMotifPath = "sample_uniprot_motifs.txt";
+        String realMotifPath = "data/accession_numbers.out";
 
         HashMap<String, String> fastaMap = FastaParser.parseFastaFile(fastaFilePath);
 
@@ -22,7 +23,7 @@ public class MotifMaker {
             break;
         }
 
-        motifSequenceSearcher(motifTestPath, fastaMap);
+        motifSequenceSearcher(realMotifPath, fastaMap);
 
     }
 
