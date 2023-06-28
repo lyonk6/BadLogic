@@ -11,18 +11,6 @@ public class MotifMaker {
         String realMotifPath = "data/accession_numbers.out";
 
         HashMap<String, String> fastaMap = FastaParser.parseFastaFile(fastaFilePath);
-
-
-        // Printing the HashMap entries
-        System.out.println("This is how many proteins we have " + fastaMap.size());
-        for (String protein_id : fastaMap.keySet()) {
-            String sequence = fastaMap.get(protein_id);
-            System.out.println("Protein ID: " + protein_id);
-            System.out.println("Sequence:   " + sequence);
-            System.out.println();
-            break;
-        }
-
         motifSequenceSearcher(realMotifPath, fastaMap);
 
     }
@@ -55,6 +43,7 @@ public class MotifMaker {
         */
        if(protein.length() <=15){
             m.sequence = "<" + protein + ">";
+            return m;
        }
 
        if(m.modifiedPosition != -1){
