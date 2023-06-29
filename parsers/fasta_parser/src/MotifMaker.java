@@ -35,15 +35,10 @@ public class MotifMaker {
         }
     }
 
-    public static Minimotif findSequence(Minimotif m, String protein){
-        /*
-           int modifiedPosition;
-           int startPosition;
-           int endPosition;
-        */
-       if(protein.length() <=15){
+    public static boolean hasValidLoci(Minimotif m, String protein){
+        if(protein.length() <=15){
             m.sequence = "<" + protein + ">";
-            return m;
+            return false;
        }
 
        if(protein.length() < m.startPosition){
@@ -51,7 +46,7 @@ public class MotifMaker {
             "  Protein ID: " + m.accessionNumber + 
             "  Protein length: " + protein.length() + 
             "  Motif start position:        " + m.startPosition);
-            return m;
+            return false;
        }
 
        if(protein.length() < m.modifiedPosition){
@@ -59,7 +54,7 @@ public class MotifMaker {
             "  Protein ID: " + m.accessionNumber + 
             "  Protein length: " + protein.length() + 
             "  motif modification position: " + m.modifiedPosition);
-            return m;
+            return false;
        }
 
        if(protein.length() < m.endPosition){
@@ -67,7 +62,7 @@ public class MotifMaker {
             "  Protein ID: " + m.accessionNumber + 
             "  Protein length: " + protein.length() + 
             "  motif end position:          " + m.endPosition);
-            return m;
+            return false;
        }
 
        if(m.startPosition > m.endPosition){
@@ -75,20 +70,32 @@ public class MotifMaker {
             "  Protein ID: " + m.accessionNumber + 
             "  motif start position: " + m.endPosition +
             "  motif end position  :" + m.endPosition);
+            return false;
+       }
+        return true;
+}
+
+    public static Minimotif findSequence(Minimotif m, String protein){
+        /*
+           int modifiedPosition;
+           int startPosition;
+           int endPosition;
+        */
+       if (!hasValidLoci(m, protein)){
             return m;
        }
 
-       if(m.modifiedPosition != -1){
-            if(m.modifiedPosition <= 8){
-                m.sequence = "<" + protein.substring(0, m.modifiedPosition + 7);
-            } else 
-            if(m.modifiedPosition > protein.length()-8){
-                m.sequence = protein.substring(m.modifiedPosition-8, protein.length()) + ">";
+        try{
+            if(m.modifiedPosition != -1){
+                if(m.modifiedPosition <= 8){
+                    m.sequence = "<" + protein.substring(0, m.modifiedPosition + 7);
+                } else 
+                if(m.modifiedPosition > protein.length()-8){
+                    m.sequence = protein.substring(m.modifiedPosition-8, protein.length()) + ">";
+                } else {
+                    m.sequence = protein.substring(m.modifiedPosition -8 , m.modifiedPosition + 7);
+                }
             } else {
-                m.sequence = protein.substring(m.modifiedPosition -8 , m.modifiedPosition + 7);
-            }
-       } else {
-            try{
                 m.sequence = protein.substring(m.startPosition-1, m.endPosition);
                 if(m.startPosition == 1){
                     m.sequence = "<" + m.sequence;
@@ -97,10 +104,11 @@ public class MotifMaker {
                 if(m.endPosition == protein.length()){
                     m.sequence = m.sequence + ">";
                 }
-            } catch (IndexOutOfBoundsException iobe){
-                System.out.println("Error fetching motif. IndexOutOfBoundsException: " + m.toString());
-            }
-       }
+        }
+
+        } catch (IndexOutOfBoundsException iobe){
+            System.out.println("Error fetching motif. IndexOutOfBoundsException: " + m.toString());
+        }
        return m;
     }
 
