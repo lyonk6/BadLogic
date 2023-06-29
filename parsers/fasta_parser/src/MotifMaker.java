@@ -46,6 +46,38 @@ public class MotifMaker {
             return m;
        }
 
+       if(protein.length() < m.startPosition){
+            System.out.println("Error! Motif start position is greater than the protein length!" +
+            "  Protein ID: " + m.accessionNumber + 
+            "  Protein length: " + protein.length() + 
+            "  Motif start position:        " + m.startPosition);
+            return m;
+       }
+
+       if(protein.length() < m.modifiedPosition){
+            System.out.println("Error! Motif modified position is greater than the protein length!" +
+            "  Protein ID: " + m.accessionNumber + 
+            "  Protein length: " + protein.length() + 
+            "  motif modification position: " + m.modifiedPosition);
+            return m;
+       }
+
+       if(protein.length() < m.endPosition){
+            System.out.println("Error! Motif end position is greater than the protein length!" +
+            "  Protein ID: " + m.accessionNumber + 
+            "  Protein length: " + protein.length() + 
+            "  motif end position:          " + m.endPosition);
+            return m;
+       }
+
+       if(m.startPosition > m.endPosition){
+            System.out.println("Error! The motif start position must come before the end position!" +
+            "  Protein ID: " + m.accessionNumber + 
+            "  motif start position: " + m.endPosition +
+            "  motif end position  :" + m.endPosition);
+            return m;
+       }
+
        if(m.modifiedPosition != -1){
             if(m.modifiedPosition <= 8){
                 m.sequence = "<" + protein.substring(0, m.modifiedPosition + 7);
