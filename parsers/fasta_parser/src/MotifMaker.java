@@ -1,6 +1,8 @@
 package src;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -18,17 +20,19 @@ public class MotifMaker {
     public static void motifSequenceSearcher(String file, HashMap<String, String> fastaMap){
         try{        
             BufferedReader reader = new BufferedReader(new FileReader(file));
+            BufferedWriter writer = new BufferedWriter(new FileWriter("minimotifs.out"));
             String line = "";
             Minimotif motif;
             int missingMotifs=0;
             while ((line = reader.readLine()) != null) {
                 motif = fromString(line);
                 if(fastaMap.get(motif.accessionNumber) != null){
-                    findSequence(motif, fastaMap.get(motif.accessionNumber));
+                    findSequence(motif, fastaMap.get(motif.accessionNumber), writer);
                 } else {
                     System.out.println("No protein found for accession: " + motif.accessionNumber);
                 }
             }
+            writer.close();
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(1);
@@ -75,7 +79,7 @@ public class MotifMaker {
         return true;
 }
 
-    public static Minimotif findSequence(Minimotif m, String protein){
+    public static Minimotif findSequence(Minimotif m, String protein, BufferedWriter writer){
         /*
            int modifiedPosition;
            int startPosition;
@@ -104,8 +108,11 @@ public class MotifMaker {
                 if(m.endPosition == protein.length()){
                     m.sequence = m.sequence + ">";
                 }
-        }
-
+            }
+            writer.write(m.toString() + "\n");
+        } catch (IOException e) {
+            System.out.println("Error encountered writing motif.");
+            e.printStackTrace();
         } catch (IndexOutOfBoundsException iobe){
             System.out.println("Error fetching motif. IndexOutOfBoundsException: " + m.toString());
         }
