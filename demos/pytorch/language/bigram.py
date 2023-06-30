@@ -12,6 +12,7 @@ learning_rate = 1e-2
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 print("cuda?", device)
 eval_iters = 200
+n_embd = 32
 
 ### Import the Tiny Shakespeare data
 with open ('tiny_shakespeare.txt', 'r', encoding='utf-8') as f:
@@ -43,7 +44,8 @@ def get_batch(split):
     y = torch.stack([data[1+i:1+i+block_size] for i in ix])
     return x, y
 
-# TODO what is the difference between model.eval() and model.train()?
+# model.eval() evaulates the performance of a model does not track the gradient. 
+# model.train() DOES save the gradient and updates parameters accordingly. 
 @torch.no_grad()
 def estimate_loss():
     out = {}
@@ -60,9 +62,10 @@ def estimate_loss():
 
 class BigramLanguageModel(nn.Module):
 
-    def __init__(self, vocab_size):
+    def __init__(self):
         super().__init__()
-        self.token_embedding_table = nn.Embedding(vocab_size, vocab_size)
+        self.token_embedding_table = nn.Embedding(vocab_size, n_embd)
+        self.lm_head = nn.Linear(n_embd, vocab_size) # linear model head
 
     def forward(self, idx, targets=None):
         """
@@ -72,7 +75,9 @@ class BigramLanguageModel(nn.Module):
         Note: "Negative Log Likelihood" is also called "Cross Entropy"
         https://towardsdatascience.com/cross-entropy-negative-log-likelihood-and-all-that-jazz-47a95bd2e81
         """
-        logits = self.token_embedding_table(idx)
+        tok_emb = self.token_embedding_table(idx) # (B,T,C)
+        logits = self.lm_head(tok_emb)  # (B,T,vocab_size) 
+
         if targets is None:
             loss = None
         else:
@@ -98,7 +103,7 @@ class BigramLanguageModel(nn.Module):
 
 
 # Create our "model" and assign it it the correct hardware:
-model = BigramLanguageModel(vocab_size)
+model = BigramLanguageModel()
 m = model.to(device)
 
 # Pass model parameters to the optimizer so it knows what to update:
@@ -122,4 +127,4 @@ context = torch.zeros((1,1), dtype=torch.long, device=device)
 print(decode(m.generate(context, max_new_tokens=500)[0].tolist()))
 
 
-# TODO pick up at 42 minutes.
+# TODO pick up at 1 hour
