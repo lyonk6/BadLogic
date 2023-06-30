@@ -1,6 +1,12 @@
 import torch
 import torch.nn as nn
+from torch.nn import functional as F
 torch.manual_seed(42)
+
+
+####################################################################
+### Version 1. Simple attention trick.
+####################################################################
 
 B, T, C = 4, 8, 2 # Batch, Time, Channel
 x = torch.rand(B, T, C)
@@ -52,4 +58,31 @@ print("a=", a)
 print("a=", b)
 print("a @ b", c)
 
-# Pick up at 52 mintes.
+
+####################################################################
+### Version 2. Full size matrices.
+####################################################################
+# wei is a (T, T) matrix and x is a (B, T, C) matrix...... So what's
+# happening here!?!?  You can't multiply a "T,T" matrix by a "B,T,C"
+# matrix!  As it turns out, pytorch is friendly enough to update our
+# tensor and infer what dimension should be added so  we get:
+#   "B x T x T" @  "B x T x C" from "T x T" @  "B x T x C".
+# Which of course gives us a "B x T x C" matrix.
+
+wei = torch.tril(torch.ones(T, T))
+wei = wei/wei.sum(1, keepdim=True)
+xbow2 = wei @ x # (B,T,T) @ (B,T,C) -> (B,T,C)
+truth = torch.allclose(xbow, xbow2) # should be true.
+print("Is it true? ", truth)
+
+
+
+####################################################################
+### Version 3. Masked, tril(-inf), Softmax my dude.
+####################################################################
+tril = torch.tril(torch.ones(T,T))
+wei = torch.zero((T,T))
+wei = wei.masked_fill(tril==0, float('-inf'))
+wei = F.softmax(wei, dim=-1)
+xbow3 = wei @ x
+truth = torch.allclose(xbow, xbow3) # should be true.
