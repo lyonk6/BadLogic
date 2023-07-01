@@ -44,10 +44,13 @@ if __name__ == "__main__":
     sv1 = ScatterVectors([1, 1, 1], [0.4, 0.4, 0.3], length)
     sv2 = ScatterVectors([2, 2, 2], [0.4, 0.6, 0.3], length)
 
-    sv3= sv2.append(sv1)
-    #plt.scatter(sv3.array()[0], sv3.array()[2], alpha=0.5)
+    ## matplotlib chooses two different colors.
     plt.scatter(sv2.array()[0], sv2.array()[1], alpha=0.5)
     plt.scatter(sv1.array()[0], sv1.array()[1], alpha=0.5)
+
+    ## All one color:
+    sv3= sv2.append(sv1)
+    #plt.scatter(sv3.array()[0], sv3.array()[2], alpha=0.5) 
 
     print(sv1.array().shape)
     print(sv2.array().shape)
