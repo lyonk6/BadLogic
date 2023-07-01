@@ -81,7 +81,7 @@ print("Is it true? ", truth)
 ### Version 3. Masked, tril(-inf), Softmax my dude.
 ####################################################################
 tril = torch.tril(torch.ones(T,T))
-wei = torch.zero((T,T))
+wei = torch.zeros((T,T))
 wei = wei.masked_fill(tril==0, float('-inf'))
 wei = F.softmax(wei, dim=-1)
 xbow3 = wei @ x
@@ -101,5 +101,6 @@ wei = torch.zeros((T,T))
 wei = wei.masked_fill(tril == 0, float('-inf'))
 wei = F.softmax(wei, dim=-1)
 out = wei @ x
-out.shape
-
+print(wei)
+print(out.shape)
+print(out)
