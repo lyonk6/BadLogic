@@ -113,3 +113,4 @@ out = wei @ v
 out = wei @ x
 print(wei)
 print(out.shape)
+# Pick up at 1:11:00
