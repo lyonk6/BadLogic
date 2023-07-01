@@ -6,7 +6,7 @@ torch.manual_seed(1337)
 ### Hyperparameters (parameters not changed by the model):
 batch_size = 32
 block_size = 8
-max_iters = 3000
+max_iters = 2400
 eval_iterval=300
 learning_rate = 1e-2
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -65,6 +65,7 @@ class BigramLanguageModel(nn.Module):
     def __init__(self):
         super().__init__()
         self.token_embedding_table = nn.Embedding(vocab_size, n_embd)
+        self.position_embedding_table = nn.Embedding(block_size, n_embd)
         self.lm_head = nn.Linear(n_embd, vocab_size) # linear model head
 
     def forward(self, idx, targets=None):
@@ -75,8 +76,12 @@ class BigramLanguageModel(nn.Module):
         Note: "Negative Log Likelihood" is also called "Cross Entropy"
         https://towardsdatascience.com/cross-entropy-negative-log-likelihood-and-all-that-jazz-47a95bd2e81
         """
+        B, T = idx.shape
         tok_emb = self.token_embedding_table(idx) # (B,T,C)
-        logits = self.lm_head(tok_emb)  # (B,T,vocab_size) 
+        pos_emb = self.position_embedding_table(torch.arange(T, device=device)) # (T,C)
+        x = tok_emb + pos_emb # (B,T,C)
+        logits = self.lm_head(x)  # (B,T,vocab_size) 
+
 
         if targets is None:
             loss = None
@@ -124,7 +129,7 @@ for iter in range(max_iters):
     optimizer.step()
 
 context = torch.zeros((1,1), dtype=torch.long, device=device)
-print(decode(m.generate(context, max_new_tokens=500)[0].tolist()))
+#print(decode(m.generate(context, max_new_tokens=500)[0].tolist()))
 
 
 # TODO pick up at 1 hour
