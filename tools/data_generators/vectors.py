@@ -27,8 +27,6 @@ class ScatterVectors:
             print(type(other.arr.dtype))
             if self.dim != other.dim:
                 raise ValueError("Error. ScatterVectors have incompatable dimensions.")
-            print("check!")
-            # todo merge two arrays:
             self.arr = np.append(self.arr, other.arr, axis=1)
             return self
         except ValueError as err:
