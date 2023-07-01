@@ -129,7 +129,8 @@ for iter in range(max_iters):
     optimizer.step()
 
 context = torch.zeros((1,1), dtype=torch.long, device=device)
+
+###################################################################
+#### The generate function is broken now :'( 
 #print(decode(m.generate(context, max_new_tokens=500)[0].tolist()))
-
-
-# TODO pick up at 1 hour
+###################################################################
