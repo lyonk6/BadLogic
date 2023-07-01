@@ -86,3 +86,20 @@ wei = wei.masked_fill(tril==0, float('-inf'))
 wei = F.softmax(wei, dim=-1)
 xbow3 = wei @ x
 truth = torch.allclose(xbow, xbow3) # should be true.
+
+
+
+####################################################################
+### Version 4. Self attention of a single head.
+####################################################################
+torch.manual_seed(1337)
+B, T, C = 4, 8, 32 # Batch, Time, Channel
+x = torch.randn(B,T,C)
+
+tril = torch.tril(torch.ones(T,T))
+wei = torch.zeros((T,T))
+wei = wei.masked_fill(tril == 0, float('-inf'))
+wei = F.softmax(wei, dim=-1)
+out = wei @ x
+out.shape
+
