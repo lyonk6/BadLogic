@@ -1,7 +1,7 @@
 import numpy as np
 
-# This class returns a numpy array of type "float32" and size "(3, length)"
-# where 'length' is a parameter given to the constructor.
+# This class returns a numpy array of float32 x,y,z coordinates. The
+# returned array is of size "(3, length)"
 class ScatterVectors:
     def __init__(self, center, sigmas, length, type=np.float32):
         try:
