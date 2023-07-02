@@ -1,6 +1,6 @@
 import numpy as np
 
-def ScatterVectors(center, sigmas, length, type=np.float32):
+def scatter_vectors(center, sigmas, length, type=np.float32):
     """
         This function returns a numpy array of n dimensional coordinates of type
         numpy.float32. The returned array is of size "(n, length)"
