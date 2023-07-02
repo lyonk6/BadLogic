@@ -31,8 +31,8 @@ if __name__ == "__main__":
     sv2 = scatter_vectors([2, 2, 2], [0.4, 0.6, 0.3], length)
 
     ## matplotlib chooses two different colors.
-    plt.scatter(sv2[0], sv2[1], alpha=0.5)
-    plt.scatter(sv1[0], sv1[1], alpha=0.5)
+    plt.scatter(sv2[0], sv2[1], alpha=0.5, label='x=1; y=1; z=1')
+    plt.scatter(sv1[0], sv1[1], alpha=0.5, label='x=2; y=2; z=2')
 
     ## All one color:
     sv3= np.append(sv1, sv2)
@@ -41,4 +41,7 @@ if __name__ == "__main__":
     print(sv1.shape)
     print(sv2.shape)
     print(sv3.shape)
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.legend()
     plt.show()
