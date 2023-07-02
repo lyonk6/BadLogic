@@ -60,12 +60,39 @@ def estimate_loss():
     model.train()
     return out
 
+class Head(nn.Module):
+    """ One head self-attention """
+
+    def __init__(self, head_size):
+        super().__init__()
+        self.key = nn.Linear(n_embd, head_size, bias=False)
+        self.query = nn.Linear(n_embd, head_size, bias=False)
+        self.values = nn.Linear(n_embd, head_size, bias=False)
+        # pytorch doesn't have a tril module, so we have to register our tril layer:
+        self.register_buffer('tril', torch.tril(torch.ones(block_size, block_size)))
+
+    def forward(self, x):
+        B,T,C = x.shape
+        k = self.key(x)   # (B,T,C)
+        q = self.query(x) # (B,T,C)
+
+        # compute attention scores
+        wei = q @ k.transpose(-2,-1) * C**-0.5
+        wei = wei.masked_fill(self.tril[:T,:T] == 0, float('-inf')) # (B,T,T)
+        wei = F.softmax(wei, dim=-1) # (B,T,T)
+        v = self.values(x)
+        out = wei @ v
+        return out
+
+
+
 class BigramLanguageModel(nn.Module):
 
     def __init__(self):
         super().__init__()
         self.token_embedding_table = nn.Embedding(vocab_size, n_embd)
         self.position_embedding_table = nn.Embedding(block_size, n_embd)
+        self.sa_head = Head(n_embd)
         self.lm_head = nn.Linear(n_embd, vocab_size) # linear model head
 
     def forward(self, idx, targets=None):
@@ -80,6 +107,7 @@ class BigramLanguageModel(nn.Module):
         tok_emb = self.token_embedding_table(idx) # (B,T,C)
         pos_emb = self.position_embedding_table(torch.arange(T, device=device)) # (T,C)
         x = tok_emb + pos_emb # (B,T,C)
+        x = self.sa_head(x)   # single head self-attention. 
         logits = self.lm_head(x)  # (B,T,vocab_size) 
 
 
@@ -98,12 +126,20 @@ class BigramLanguageModel(nn.Module):
         sample the distribution, then append that sample to a running
         sequence. 
         """
+        # idx is (B,T) array of indices
         for _ in range(max_new_tokens):
-            logits, loss = self(idx)
+            # crop idx to the last block_size tokens:
+            idx_crod=idx[:,-block_size:]
+            # get the prediction
+            logits, loss = self(idx_crod)
+            # focus on the last time-step:
             logits = logits[:, -1, :] # -> (B, C)
+            # apply softmax to get probabilities:
             probs = F.softmax(logits, dim=1) # (B, C)
+            # sample from the distribution
             idx_next = torch.multinomial(probs, num_samples=1) # (B, 1)
-            idx = torch.cat((idx, idx_next), dim=1)
+            # append sample index to the running sequence 
+            idx = torch.cat((idx, idx_next), dim=1) # (B, T+1)
         return idx
 
 
