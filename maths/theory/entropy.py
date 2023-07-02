@@ -14,35 +14,30 @@ def conditional_entropy(x, y_given_x):
     encryption key, given knowledge of the corresponding ciphertext.
     """
     return -np.sum(y_given_x * (np.log(y_given_x) / np.log(x)))
-    
+
 
 def strange_function():
     """
     What happens when we plot p log q when p = 1-q 
      for: 0 < p <= 1
     """
+    # X: [0.01 0.02 0.03 0.04 0.05 0.06 ...
+    # Y: [0.99 0.98 0.97 0.96 0.95 0.94 0.93 ...
+    # Z: [-1.01e-04 -4.04e-04 -9.14e-04 -1.63e-03 ...
     x = np.linspace(0, 1, 100, endpoint=False)[1:]
     y = np.flip(x)
     z = np.zeros(x.shape)
-    count = 0
-    for n in x:
-        z[count] = x[count] * np.log(y[count])
-        #print("type:", type(n), " value:", n)
-        count = count + 1
+    z = x * np.log(y)
     return np.array([x,y,z])
 
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
-    
-    y_hat = np.array([0.2, 0.3, 0.5])
-    y = np.array([0.1, 1, 0.5])
-    print("cross entropy: ", cross_entropy(y_hat, y), "   inverse: ", cross_entropy(y, y_hat))
-    print("self entropy: ", cross_entropy(y, y), "   inverse: ", cross_entropy(y_hat, y_hat))
-
-
     a = strange_function()
-    
-    print("self entropy: ", cross_entropy(a[0], a[0]))
-    plt.scatter(a[0], a[2], alpha=0.5)
-    plt.scatter(a[0], a[1], alpha=0.5)
+
+    print("cross entropy: ", cross_entropy(a[0], a[0]))
+    plt.scatter(a[0], a[2], alpha=0.5, label='p * log(q)')
+    plt.scatter(a[0], a[1], alpha=0.5, label='q = 1 - p')
+    plt.xlabel('p')
+    plt.ylabel('Value')
+    plt.legend()
     plt.show()
