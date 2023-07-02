@@ -3,7 +3,6 @@ import torch.nn as nn
 from torch.nn import functional as F
 torch.manual_seed(42)
 
-
 ####################################################################
 ### Version 1. Simple attention trick.
 ####################################################################
@@ -51,6 +50,11 @@ tensor([[1.0000, 0.0000, 0.0000],
         [1.0000, 0.5000, 0.3333]])
 """
 
+
+# Note: this trilling trick is not necessary for self-attention. It
+# is always applied to the decoder since the decoder is predicting
+# the future, but the encoder usually doesn't need it.  
+
 a = a/torch.sum(a,1, keepdim=True)
 b = torch.randint(0,10,(3,2)).float()
 c = a @ b
@@ -96,6 +100,12 @@ torch.manual_seed(1337)
 B, T, C = 4, 8, 32 # Batch, Time, Channel
 x = torch.randn(B,T,C)
 
+"""
+  The whole point of self attention is to make relevent information
+  available where it is needed. The Batch dimensions however never
+  talk to eachother.
+"""
+
 # single head self attention
 head_size = 16
 key   = nn.Linear(C, head_size, bias=False)
@@ -113,4 +123,11 @@ out = wei @ v
 out = wei @ x
 print(wei)
 print(out.shape)
-# Pick up at 1:11:00
+
+# What is attention anyway? 
+# How about self-attention or cross-attention? 
+# The example above is self-attention because each of k, q and v
+# come from the same source, that is, these nodes are attending 
+# to eachother and not a separate network. 
+
+# Pick up at 1:19:00 
