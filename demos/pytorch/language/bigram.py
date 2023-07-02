@@ -84,7 +84,14 @@ class Head(nn.Module):
         out = wei @ v
         return out
 
+class MultiHeadAttention(nn.Module):
+    """ use multiple attention heads in parallel"""
+    def __init__(self, num_heads, head_size):
+        super().__init__()
+        self.heads = nn.ModuleList([Head(head_size) for _ in range(num_heads)])
 
+    def forward(self, x):
+        return torch.cat([h(x) for h in self.heads], dim=-1)
 
 class BigramLanguageModel(nn.Module):
 
@@ -92,7 +99,7 @@ class BigramLanguageModel(nn.Module):
         super().__init__()
         self.token_embedding_table = nn.Embedding(vocab_size, n_embd)
         self.position_embedding_table = nn.Embedding(block_size, n_embd)
-        self.sa_head = Head(n_embd)
+        self.sa_heads = MultiHeadAttention(4, n_embd//4)
         self.lm_head = nn.Linear(n_embd, vocab_size) # linear model head
 
     def forward(self, idx, targets=None):
@@ -107,9 +114,8 @@ class BigramLanguageModel(nn.Module):
         tok_emb = self.token_embedding_table(idx) # (B,T,C)
         pos_emb = self.position_embedding_table(torch.arange(T, device=device)) # (T,C)
         x = tok_emb + pos_emb # (B,T,C)
-        x = self.sa_head(x)   # single head self-attention. 
+        x = self.sa_heads(x)   # single head self-attention. 
         logits = self.lm_head(x)  # (B,T,vocab_size) 
-
 
         if targets is None:
             loss = None
@@ -167,6 +173,6 @@ for iter in range(max_iters):
 context = torch.zeros((1,1), dtype=torch.long, device=device)
 
 ###################################################################
-#### The generate function is broken now :'( 
-#print(decode(m.generate(context, max_new_tokens=500)[0].tolist()))
+#### The generate function works again! 
+print(decode(m.generate(context, max_new_tokens=500)[0].tolist()))
 ###################################################################
