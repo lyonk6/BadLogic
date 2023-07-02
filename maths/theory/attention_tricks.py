@@ -23,8 +23,8 @@ for b in range(B):
 print(xbow)
 """
 According to Andrej Karpathy the key 'trick' in attention is the
-weighted matrix multiplication which is made possible by with a 
-function which applies zeroes to the upper right of a matrix:
+weighted matrix multiplication used with a function which applies
+zeroes to the upper right of a matrix:
 
 # 1 4 7      # 1 0 0
 # 2 5 8  ->  # 2 5 0
