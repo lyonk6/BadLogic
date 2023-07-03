@@ -32,5 +32,6 @@
  input --> Layer 1 --> layer 2 --> + --> layer 3 ...
    \                              /
     \----->----->----->----->----/
- https://arxiv.org/abs/1512.03385
+
+Deep Residual Learning for Image Recognition: https://arxiv.org/abs/1512.03385
 
