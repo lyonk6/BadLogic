@@ -29,7 +29,7 @@
  Residual Neural Networks (ResNet) is a deep learning architechture Where
  sequential deep layers are separated by skip/add transformations:
 
- input --> Layer 1 --> layer 2 --> + --> layer 3 ...
+ input --> Layer 1 --> layer 2 --> + --> output
    \                              /
     \----->----->----->----->----/
 
