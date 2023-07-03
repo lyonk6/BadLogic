@@ -25,4 +25,12 @@
  some internal data which can then be decoded with a second model known 
  as a decoder.
 
- 
+ # Residual Networks
+ Residual Neural Networks (ResNet) is a deep learning architechture Where
+ sequential deep layers are separated by skip/add transformations:
+
+ input --> Layer 1 --> layer 2 --> + --> layer 3 ...
+   \                              /
+    \----->----->----->----->----/
+ https://arxiv.org/abs/1512.03385
+
