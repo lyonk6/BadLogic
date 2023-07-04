@@ -41,7 +41,6 @@ class MultiHeadAttention(nn.Module):
         out = self.proj(out)
         return out
 
-
 class FeedForward(nn.Module):
     """Simple linear layer with ReLU"""
     def __init__(self, n_embd):
@@ -62,9 +61,29 @@ class Block(nn.Module):
         head_size = n_embd // n_head
         self.sa   = MultiHeadAttention(n_head, head_size)
         self.ffwd = FeedForward(n_embd)
+        self.ln1  = nn.LayerNorm(n_embd)
+        self.ln2  = nn.LayerNorm(n_embd)
 
     def forward(self, x):
-        x = x + self.sa(x)
-        x = x + self.ffwd(x)
+        #Apply LayerNorm BEFORE self attention and feed forward layers.
+        x = x + self.sa(self.ln1(x))
+        x = x + self.ffwd(self.ln2(x))
         return x
 
+class LayerNorm1d:
+    def __init__(self, dim, eps=1e-5):
+        self.eps = eps
+        # parameters (trained with backprop)
+        self.gamma = torch.ones(dim)
+        self.beta = torch.zeros(dim)
+
+    def __call__(self, x):
+        xmean = x.mean(1, keepdim=True)   # batch mean
+        xvar  = x.var(1, keepdim=True)    # batch variance
+        # Normalize to unit variance:
+        xhat  = (x - xmean) / torch.sqrt(xvar + self.eps)
+        self.out = self.gamma * xhat + self.beta
+        return self.out
+
+    def parameters(self):
+        return [self.gamma, self.beta]

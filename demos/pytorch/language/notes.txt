@@ -1,4 +1,6 @@
-# Masking
+###############################################################################
+## Masking
+###############################################################################
  Masking is a technique commonly implemented in NLP systems especially in
  prediction models which are fed a sequence of tokens and trained to guess
  the next word.  When masking, tokens in the input sequence are randomly 
@@ -7,8 +9,9 @@
  A mask tensor is a tensor that is the same size as the input tensor and 
  is masks randomly chosen tokens. The mask tensor may be passed to each
  layer of a network so each part knows which tokens to ignore.  
-
-# Bigram Language Model
+###############################################################################
+## Bigram Language Model
+###############################################################################
  A Bigram language model is a NLP model that predicts the probability of a
  token using a sequence of preceding tokens. Such a model requires a large 
  corpus of data and may only try to predict words based on only a single 
@@ -24,8 +27,9 @@
  A signal is given to an encoder which translates an expected format into
  some internal data which can then be decoded with a second model known 
  as a decoder.
-
- # Residual Networks
+###############################################################################
+## Residual Networks
+###############################################################################
  Residual Neural Networks (ResNet) is a deep learning architechture Where
  sequential deep layers are separated by skip/add transformations:
 
@@ -37,3 +41,10 @@ Deep Residual Learning for Image Recognition: https://arxiv.org/abs/1512.03385
 
 ResNets are valuable because it mitigates the problem of exploding and 
 vanishing gradients. 
+###############################################################################
+## Layer Normalization
+###############################################################################
+Layer Normalization (LayerNorm) is a technique to normalize data across a layer
+of neurons. LayerNorm is similar to batch Normalization but performs a unit 
+normalization for a single input/output 
+https://arxiv.org/abs/1607.06450
