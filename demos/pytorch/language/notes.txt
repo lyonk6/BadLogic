@@ -48,3 +48,14 @@ Layer Normalization (LayerNorm) is a technique to normalize data across a layer
 of neurons. LayerNorm is similar to batch Normalization but performs a unit 
 normalization for a single input/output 
 https://arxiv.org/abs/1607.06450
+
+
+###############################################################################
+## Dropout
+###############################################################################
+Dropout is a deep learning technique where random nodes are set to zero during 
+training and later enabled for prodictions. This creates 'subnetworks' that are
+enabled together at prediction time as an ensembl. This practice helps reduce
+overfitting and improves generalization of a neural network.
+
+https://www.cs.toronto.edu/~hinton/absps/JMLRdropout.pdf

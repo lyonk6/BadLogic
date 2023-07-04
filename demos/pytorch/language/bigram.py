@@ -13,6 +13,8 @@ device = 'cuda' if torch.cuda.is_available() else 'cpu'
 print("cuda?", device)
 eval_iters = 200
 n_embd = 32
+dropout_rate = 0.2
+# ---------------
 
 ### Import the Tiny Shakespeare data
 with open ('tiny_shakespeare.txt', 'r', encoding='utf-8') as f:
@@ -90,11 +92,13 @@ class MultiHeadAttention(nn.Module):
         super().__init__()
         self.heads = nn.ModuleList([Head(head_size) for _ in range(num_heads)])
         self.proj = nn.Linear(num_heads * head_size, n_embd)
+        self.dropout = nn.Dropout(dropout_rate)
+
     def forward(self, x):
         out = torch.cat([h(x) for h in self.heads], dim=-1)
         out = self.proj(out)
+        out = self.dropout(self.proj(out))
         return out
-
 
 class FeedForward(nn.Module):
     """Simple linear layer with ReLU"""
@@ -104,11 +108,11 @@ class FeedForward(nn.Module):
             nn.Linear(n_embd, n_embd),
             nn.ReLU(),
             nn.Linear(n_embd, n_embd),
+            nn.Dropout(dropout_rate),
         )
     
     def forward(self, x):
         return self.net(x)
-
 class Block(nn.Module):
     """ Create a Transformer block! """
     def __init__(self, n_embd, n_head):
