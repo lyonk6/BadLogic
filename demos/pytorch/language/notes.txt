@@ -35,3 +35,5 @@
 
 Deep Residual Learning for Image Recognition: https://arxiv.org/abs/1512.03385
 
+ResNets are valuable because it mitigates the problem of exploding and 
+vanishing gradients. 
