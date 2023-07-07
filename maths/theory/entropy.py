@@ -30,6 +30,9 @@ def strange_function():
     z = x * np.log(y)
     return np.array([x,y,z])
 
+def softmax(x):
+    return(np.exp(x)/np.exp(x).sum())
+
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
     a = strange_function()
@@ -41,6 +44,25 @@ if __name__ == "__main__":
     plt.legend()
     plt.show()
     length = 200
-    sv1 = tools.scatter_vectors([1, 1, 1], [0.4, 0.4, 0.3], length)
-    sv2 = tools.scatter_vectors([2, 2, 2], [0.4, 0.6, 0.3], length)
-    print("cross entropy: ", cross_entropy(a[0], a[0]))
+    sv1 = tools.scatter_vectors([1, 1, 1], [0.5, 0.5, 0.5], length)
+    sv2 = tools.scatter_vectors([1, 2, 5], [0.5, 0.5, 0.5], length)
+    print("Natural Entropy X: ", natural_entropy(softmax(sv2[0])))
+    print("Natural Entropy Y: ", natural_entropy(softmax(sv2[1])))
+    print("Natural Entropy Z: ", natural_entropy(softmax(sv2[2])))
+
+
+    print("Cross Entropy X sv1,sv2 ", cross_entropy(softmax(sv1[0]), softmax(sv2[0])))
+    print("Cross Entropy Y sv1,sv2 ", cross_entropy(softmax(sv1[1]), softmax(sv2[1])))
+    print("Cross Entropy Z sv1,sv2 ", cross_entropy(softmax(sv1[2]), softmax(sv2[2])))
+
+    print("Cross Entropy X sv2,sv1 ", cross_entropy(softmax(sv2[0]), softmax(sv1[0])))
+    print("Cross Entropy Y sv2,sv1 ", cross_entropy(softmax(sv2[1]), softmax(sv1[1])))
+    print("Cross Entropy Z sv2,sv1 ", cross_entropy(softmax(sv2[2]), softmax(sv1[2])))
+
+    ## matplotlib chooses two different colors.
+    plt.scatter(sv2[0], sv2[1], alpha=0.5, label='x=1; y=1; z=1')
+    plt.scatter(sv1[0], sv1[1], alpha=0.5, label='x=2; y=2; z=2')
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.legend()
+    plt.show()

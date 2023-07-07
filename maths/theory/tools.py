@@ -26,7 +26,7 @@ if __name__ == "__main__":
     length = 200
 
     sv1 = scatter_vectors([1, 1, 1], [0.4, 0.4, 0.3], length)
-    sv2 = scatter_vectors([2, 2, 2], [0.4, 0.6, 0.3], length)
+    sv2 = scatter_vectors([2, 2, 2], [0.8, 0.6, 0.3], length)
 
     ## matplotlib chooses two different colors.
     plt.scatter(sv2[0], sv2[1], alpha=0.5, label='x=1; y=1; z=1')
