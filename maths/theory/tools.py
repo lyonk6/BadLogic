@@ -24,8 +24,6 @@ if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
     length = 200
-    label1 = np.zeros(length) + 1
-    label2 = np.zeros(length) + 2
 
     sv1 = scatter_vectors([1, 1, 1], [0.4, 0.4, 0.3], length)
     sv2 = scatter_vectors([2, 2, 2], [0.4, 0.6, 0.3], length)

@@ -101,10 +101,3 @@ for steps in range(10000):
     optimizer.step()
 print(loss.item())
 print(decode(model.generate(idx, max_new_tokens=100)[0].tolist()))
-
-
-### Attention
-# 
-
-### Transformation
-# 

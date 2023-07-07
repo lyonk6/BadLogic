@@ -1,5 +1,5 @@
 import numpy as np
-
+import tools
 def natural_entropy(y):
     return -np.sum(y*np.log(y))
 
@@ -34,10 +34,13 @@ if __name__ == "__main__":
     import matplotlib.pyplot as plt
     a = strange_function()
 
-    print("cross entropy: ", cross_entropy(a[0], a[0]))
     plt.scatter(a[0], a[2], alpha=0.5, label='p * log(q)')
     plt.scatter(a[0], a[1], alpha=0.5, label='q = 1 - p')
     plt.xlabel('p')
     plt.ylabel('Value')
     plt.legend()
     plt.show()
+    length = 200
+    sv1 = tools.scatter_vectors([1, 1, 1], [0.4, 0.4, 0.3], length)
+    sv2 = tools.scatter_vectors([2, 2, 2], [0.4, 0.6, 0.3], length)
+    print("cross entropy: ", cross_entropy(a[0], a[0]))
