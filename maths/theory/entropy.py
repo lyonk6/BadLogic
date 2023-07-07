@@ -27,7 +27,7 @@ def strange_function():
     x = np.linspace(0, 1, 100, endpoint=False)[1:]
     y = np.flip(x)
     z = np.zeros(x.shape)
-    z = x * np.log(y)
+    z = -x * np.log(y)
     return np.array([x,y,z])
 
 def softmax(x):
@@ -37,11 +37,24 @@ if __name__ == "__main__":
     import matplotlib.pyplot as plt
     a = strange_function()
 
-    plt.scatter(a[0], a[2], alpha=0.5, label='p * log(q)')
-    plt.scatter(a[0], a[1], alpha=0.5, label='q = 1 - p')
-    plt.xlabel('p')
-    plt.ylabel('Value')
-    plt.legend()
+    fig, axs = plt.subplots(2)
+    fig.suptitle('Vertically stacked subplots')
+    #axs[0].plot(x, y)
+    #axs[1].plot(x, -y)
+
+    axs[0].plot(a[0], a[2], alpha=0.5, label='-p * log(1-p)')
+    axs[0].plot(a[0], a[1], alpha=0.5, label='1 - p')
+    axs[0].set_xlabel('p')
+    axs[0].set_ylabel('H(p,q)')
+    axs[0].legend()
+    
+    axs[1].plot(a[0], -a[0]*np.log(a[0]), alpha=0.5, label='-p * log(p)')
+    axs[1].set_xlabel('p')
+    axs[1].set_ylabel('S')
+    axs[1].legend()
+
+
+    #plt.legend()
     plt.show()
     length = 200
     sv1 = tools.scatter_vectors([1, 1, 1], [0.5, 0.5, 0.5], length)
@@ -60,9 +73,3 @@ if __name__ == "__main__":
     print("Cross Entropy Z sv2,sv1 ", cross_entropy(softmax(sv2[2]), softmax(sv1[2])))
 
     ## matplotlib chooses two different colors.
-    plt.scatter(sv2[0], sv2[1], alpha=0.5, label='x=1; y=1; z=1')
-    plt.scatter(sv1[0], sv1[1], alpha=0.5, label='x=2; y=2; z=2')
-    plt.xlabel('x')
-    plt.ylabel('y')
-    plt.legend()
-    plt.show()
