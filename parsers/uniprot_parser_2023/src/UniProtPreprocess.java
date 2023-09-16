@@ -55,10 +55,7 @@ public class UniProtPreprocess {
                 
                 /* Look for the "feature" tags and check if it is a minimotif. 
                  */
-                if (event.isStartElement() && event.asStartElement().getName().getLocalPart().equals("feature")){
-                    motif=null;  // This is a new minimotif!!
-                    motif = new Minimotif();
-                    motif.accessionNumber = accessionNumber;
+                if (event.isStartElement() && event.asStartElement().getName().getLocalPart().equals("evidence")){
 
                     uniprotFeatureType=event.asStartElement().getAttributeByName(new QName("type")).toString();
                     uniprotFeatureType=uniprotFeatureType.toLowerCase().strip().substring(6, uniprotFeatureType.length()-1);
@@ -70,13 +67,22 @@ public class UniProtPreprocess {
                         ModifiedResidueParser.parseModifiedResidueEntries(reader, writer, motif);
                     }//*/
 
+                    String event_0=reader.nextEvent().asStartElement().getAttributeByName(new QName("key")).toString();
+                    String event_1=reader.nextEvent().asStartElement().getAttributeByName(new QName("key")).toString();
+                    String event_2=reader.nextEvent().asStartElement().getAttributeByName(new QName("key")).toString();
+                    String event_3=reader.nextEvent().asStartElement().getAttributeByName(new QName("key")).toString();
+                    String event_4=reader.nextEvent().asStartElement().getAttributeByName(new QName("key")).toString();
+                    String event_5=reader.nextEvent().asStartElement().getAttributeByName(new QName("key")).toString();
+                    String event_6=reader.nextEvent().asStartElement().getAttributeByName(new QName("key")).toString();
+                    String event_7=reader.nextEvent().asStartElement().getAttributeByName(new QName("key")).toString();
+                    String event_8=reader.nextEvent().asStartElement().getAttributeByName(new QName("key")).toString();
+                    String event_9=reader.nextEvent().asStartElement().getAttributeByName(new QName("key")).toString();
+                    EvidenceParser.parseEvidenceEntries(reader, writer);
+                    //*/
+                    
                     if (uniprotFeatureType.equals("evidence")){
                         parseEvidence(reader, writer, motif);
                     }//*/
-
-                    if(motif.description != null && motif.description != ""){
-                        System.out.println("type: " + motif.description);
-                    }
                 }
             }
             writer.close();
@@ -85,101 +91,5 @@ public class UniProtPreprocess {
             e.printStackTrace();
         }
         return count;
-    }
-
-    protected static int getModifiedPosition(XMLEventReader reader) throws XMLStreamException {
-        //System.out.println("Getting modified position.");
-        String event_2; //, event_1;
-        int position = -1;
-        reader.nextEvent(); // linefeed
-        XMLEvent e = reader.nextEvent();
-        try{
-            //event_1 = e.asStartElement().getName().getLocalPart(); // start element
-            event_2 = e.asStartElement().getAttributeByName(new QName("position")).toString();
-            event_2 = event_2.substring(10, event_2.length()-1);   // Position
-            //System.out.println(event_1 + ": " + event_2);
-
-            position = Integer.parseInt(event_2);
-        } catch (NullPointerException npe) {
-           System.out.println("This Post-translational modification is poorly formed.");
-           npe.printStackTrace();
-           System.exit(1);
-        } catch (NumberFormatException nfe) {
-            System.out.println("This position is not a number!");
-            nfe.printStackTrace();
-            System.exit(1);
-        }
-        return position;
-    }
-
-
-    /*
-     *  <location>
-     *    <begin position="135"/>
-     *    <end position="136"/>
-     *  </location>
-     * 
-     *  <location>
-     *    <position position="147"/>
-     *  </location>
-     * 
-     */
-    protected static boolean parseLocation(XMLEventReader reader, Minimotif motif) throws XMLStreamException {
-        //System.out.println("Getting modified position.");
-        boolean success = true;
-        XMLEvent e1, e4;
-
-
-        e1 = reader.nextEvent(); // Start: 'begin' or 'position'
-        reader.nextEvent();      // End:   'begin' or 'position'
-        reader.nextEvent();      // linefeed
-        e4 = reader.nextEvent(); // Start or End element
-
-        String position_type = e1.asStartElement().getName().getLocalPart();
-        if (position_type == null)
-            throw new XMLStreamException("Error. Motif position is null");
-        try{
-            switch(position_type) {
-                case "begin":
-                    // first parse the begin position, then parse the end position
-                    String sPos, ePos;
-
-                    // Parse both entries before running query:
-                    sPos = e1.asStartElement().getAttributeByName(new QName("position")).toString();
-                    ePos = e4.asStartElement().getAttributeByName(new QName("position")).toString();
-
-                    sPos = sPos.substring(10, sPos.length()-1);   // begin position
-                    ePos = ePos.substring(10, ePos.length()-1);   // begin position
-    
-                    motif.startPosition = Integer.parseInt(sPos);
-                    motif.endPosition   = Integer.parseInt(ePos);
-                    reader.nextEvent(); // End
-                    reader.nextEvent(); // linefeed
-                    reader.nextEvent(); // End
-                    break;
-                case "position":
-                    // e4 is the end location.
-                    String mPos;
-                    mPos = e1.asStartElement().getAttributeByName(new QName("position")).toString();
-                    mPos = mPos.substring(10, mPos.length()-1);   // position
-                    motif.modifiedPosition = Integer.parseInt(mPos);
-                    // parse the location as a singleton.
-                    break;
-                default:
-                    throw new XMLStreamException("Unexpected token while parsing motif location: " + position_type);
-            }
-
-        reader.nextEvent(); // linefeed
-        } catch (NullPointerException npe) {
-           System.out.println("Could not parse motif location. Motif: " + motif.toString());
-           success=false;
-           //Do not exit, leave the minimotif incomplete.
-        } catch (NumberFormatException nfe) {
-            System.out.println("This position is not a number!");
-            System.out.println("Motif: " + motif.toString());
-            nfe.printStackTrace();
-            System.exit(1);
-        }
-        return success;
     }
 }
