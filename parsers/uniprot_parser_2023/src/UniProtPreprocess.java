@@ -67,17 +67,21 @@ public class UniProtPreprocess {
                         ModifiedResidueParser.parseModifiedResidueEntries(reader, writer, motif);
                     }//*/
 
-                    String event_0=reader.nextEvent().asStartElement().getAttributeByName(new QName("key")).toString();
-                    String event_1=reader.nextEvent().asStartElement().getAttributeByName(new QName("key")).toString();
-                    String event_2=reader.nextEvent().asStartElement().getAttributeByName(new QName("key")).toString();
-                    String event_3=reader.nextEvent().asStartElement().getAttributeByName(new QName("key")).toString();
-                    String event_4=reader.nextEvent().asStartElement().getAttributeByName(new QName("key")).toString();
-                    String event_5=reader.nextEvent().asStartElement().getAttributeByName(new QName("key")).toString();
-                    String event_6=reader.nextEvent().asStartElement().getAttributeByName(new QName("key")).toString();
-                    String event_7=reader.nextEvent().asStartElement().getAttributeByName(new QName("key")).toString();
-                    String event_8=reader.nextEvent().asStartElement().getAttributeByName(new QName("key")).toString();
-                    String event_9=reader.nextEvent().asStartElement().getAttributeByName(new QName("key")).toString();
-                    EvidenceParser.parseEvidenceEntries(reader, writer);
+    START_ELEMENT   1
+    END_ELEMENT     2
+    CHARACTERS      4
+    ATTRIBUTE      10
+    
+                    String event_0=reader.nextEvent().getEventType();
+                    String event_1=reader.nextEvent().getEventType();
+                    String event_2=reader.nextEvent().getEventType();
+                    String event_3=reader.nextEvent().getEventType();
+                    String event_4=reader.nextEvent().getEventType();
+                    String event_5=reader.nextEvent().getEventType();
+                    String event_6=reader.nextEvent().getEventType();
+                    String event_7=reader.nextEvent().getEventType();
+                    String event_8=reader.nextEvent().getEventType();
+                    String event_9=reader.nextEvent().getEventType();
                     //*/
                     
                     if (uniprotFeatureType.equals("evidence")){
