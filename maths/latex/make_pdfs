@@ -1,5 +1,6 @@
 #!/bin/bash
 pandoc .\complex.md -o complex.pdf
 pandoc antiderivatives.md -o antiderivatives.pdf
+pandoc statistics.md -o statistics.pdf
 pandoc derivatives.md -o derivatives.pdf
 pandoc entropy.md -o entropy.pdf
