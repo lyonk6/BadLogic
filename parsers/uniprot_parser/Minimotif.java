@@ -1,4 +1,4 @@
-package src;
+package uniprot_parser;
 
 public class Minimotif {
     String accessionNumber, description, uniprotType, motifTarget;

@@ -1,18 +1,17 @@
-package src;
+package uniprot_parser;
 import javax.xml.stream.*;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-public class GlycosylationParser {
+public class LipidMoietyParser {
     /*
-     * <feature type="glycosylation site" description="N-linked (GlcNAc...) asparagine; by host" evidence="2">
-     *   <location>
-     *     <position position="64"/>
-     *   </location>
-     * </feature>
-     * 
+     *  <feature type="lipid moiety-binding region" description="N-myristoyl glycine; by host" evidence="1">
+     *    <location>
+     *      <position position="2"/>
+     *    </location>
+     *  </feature>
      */
-    protected static void parseGlycosylationEntries(XMLEventReader reader, BufferedWriter writer, Minimotif motif) throws XMLStreamException {
+    public static void parseLipidMoietyEntries(XMLEventReader reader, BufferedWriter writer, Minimotif motif) throws XMLStreamException {
         motif.description=motif.description.trim().substring(13, motif.description.length()-1);
         String[] motifDescriptionArray =  motif.description.split(";");
         motif.description = motifDescriptionArray[0].toLowerCase().trim();

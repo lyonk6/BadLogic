@@ -1,4 +1,4 @@
-package src;
+package uniprot_parser;
 import javax.xml.stream.*;
 import javax.xml.stream.events.XMLEvent;
 

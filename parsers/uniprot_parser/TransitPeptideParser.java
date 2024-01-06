@@ -1,20 +1,20 @@
-package src;
+package uniprot_parser;
 import javax.xml.stream.*;
 import javax.xml.stream.events.XMLEvent;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-public class PeptideParser {
+public class TransitPeptideParser {
     /*
-     *  <feature type="peptide" id="PRO_0000000135" description="P3(40)" evidence="5">
-     *    <location>
-     *      <begin position="688"/>
-     *      <end position="711"/>
-     *    </location>
-     *  </feature>
-     */
-    protected static void parsePeptidesEntries(XMLEventReader reader, BufferedWriter writer, Minimotif motif) throws XMLStreamException {
+    *  <feature type="transit peptide" description="Chloroplast" evidence="3">
+    *    <location>
+    *      <begin position="1"/>
+    *      <end position="51"/>
+    *    </location>
+    *  </feature>
+    */
+    protected static void parseTransitPeptideEntries(XMLEventReader reader, BufferedWriter writer, Minimotif motif) throws XMLStreamException {
         try{
             reader.nextEvent();  // linefeed
             XMLEvent check_tag = reader.nextEvent();  // Start "location"
