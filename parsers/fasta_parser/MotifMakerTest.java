@@ -1,4 +1,7 @@
 package fasta_parser;
+import java.io.FileWriter;
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.util.HashMap;
 
 public class MotifMakerTest {
@@ -27,15 +30,23 @@ public class MotifMakerTest {
     };
 
     public static void main(String[] args) {
-        HashMap<String, String> fastaMap = FastaParser.parseFastaFile("data/uniprot_sprot.fasta");
-        Minimotif m = new Minimotif();
-        for(String s: valid_motifs){
-            String[] s_array = s.split("`");
-            m = MotifMaker.fromString(s);
-            m = MotifMaker.findSequence(m, fastaMap.get(m.accessionNumber));
-            assertEquals(m.accessionNumber, s_array[0]);
-            assertEquals(m.sequence, s_array[7]);
+        try {
+            HashMap<String, String> fastaMap = FastaParser.parseFastaFile("data/uniprot_sprot.fasta");
+            BufferedWriter writer = new BufferedWriter(new FileWriter("minimotifs_test.out"));
+            Minimotif m = new Minimotif();
+            for(String s: valid_motifs){
+                String[] s_array = s.split("`");
+                m = MotifMaker.fromString(s);
+                m = MotifMaker.findSequence(m, fastaMap.get(m.accessionNumber), writer);
+                assertEquals(m.accessionNumber, s_array[0]);
+                assertEquals(m.sequence, s_array[7]);
+            }
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
         }
+
     }
 
     public static void assertEquals(String one, String two){
