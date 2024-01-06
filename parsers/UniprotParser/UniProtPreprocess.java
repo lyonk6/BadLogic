@@ -1,10 +1,36 @@
 package src;
 import javax.xml.stream.*;
+import javax.xml.stream.*;
+import javax.xml.stream.events.*;
+import javax.xml.namespace.QName;
 import javax.xml.stream.events.XMLEvent;
 
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.FileInputStream;
 
+
+/**
+ * TODO What does the UniProtPreprocess do?
+ * 
+ * 
+ *  <evidence type="ECO:0000269" key="10">
+ *    <source>
+ *      <dbReference type="PubMed" id="24658679"/>
+ *    </source>
+ *  </evidence>
+ *
+ *  <evidence type="ECO:0000250" key="1"/>
+ *  <evidence type="ECO:0000269" key="2">
+ *    <source>
+ *      <dbReference type="PubMed" id="32075923"/>
+ *    </source>
+ *  </evidence>
+ *  <evidence type="ECO:0000305" key="3"/>
+ *  
+ */
 public class UniProtPreprocess {
     public static void main(String[] args) {
         try {
@@ -60,33 +86,25 @@ public class UniProtPreprocess {
                     uniprotFeatureType=event.asStartElement().getAttributeByName(new QName("type")).toString();
                     uniprotFeatureType=uniprotFeatureType.toLowerCase().strip().substring(6, uniprotFeatureType.length()-1);
 
+                    if (uniprotFeatureType.equals("evidence")){
+                        System.out.println("Does featureType ever equal \"evidence\"?");
+                    }
                     /*
                     if (uniprotFeatureType.equals("modified residue")){
                         motif.uniprotType = "modified residue";
                         motif.description=event.asStartElement().getAttributeByName(new QName("description")).toString();
                         ModifiedResidueParser.parseModifiedResidueEntries(reader, writer, motif);
                     }//*/
-
-    START_ELEMENT   1
-    END_ELEMENT     2
-    CHARACTERS      4
-    ATTRIBUTE      10
-    
-                    String event_0=reader.nextEvent().getEventType();
-                    String event_1=reader.nextEvent().getEventType();
-                    String event_2=reader.nextEvent().getEventType();
-                    String event_3=reader.nextEvent().getEventType();
-                    String event_4=reader.nextEvent().getEventType();
-                    String event_5=reader.nextEvent().getEventType();
-                    String event_6=reader.nextEvent().getEventType();
-                    String event_7=reader.nextEvent().getEventType();
-                    String event_8=reader.nextEvent().getEventType();
-                    String event_9=reader.nextEvent().getEventType();
-                    //*/
-                    
-                    if (uniprotFeatureType.equals("evidence")){
-                        parseEvidence(reader, writer, motif);
-                    }//*/
+                   /*
+                    * START_ELEMENT   1
+                    * END_ELEMENT     2
+                    * CHARACTERS      4
+                    * ATTRIBUTE      10
+                    */
+                    for(int i=0;i<10;i++){
+                        System.out.println("This is element number " + (i+1) + ": " 
+                        + reader.nextEvent().getEventType());
+                    }
                 }
             }
             writer.close();
