@@ -1,4 +1,4 @@
-package src;
+package fasta_parser;
 import java.util.HashMap;
 
 public class MotifMakerTest {

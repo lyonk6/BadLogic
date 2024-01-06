@@ -1,4 +1,4 @@
-package src;
+package fasta_parser;
 
 public class Minimotif {
     String accessionNumber, description, uniprotType, motifTarget, sequence;

@@ -1,4 +1,4 @@
-package src;
+package fasta_parser;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;

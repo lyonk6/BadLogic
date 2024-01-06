@@ -1,4 +1,4 @@
-package src;
+package fasta_parser;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;  
 
