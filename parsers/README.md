@@ -2,16 +2,31 @@
 
 ## UniProt Parser
 The purpose of the uniprot parser is to parse for minimotifs in the 
-uniprot_sprot XML data.
+uniprot_sprot XML data and create the following table:
 
+
+| Uniprot id  | uniprotType          | description      | motifTarget        | modifiedPosition   | startPosition | endPosition | 
+| ----------- | -------------------- | ---------------- | -----------------  | ------------------ | ------------- | ----------- |
+| E2RU97      |binding site          | general          | O-phospho-L-serine | -1                 | 135           | 136         |
+| E2RU97      |modified residue      | phosphothreonine | unknown            | 214                | -1            | -1          |
+| ...         | ...                  | ...              | ...                | ...                | ...           | ...         |
+
+
+### Running the parser:
 javac -d "bin/"  uniprot_parser/*.java
 
-### UniProt Preprocess
+#### UniProt Preprocess
 java -Xms3g -Xmx3g -XX:+UseG1GC -cp "bin/"  uniprot_parser.UniProtPreprocess
 
-### UniProt Main Parser
+#### UniProt Main Parser
 java -Xms3g -Xmx3g -XX:+UseG1GC -cp "bin/"  uniprot_parser.UniProtMain
 
+
+#### Sample output:
+```
+E2RU97`binding site`general`O-phospho-L-serine`-1`135`136
+E2RU97`modified residue`phosphothreonine`unknown`214`-1`-1
+```
 
 ## Fasta Parser
 The fasta_parser is run after the uniprot parser. Its job is to fetch 
