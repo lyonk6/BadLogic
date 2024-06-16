@@ -5,7 +5,7 @@ import java.io.IOException;
 
 public class ModifiedResidueParser {
     protected static void parseModifiedResidueEntries(XMLEventReader reader, BufferedWriter writer, Minimotif motif) throws XMLStreamException {
-    /*
+       /*
         * <feature type="modified residue" description="Phosphothreonine" evidence="3 4 9 10">
         *   <location>
         *     <position position="214"/>

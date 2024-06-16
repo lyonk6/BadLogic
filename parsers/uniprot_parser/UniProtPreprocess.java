@@ -13,7 +13,10 @@ import java.io.FileInputStream;
 
 
 /**
- * TODO What does the UniProtPreprocess do?
+ * The UniProtPreprocess class parses the uniprot database for evidence tags
+ * that specify the evidentiary source(s) of minimotifs. 
+ * 
+ * Example tags:
  * 
  *  <evidence type="ECO:0000269" key="10">
  *    <source>

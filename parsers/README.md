@@ -7,8 +7,8 @@ uniprot_sprot XML data and create the following table:
 
 | Uniprot id  | uniprotType          | description      | motifTarget        | modifiedPosition   | startPosition | endPosition | 
 | ----------- | -------------------- | ---------------- | -----------------  | ------------------ | ------------- | ----------- |
-| E2RU97      |binding site          | general          | O-phospho-L-serine | -1                 | 135           | 136         |
-| E2RU97      |modified residue      | phosphothreonine | unknown            | 214                | -1            | -1          |
+| E2RU97      | binding site         | general          | O-phospho-L-serine | -1                 | 135           | 136         |
+| E2RU97      | modified residue     | phosphothreonine | unknown            | 214                | -1            | -1          |
 | ...         | ...                  | ...              | ...                | ...                | ...           | ...         |
 
 
