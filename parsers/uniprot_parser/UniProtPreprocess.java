@@ -15,7 +15,6 @@ import java.io.FileInputStream;
 /**
  * TODO What does the UniProtPreprocess do?
  * 
- * 
  *  <evidence type="ECO:0000269" key="10">
  *    <source>
  *      <dbReference type="PubMed" id="24658679"/>
@@ -29,13 +28,15 @@ import java.io.FileInputStream;
  *    </source>
  *  </evidence>
  *  <evidence type="ECO:0000305" key="3"/>
- *  
+ * 
  */
 public class UniProtPreprocess {
     public static void main(String[] args) {
         try {
             XMLInputFactory factory = XMLInputFactory.newInstance();
-            XMLEventReader reader = factory.createXMLEventReader(new FileInputStream("data/may-2023/uniprot_sprot.xml"));
+            XMLEventReader reader = factory.createXMLEventReader(new FileInputStream("data/may-2023/first_couple.xml"));
+            //XMLEventReader reader = factory.createXMLEventReader(new FileInputStream("data/may-2023/first_100000.xml"));
+            //XMLEventReader reader = factory.createXMLEventReader(new FileInputStream("data/may-2023/uniprot_sprot.xml"));
 
             int uniProtCount = parseEntries(reader);
             System.out.println("Number of UniProtKB objects and sub-objects: " + uniProtCount);
@@ -86,8 +87,8 @@ public class UniProtPreprocess {
                     uniprotFeatureType=event.asStartElement().getAttributeByName(new QName("type")).toString();
                     uniprotFeatureType=uniprotFeatureType.toLowerCase().strip().substring(6, uniprotFeatureType.length()-1);
 
-                    if (uniprotFeatureType.equals("evidence")){
-                        System.out.println("Does featureType ever equal \"evidence\"?");
+                    if (uniprotFeatureType.equals("evidence type")){
+                        System.out.println("Does featureType ever equal \"evidence type\"?");
                     }
                     /*
                     if (uniprotFeatureType.equals("modified residue")){
@@ -95,16 +96,44 @@ public class UniProtPreprocess {
                         motif.description=event.asStartElement().getAttributeByName(new QName("description")).toString();
                         ModifiedResidueParser.parseModifiedResidueEntries(reader, writer, motif);
                     }//*/
+
                    /*
                     * START_ELEMENT   1
                     * END_ELEMENT     2
                     * CHARACTERS      4
                     * ATTRIBUTE      10
                     */
-                    for(int i=0;i<10;i++){
+
+                    while (reader.nextEvent().getEventType() != 2){
                         System.out.println("This is element number " + (i+1) + ": " 
                         + reader.nextEvent().getEventType());
                     }
+
+                    /* 
+                    * This is element number 1: 2
+                    * This is element number 1: 4
+                    * 
+                    * This is element number 2: 1
+                    * This is element number 2: 4
+                    * 
+                    * This is element number 3: 1
+                    * This is element number 3: 2
+                    * This is element number 3: 4
+                    * 
+                    * This is element number 4: 1
+                    * This is element number 4: 2
+                    * This is element number 4: 4
+                    * 
+                    * This is element number 5: 1
+                    * This is element number 5: 2
+                    * This is element number 5: 4
+                    * 
+                    * This is element number 6: 1
+                    * This is element number 6: 2
+                    * This is element number 6: 4
+                    * 
+                    */
+
                 }
             }
             writer.close();
