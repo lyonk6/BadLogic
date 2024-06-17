@@ -2,7 +2,7 @@
 
 ## UniProt Parser
 The purpose of the uniprot parser is to parse for minimotifs in the 
-uniprot_sprot XML data and create the following table:
+uniprot_sprot XML data and create a table that looks like the following:
 
 
 | Uniprot id  | uniprotType          | description      | motifTarget        | modifiedPosition   | startPosition | endPosition | evidence               |
