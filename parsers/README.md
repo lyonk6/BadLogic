@@ -22,7 +22,7 @@ done by the UniProtPreprocess class also a second table is needed:
 | ---------- | ------------- | --- |----------------- | ---------- |
 | E2RU97     | ECO:0000269   | 1   | PubMed           | 19733174   |
 | E2RU97     | ECO:0000269   | 2   | PubMed           | 16368691   |
-
+| ...        | ...           | ... | ...              | ...        |
 
 ### Running:
 javac -d "bin/"  uniprot_parser/*.java
